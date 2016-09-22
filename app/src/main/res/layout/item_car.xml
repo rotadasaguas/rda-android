@@ -44,7 +44,7 @@
 
     <View
         android:id="@+id/vw_divider"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="21dp"
         android:layout_alignLeft="@+id/tv_model"
         android:layout_below="@+id/tv_brand"
         android:background="@color/colorPrimary"
