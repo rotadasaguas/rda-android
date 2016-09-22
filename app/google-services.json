@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "542442288639",
+    "firebase_url": "https://rota-das-aguas.firebaseio.com",
+    "project_id": "rota-das-aguas",
+    "storage_bucket": "rota-das-aguas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542442288639:android:d5def203c6f57613",
+        "android_client_info": {
+          "package_name": "to.dtech.rotadasaguas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542442288639-ev4fmprs4ehdjbtoc4mhck3q58o1e771.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLy8YaUNNB6KbtVe84BcdmrVUpX4yE4ao"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

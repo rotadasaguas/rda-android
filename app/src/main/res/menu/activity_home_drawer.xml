@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_minhaRota"
+            android:icon="@drawable/ic_time_to_leave_black"
+            android:title="Minha Rota" />
+        <item
+            android:id="@+id/nav_rotas_sugeridas"
+            android:icon="@drawable/ic_time_to_leave_black"
+            android:title="Rotas Sugeridas" />
+        <item
+            android:id="@+id/nav_cidades"
+            android:icon="@drawable/ic_location_city_black"
+            android:title="Cidades do Circuito" />
+        <item
+            android:id="@+id/nav_emergency"
+            android:icon="@drawable/ic_settings_phone_black"
+            android:title="Telefones de Emergência" />
+    </group>
+
+    <item android:title="Aplicativo">
+        <menu>
+            <item
+                android:id="@+id/nav_minhaconta"
+                android:icon="@drawable/ic_build_black"
+                android:title="Configurações da Conta" />
+            <item
+                android:id="@+id/nav_avalie"
+                android:icon="@drawable/ic_star"
+                android:title="Avalie o Aplicativo" />
+        </menu>
+    </item>
+
+</menu>
