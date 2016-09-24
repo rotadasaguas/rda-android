@@ -14,12 +14,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.LoginActionbar">
-        </activity>
+            android:theme="@style/AppTheme.LoginActionbar"></activity>
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
@@ -57,13 +55,19 @@
             android:value="3dc6b3f7c9b49dc77c730868b0ee3ee4530d9966" />
 
         <activity android:name=".MinhaConta" />
-        <activity android:name=".SplashActivity"
-                android:theme="@style/AppTheme.LoginActionbar" >
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.LoginActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MontarRotaActivity"
+            android:label="@string/title_activity_montar_rota"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

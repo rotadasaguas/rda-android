@@ -48,4 +48,5 @@
     <string name="password_info">Para prosseguir com a atualização informe abaixo sua senha.</string>
 
     <string name="facebook_app_id"></string>
+    <string name="title_activity_montar_rota">MontarRotaActivity</string>
 </resources>
