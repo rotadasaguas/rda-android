@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(HomeActivity.this, MinhaRota.class);
+            Intent intent = new Intent(HomeActivity.this, MontarRotaActivity.class);
 
             startActivity(intent);
         } else if (id == R.id.nav_cidades) {
