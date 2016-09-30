@@ -14,9 +14,6 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import to.dtech.rotadasaguas.adapter.UserRecyclerAdapter;
-import to.dtech.rotadasaguas.domain.User;
-
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
