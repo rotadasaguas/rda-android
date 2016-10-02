@@ -20,7 +20,7 @@ public class MontarRotaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        ImageButton button = (ImageButton) findViewById(R.id.botaoCriarAlimentacao);
+        Button button = (Button) findViewById(R.id.botaoCriarAlimentacao);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MontarRotaActivity.this, SubAlimentacaoActivity.class);

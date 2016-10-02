@@ -8,14 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.like.LikeButton;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import to.dtech.rotadasaguas.R;
-import to.dtech.rotadasaguas.SubAlimentacaoActivity;
 import to.dtech.rotadasaguas.domain.Tag;
 
 public class TagSubAlimentacaoAdapter extends BaseAdapter {
@@ -47,6 +42,7 @@ public class TagSubAlimentacaoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Tag tag = tags.get(position);
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layoute = inflater.inflate(R.layout.item_sub, null);
 
