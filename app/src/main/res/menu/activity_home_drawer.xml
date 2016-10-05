@@ -7,10 +7,6 @@
             android:icon="@drawable/ic_time_to_leave_black"
             android:title="Minha Rota" />
         <item
-            android:id="@+id/nav_rotas_sugeridas"
-            android:icon="@drawable/ic_time_to_leave_black"
-            android:title="Rotas Sugeridas" />
-        <item
             android:id="@+id/nav_cidades"
             android:icon="@drawable/ic_location_city_black"
             android:title="Cidades do Circuito" />
