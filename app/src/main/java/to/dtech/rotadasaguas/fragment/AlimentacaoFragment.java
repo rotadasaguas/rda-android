@@ -55,8 +55,14 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
             }
         });
 
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(llm);
 
-
+        mList = ((MinhaRota) getActivity()).getSetCarList(10);
+        AlimentacaoAdapter adapter = new AlimentacaoAdapter(getActivity(), mList);
+        adapter.setRecyclerViewOnClickListenerHack(this);
+        mRecyclerView.setAdapter( adapter );
 
         return rootView;
     }

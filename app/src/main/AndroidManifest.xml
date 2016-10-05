@@ -64,10 +64,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MontarRotaActivity"
-            android:label="Crie sua Rota"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".SubAlimentacaoActivity"
             android:label="Tipos de Locais" />

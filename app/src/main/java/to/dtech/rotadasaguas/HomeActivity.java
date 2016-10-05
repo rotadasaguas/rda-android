@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -53,6 +55,14 @@ public class HomeActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener( authStateListener );
+
+        Button button = (Button) findViewById(R.id.botaoCriarAlimentacao);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, SubAlimentacaoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onDestroy() {
@@ -90,7 +100,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(HomeActivity.this, MontarRotaActivity.class);
+            Intent intent = new Intent(HomeActivity.this, MinhaRota.class);
 
             startActivity(intent);
         } else if (id == R.id.nav_cidades) {
