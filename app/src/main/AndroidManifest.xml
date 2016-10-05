@@ -71,6 +71,9 @@
 
         <activity android:name=".SubAlimentacaoActivity"
             android:label="Tipos de Locais" />
+
+        <activity android:name=".GostosAlimentacaoActivity"
+            android:label="Defina seus Gostos" />
     </application>
 
 </manifest>
