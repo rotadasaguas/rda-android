@@ -1,9 +1,11 @@
 package to.dtech.rotadasaguas.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -38,19 +40,55 @@ public class TagSubAlimentacaoAdapter extends BaseAdapter {
         return position;
     }
 
+    public class ViewHolder {
+
+        final TextView titulo;
+        final LikeButton lk;
+
+        public ViewHolder(View view) {
+
+            titulo = (TextView) view.findViewById(R.id.local);
+            lk = (LikeButton) view.findViewById(R.id.gostei);
+
+        }
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        View view;
+        ViewHolder holder;
+
+        if( convertView == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.item_sub, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+
+        } else {
+            view = convertView;
+            holder = (ViewHolder) view.getTag();
+        }
+
+        boolean likeValue = tags.get(position).getAtivo();
+        if(likeValue){
+            holder.titulo.setTextColor(Color.parseColor("#2196F3"));
+        }else{
+            holder.titulo.setTextColor(Color.parseColor("#aaaaaa"));
+        }
+        holder.lk.setLiked(likeValue);
+
+
         Tag tag = tags.get(position);
+        holder.titulo.setText(tag.getTitulo());
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layoute = inflater.inflate(R.layout.item_sub, null);
+        return view;
+    }
 
-        TextView titulo = (TextView) layoute.findViewById(R.id.local);
-        LikeButton lk = (LikeButton) layoute.findViewById(R.id.gostei);
-        titulo.setText(tag.getTitulo());
-        lk.setLiked(tag.getAtivo());
-        return layoute;
+    public void alteraCor(int position){
+        tags.get(position).setAtivo(true);
+    }
+    public void removeCor(int position){
+        tags.get(position).setAtivo(false);
     }
 }
 

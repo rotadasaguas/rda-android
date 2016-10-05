@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.like.LikeButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import to.dtech.rotadasaguas.adapter.AlimentacaoAdapter;
 import to.dtech.rotadasaguas.adapter.TagSubAlimentacaoAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
@@ -22,7 +25,7 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_alimentacao);
 
-        List<Tag> tags = getTagsSubAlimentacao();
+        final List<Tag> tags = getTagsSubAlimentacao();
 
         final ListView listView = (ListView) findViewById(R.id.subAlimentacao);
         listView.setAdapter(new TagSubAlimentacaoAdapter(this, tags));
@@ -35,49 +38,23 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
 
-
-
-              /*  LikeButton likeButton = (LikeButton) view.findViewById(R.id.gostei);
-
-                likeButton.setOnLikeListener(
-                        new OnLikeListener() {
-                            @Override
-                            public void liked(LikeButton likeButton) {
-                                TextView t = (TextView) view.findViewById(R.id.local);
-                                t.setTextColor(Color.BLUE);
-                                Toast.makeText(getApplicationContext(), "Posicao LIKE:"+position, Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void unLiked(LikeButton likeButton) {
-                                Toast.makeText(getApplicationContext(), "Posicao UNLIKE:"+position, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-               */
-
-
                 TextView c = (TextView) view.findViewById(R.id.local);
-                LikeButton lk = (LikeButton) view.findViewById(R.id.gostei);
+                LikeButton l = (LikeButton) view.findViewById(R.id.gostei);
 
-                lk.setEnabled(false);
+                TagSubAlimentacaoAdapter adapter = (TagSubAlimentacaoAdapter) listView.getAdapter();
 
+                boolean likeValue = tags.get(position).getAtivo();
 
-                //OBTEM A COR EM INTEIRO E CONVERTE PARA HEXADECIMAL
-                Integer intColor = c.getCurrentTextColor();
-                String hexColor = "#" + Integer.toHexString(intColor).substring(2);
-
-                if (hexColor.equalsIgnoreCase("#2196F3")){
-                    c.setTextColor(Color.parseColor("#aaaaaa"));
-                    lk.setLiked(false);
-
-                }else{
+                if (likeValue == false){
                     c.setTextColor(Color.parseColor("#2196F3"));
-                    lk.setEnabled(true);
-                    lk.setLiked(true);
-
+                    adapter.alteraCor(position);
+                    l.setLiked(true);
                 }
-
+                else{
+                    c.setTextColor(Color.parseColor("#aaaaaa"));
+                    l.setLiked(false);
+                    adapter.removeCor(position);
+                }
 
 
             }
@@ -96,4 +73,6 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
         }
         return(listAux);
     }
+
+
 }

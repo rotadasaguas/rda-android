@@ -49,6 +49,7 @@
             android:id="@+id/subAlimentacao"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
+            android:scrollingCache="false"
             android:layout_width="match_parent"
             android:layout_below="@+id/textMarqueSubAlimentacao"
             android:layout_height="wrap_content"
