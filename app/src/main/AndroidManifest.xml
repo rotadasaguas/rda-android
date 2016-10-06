@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -68,8 +69,9 @@
         <activity android:name=".SubAlimentacaoActivity"
             android:label="Tipos de Locais" />
 
-        <activity android:name=".GostosAlimentacaoActivity"
-            android:label="Defina seus Gostos" />
+        <activity android:name=".IntroActivity"
+            android:theme="@style/Theme.Design.NoActionBar"/>
+
     </application>
 
 </manifest>

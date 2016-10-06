@@ -46,7 +46,7 @@ public class CriarRota extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if( firebaseAuth.getCurrentUser() == null  ){
-                    Intent intent = new Intent( CriarRota.this, LoginActivity.class );
+                    Intent intent = new Intent( CriarRota.this, IntroActivity.class );
                     startActivity( intent );
                     finish();
                 }
