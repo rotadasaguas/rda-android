@@ -21,9 +21,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
-
-import java.util.Arrays;
 
 import to.dtech.rotadasaguas.domain.User;
 
@@ -191,7 +188,7 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
 
 
     private void callMainActivity(){
-        Intent intent = new Intent( this, HomeActivity.class );
+        Intent intent = new Intent( this, CriarRota.class );
         startActivity(intent);
         finish();
     }

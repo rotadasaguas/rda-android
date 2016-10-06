@@ -10,8 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="to.dtech.rotadasaguas.HomeActivity"
-    tools:showIn="@layout/app_bar_home">
+    tools:context=".CriarRota"
+    tools:showIn="@layout/toolbar_criar_rota">
 
     <ImageView
         android:id="@+id/logo"
@@ -47,41 +47,6 @@
         android:layout_below="@+id/textView4"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true" />
-
-    <!--
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/btnStyleRota"
-        android:src="@drawable/ic_restaurant_blue"
-        android:background="@drawable/retangulo"
-        android:id="@+id/botaoCriarAlimentacao"
-        android:layout_below="@+id/textView5"
-        android:layout_toStartOf="@+id/logo"
-        android:layout_marginTop="35dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_directions_bike_blue"
-        style="@style/btnStyleRota"
-        android:background="@drawable/retangulo"
-        android:id="@+id/imageButton"
-        android:layout_alignTop="@+id/botaoCriarAlimentacao"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/btnStyleRota"
-        android:background="@drawable/retangulo"
-        android:src="@drawable/ic_local_hotel_blue"
-        android:id="@+id/imageButton3"
-        android:layout_alignTop="@+id/imageButton"
-        android:layout_toEndOf="@+id/logo" />
-
-        -->
 
     <Button
         android:layout_width="wrap_content"

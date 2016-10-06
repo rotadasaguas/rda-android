@@ -16,7 +16,7 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity
+public class CriarRota extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_criar_rota);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if( firebaseAuth.getCurrentUser() == null  ){
-                    Intent intent = new Intent( HomeActivity.this, LoginActivity.class );
+                    Intent intent = new Intent( CriarRota.this, LoginActivity.class );
                     startActivity( intent );
                     finish();
                 }
@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity
         Button button = (Button) findViewById(R.id.botaoCriarAlimentacao);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, SubAlimentacaoActivity.class);
+                Intent intent = new Intent(CriarRota.this, SubAlimentacaoActivity.class);
                 startActivity(intent);
             }
         });
@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(HomeActivity.this, MinhaRota.class);
+            Intent intent = new Intent(CriarRota.this, MinhaRota.class);
 
             startActivity(intent);
         } else if (id == R.id.nav_cidades) {
@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_emergency) {
 
         } else if (id == R.id.nav_minhaconta) {
-            Intent intent = new Intent(HomeActivity.this, MinhaConta.class);
+            Intent intent = new Intent(CriarRota.this, MinhaConta.class);
 
             startActivity(intent);
 
