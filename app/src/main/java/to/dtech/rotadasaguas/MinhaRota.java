@@ -1,7 +1,12 @@
 package to.dtech.rotadasaguas;
 
+import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -23,7 +28,7 @@ import to.dtech.rotadasaguas.fragment.EsportesFragment;
 import to.dtech.rotadasaguas.fragment.LazerFragment;
 
 
-public class MinhaRota extends AppCompatActivity {
+public class MinhaRota extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -55,10 +60,23 @@ public class MinhaRota extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minha_rota);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_minha_rota);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -72,18 +90,6 @@ public class MinhaRota extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Id correspondente ao botão Up/Home da actionbar
-            case android.R.id.home:
-                finish();
-        }
-        return super.onOptionsItemSelected(item);
 
     }
 
@@ -160,5 +166,54 @@ public class MinhaRota extends AppCompatActivity {
             listAux.add(c);
         }
         return(listAux);
+    }
+
+
+    /*MENU LATERAL*/
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_minhaRota) {
+            //nao realiza ação
+        } else if (id == R.id.nav_cidades) {
+
+        } else if (id == R.id.nav_emergency) {
+
+        } else if (id == R.id.nav_minhaconta) {
+            Intent intent = new Intent(MinhaRota.this, MinhaConta.class);
+
+            startActivity(intent);
+
+        } else if (id == R.id.nav_avalie) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_minha_rota);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
