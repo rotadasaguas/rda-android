@@ -25,7 +25,7 @@ public class IntroActivity extends AppIntro {
         setProgressButtonEnabled(true);
         setDoneText("Fazer Login");
         setSkipText("Pular");
-        setZoomAnimation();
+        setDepthAnimation();
 
         // Turn vibration on and set intensity.
         setVibrate(true);

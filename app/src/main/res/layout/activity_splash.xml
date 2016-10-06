@@ -7,17 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimaryDark"
     tools:context="to.dtech.rotadasaguas.SplashActivity">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_gravity="center_horizontal"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="72dp"
+        android:layout_height="92dp"
         android:layout_weight="1.19"
-        android:src="@mipmap/icone_principal_launcher"
+        android:src="@mipmap/ic_logo_white"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="119dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,9 +27,12 @@
         android:id="@+id/editText"
         android:text="ROTA DAS ÁGUAS"
         android:textSize="24dp"
+        android:textColor="#ffffff"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:shadowColor="@color/abc_input_method_navigation_guard"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,7 +41,7 @@
         android:textSize="14dp"
         android:text="O DESTINO PERFEITO EM SP"
         android:singleLine="false"
-        android:textColor="#0089bb"
+        android:textColor="#f8f8f8"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true" />
 

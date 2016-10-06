@@ -15,7 +15,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_name">Nome</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">E-mail</string>
     <string name="prompt_password">Senha</string>
     <string name="prompt_celular">Celular com DDD</string>
     <string name="prompt_new_password">Nova senha</string>
