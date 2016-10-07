@@ -69,6 +69,9 @@
         <activity android:name=".SubAlimentacaoActivity"
             android:label="Tipos de Locais" />
 
+        <activity android:name=".GostosAlimentacaoActivity"
+            android:label="O que você gosta?" />
+
         <activity android:name=".IntroActivity"
             android:theme="@style/Theme.Design.NoActionBar"/>
 

@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -23,6 +25,10 @@ public class CriarRota extends AppCompatActivity
     private FirebaseAuth.AuthStateListener authStateListener;
 
     private Handler handler = new Handler();
+
+    // criando o Array de String
+    private static final String[] opcoes = { "Socorro", "Águas de Lindoia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra" };
+    ArrayAdapter<String> aOpcoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,11 @@ public class CriarRota extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener( authStateListener );
+
+        aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
+        aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        Spinner spinner = (Spinner) findViewById(R.id.spinnerCidades);
+        spinner.setAdapter(aOpcoes);
 
         Button button = (Button) findViewById(R.id.botaoCriarAlimentacao);
         button.setOnClickListener(new View.OnClickListener() {

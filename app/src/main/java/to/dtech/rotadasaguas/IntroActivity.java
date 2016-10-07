@@ -23,7 +23,7 @@ public class IntroActivity extends AppIntro {
         // Hide Skip/Done button.
         showSkipButton(true);
         setProgressButtonEnabled(true);
-        setDoneText("Fazer Login");
+        setDoneText("Entrar");
         setSkipText("Pular");
         setDepthAnimation();
 

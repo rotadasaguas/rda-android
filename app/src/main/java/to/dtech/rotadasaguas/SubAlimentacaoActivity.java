@@ -1,10 +1,12 @@
 package to.dtech.rotadasaguas;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,10 +62,18 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
             }
         });
 
+        Button novaTela = (Button) findViewById(R.id.avancarGostos);
+        novaTela.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public List<Tag> getTagsSubAlimentacao(){
-        String[] tags = new String[]{"Trailers", "Restaurantes", "Bar e Pubs", "Fast Food", "Outro tipo", "Mais um tipo", "O trem é longo"};
+        String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares", "Barracas"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

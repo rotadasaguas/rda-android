@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="Marque no aplicativo seus gostos, e recebera uma rota de onde visitar conforme os gostos marcados."
+        android:text="Marque no aplicativo seus gostos, e receberá uma rota de onde visitar conforme os gostos marcados."
         android:id="@+id/textView7"
         android:lineSpacingExtra="5dp"
         android:textSize="15dp"

@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="10dp"
+    android:paddingLeft="16dp">
+
+    <com.like.LikeButton
+        app:icon_type="heart"
+        app:icon_size="18dp"
+        app:is_enabled="true"
+        app:circle_start_color="@color/colorPrimary"
+        app:dots_primary_color="@color/colorAccent"
+        app:dots_secondary_color="@color/colorPrimary"
+        app:circle_end_color="@color/colorAccent"
+        android:id="@+id/gostei"
+        android:layout_alignParentLeft="true"
+        android:layout_width="30dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp" />
+
+    <TextView
+        android:textColor="#aaaaaa"
+        android:layout_toRightOf="@+id/gostei"
+        android:id="@+id/local"
+        android:layout_width="wrap_content"
+        android:textAllCaps="true"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="14dp" />
+
+    <View
+        android:id="@+id/vw_divider"
+        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/local"
+        android:layout_below="@+id/local"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp" />
+
+</RelativeLayout>

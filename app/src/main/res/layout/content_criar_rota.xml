@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:lineSpacingExtra="15dp"
-        android:text="Aperte começar e crie sua rota turistica personalizada no Circuito das Águas"
+        android:text="Escolha a cidade e aperte começar para criar sua rota turistica personalizada."
         android:textAlignment="center"
         android:textColor="@color/bright_foreground_disabled_material_light"
         android:id="@+id/textView5"
@@ -48,22 +48,29 @@
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true" />
 
+
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerCidades"
+        android:layout_marginTop="30dp"
+        android:spinnerMode="dialog"
+        android:background="@drawable/retangulo"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true" />
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Começar"
         android:id="@+id/botaoCriarAlimentacao"
         style="@style/btnStyleBlue"
-        android:layout_marginTop="110dp"
-        android:layout_below="@+id/textView5"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/spinnerCidades"
         android:layout_alignStart="@+id/logo" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
 
 
 

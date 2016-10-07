@@ -13,7 +13,7 @@ import com.like.LikeButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import to.dtech.rotadasaguas.adapter.TagSubAlimentacaoAdapter;
+import to.dtech.rotadasaguas.adapter.TagGostosAlimentacaoAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
 public class GostosAlimentacaoActivity extends AppCompatActivity{
@@ -23,10 +23,10 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gostos_alimentacao);
 
-        final List<Tag> tags = getTagsSubAlimentacao();
+        final List<Tag> tags = getTagsGostosAlimentacao();
 
         final ListView listView = (ListView) findViewById(R.id.gostosAlimentacao);
-        listView.setAdapter(new TagSubAlimentacaoAdapter(this, tags));
+        listView.setAdapter(new TagGostosAlimentacaoAdapter(this, tags));
 
 
 
@@ -39,12 +39,12 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                 TextView c = (TextView) view.findViewById(R.id.local);
                 LikeButton l = (LikeButton) view.findViewById(R.id.gostei);
 
-                TagSubAlimentacaoAdapter adapter = (TagSubAlimentacaoAdapter) listView.getAdapter();
+                TagGostosAlimentacaoAdapter adapter = (TagGostosAlimentacaoAdapter) listView.getAdapter();
 
                 boolean likeValue = tags.get(position).getAtivo();
 
                 if (likeValue == false){
-                    c.setTextColor(Color.parseColor("#2196F3"));
+                    c.setTextColor(Color.parseColor("#e50000"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
                 }
@@ -60,8 +60,8 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
 
     }
 
-    public List<Tag> getTagsSubAlimentacao(){
-        String[] tags = new String[]{"Trailers", "Restaurantes", "Bar e Pubs", "Fast Food", "Outro tipo", "Mais um tipo", "O trem é longo"};
+    public List<Tag> getTagsGostosAlimentacao(){
+        String[] tags = new String[]{"Churrasco", "Doces Regionais", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
