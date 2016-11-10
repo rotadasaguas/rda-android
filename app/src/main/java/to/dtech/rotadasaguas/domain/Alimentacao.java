@@ -1,16 +1,13 @@
 package to.dtech.rotadasaguas.domain;
 
-/**
- * Created by siqueiradg on 21/09/2016.
- */
 public class Alimentacao {
     private String model;
     private String brand;
-    private int photo;
+    private String photo;
 
 
     public Alimentacao(){}
-    public Alimentacao(String m, String b, int p){
+    public Alimentacao(String m, String b, String p){
         model = m;
         brand = b;
         photo = p;
@@ -33,11 +30,11 @@ public class Alimentacao {
         this.brand = brand;
     }
 
-    public int getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 }

@@ -49,7 +49,7 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                     l.setLiked(true);
                 }
                 else{
-                    c.setTextColor(Color.parseColor("#aaaaaa"));
+                    c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
                 }

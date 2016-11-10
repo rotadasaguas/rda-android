@@ -19,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_minha_rota);
 
 
@@ -156,9 +160,9 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public List<Alimentacao> getSetCarList(int qtd){
-        String[] models = new String[]{"Gallardo", "Vyron", "Corvette", "Pagani Zonda", "Porsche 911 Carrera", "BMW 720i", "DB77", "Mustang", "Camaro", "CT6"};
-        String[] brands = new String[]{"Lamborghini", " bugatti", "Chevrolet", "Pagani", "Porsche", "BMW", "Aston Martin", "Ford", "Chevrolet", "Cadillac"};
-        int[] photos = new int[]{R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google, R.drawable.ic_google};
+        String[] models = new String[]{"Doce Arte Café", "Sorveteria Ademar", "Mauro's Grill Churrascaria"};
+        String[] brands = new String[]{"Serve café da manhã, café e bebidas", " Sorvetes de todos os tipos", "Ótimo para almoço em grupo"};
+        String[] photos = new String[]{"{fa-coffee}", "{fa-bitbucket}", "{fa-cutlery}"};
         List<Alimentacao> listAux = new ArrayList<>();
 
         for(int i = 0; i < qtd; i++){

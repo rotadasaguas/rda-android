@@ -73,7 +73,7 @@ public class TagGostosAlimentacaoAdapter extends BaseAdapter {
         if(likeValue){
             holder.titulo.setTextColor(Color.parseColor("#e50000"));
         }else{
-            holder.titulo.setTextColor(Color.parseColor("#aaaaaa"));
+            holder.titulo.setTextColor(Color.parseColor("#848484"));
         }
         holder.lk.setLiked(likeValue);
 

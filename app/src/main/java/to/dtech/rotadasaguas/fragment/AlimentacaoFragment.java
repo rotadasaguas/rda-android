@@ -1,5 +1,6 @@
 package to.dtech.rotadasaguas.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
+import to.dtech.rotadasaguas.LocalActivity;
 import to.dtech.rotadasaguas.MinhaRota;
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.adapter.AlimentacaoAdapter;
@@ -32,7 +32,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+       /* mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -54,12 +54,13 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                 }
             }
         });
+        */
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        mList = ((MinhaRota) getActivity()).getSetCarList(10);
+        mList = ((MinhaRota) getActivity()).getSetCarList(3);
         AlimentacaoAdapter adapter = new AlimentacaoAdapter(getActivity(), mList);
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter( adapter );
@@ -69,10 +70,8 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
     @Override
     public void onClickListener(View view, int position) {
-        Toast.makeText(getActivity(), "Position: "+position, Toast.LENGTH_SHORT).show();
-
-        AlimentacaoAdapter adapter = (AlimentacaoAdapter) mRecyclerView.getAdapter();
-        adapter.removeListItem(position);
+      /*  AlimentacaoAdapter adapter = (AlimentacaoAdapter) mRecyclerView.getAdapter();
+        adapter.removeListItem(position);*/
     }
 
 }

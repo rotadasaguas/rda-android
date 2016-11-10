@@ -1,16 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="20dp"
-    android:paddingLeft="16dp">
+    android:paddingTop="15dp"
+    android:paddingRight="0dp"
+    android:paddingLeft="0dp">
 
-    <ImageView
+    <com.joanzapata.iconify.widget.IconTextView
         android:layout_alignParentLeft="true"
         android:id="@+id/iv_car"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:text="{fa-coffee}"
+        android:shadowColor="#22000000"
         android:layout_marginRight="6dp"
-        android:src="@null" />
+        android:paddingTop="15dp"
+        android:shadowDx="0"
+        android:shadowDy="5"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:shadowRadius="1"
+        android:textSize="30sp"
+        android:textColor="#9b9b9b" />
 
     <TextView
         android:textColor="@color/colorPrimary"
@@ -23,20 +31,10 @@
         android:textSize="16sp" />
 
     <TextView
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#919191"
         android:layout_below="@+id/tv_model"
         android:layout_alignLeft="@+id/tv_model"
         android:id="@+id/tv_brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="16dp"
-        android:textSize="12sp" />
-
-    <TextView
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_below="@+id/tv_model"
-        android:layout_alignLeft="@+id/tv_model"
-        android:id="@+id/tv_dd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="16dp"
@@ -47,7 +45,7 @@
         android:layout_marginTop="21dp"
         android:layout_alignLeft="@+id/tv_model"
         android:layout_below="@+id/tv_brand"
-        android:background="@color/colorPrimary"
+        android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="0.8dp" />
 
