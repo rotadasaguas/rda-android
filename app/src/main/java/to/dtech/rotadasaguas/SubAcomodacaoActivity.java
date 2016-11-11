@@ -2,8 +2,8 @@ package to.dtech.rotadasaguas;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,16 +18,16 @@ import java.util.List;
 import to.dtech.rotadasaguas.adapter.TagSubAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
-public class SubAlimentacaoActivity extends AppCompatActivity{
+public class SubAcomodacaoActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_alimentacao);
+        setContentView(R.layout.activity_sub_acomodacao);
 
-        final List<Tag> tags = getTagsSubAlimentacao();
+        final List<Tag> tags = getTagsAcomodacao();
 
-        final ListView listView = (ListView) findViewById(R.id.subAlimentacao);
+        final ListView listView = (ListView) findViewById(R.id.subAcomodacao);
         listView.setAdapter(new TagSubAdapter(this, tags));
 
 
@@ -60,18 +60,18 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
             }
         });
 
-        Button novaTela = (Button) findViewById(R.id.avancarGostos);
+        Button novaTela = (Button) findViewById(R.id.avancarGostosAcomodacao);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
+                Intent intent = new Intent(SubAcomodacaoActivity.this, GostosAcomodacaoActivity.class);
                 startActivity(intent);
             }
         });
 
     }
 
-    public List<Tag> getTagsSubAlimentacao(){
-        String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
+    public List<Tag> getTagsAcomodacao(){
+        String[] tags = new String[]{"Hotel", "Camping", "Pousada", "Estalagem", "Albergue", "Motel", "Hotel-fazenda"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

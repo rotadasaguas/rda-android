@@ -1,10 +1,12 @@
 package to.dtech.rotadasaguas;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,7 +15,7 @@ import com.like.LikeButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import to.dtech.rotadasaguas.adapter.TagGostosAlimentacaoAdapter;
+import to.dtech.rotadasaguas.adapter.TagGostosAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
 public class GostosAlimentacaoActivity extends AppCompatActivity{
@@ -26,7 +28,7 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
         final List<Tag> tags = getTagsGostosAlimentacao();
 
         final ListView listView = (ListView) findViewById(R.id.gostosAlimentacao);
-        listView.setAdapter(new TagGostosAlimentacaoAdapter(this, tags));
+        listView.setAdapter(new TagGostosAdapter(this, tags));
 
 
 
@@ -39,7 +41,7 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                 TextView c = (TextView) view.findViewById(R.id.local);
                 LikeButton l = (LikeButton) view.findViewById(R.id.gostei);
 
-                TagGostosAlimentacaoAdapter adapter = (TagGostosAlimentacaoAdapter) listView.getAdapter();
+                TagGostosAdapter adapter = (TagGostosAdapter) listView.getAdapter();
 
                 boolean likeValue = tags.get(position).getAtivo();
 
@@ -55,6 +57,14 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                 }
 
 
+            }
+        });
+
+        Button novaTela = (Button) findViewById(R.id.avancarLazer);
+        novaTela.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(GostosAlimentacaoActivity.this, SubLazerActivity.class);
+                startActivity(intent);
             }
         });
 

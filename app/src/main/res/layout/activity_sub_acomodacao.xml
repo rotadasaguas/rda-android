@@ -7,15 +7,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".GostosAlimentacaoActivity">
+    tools:context="to.dtech.rotadasaguas.SubAcomodacaoActivity">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/btnStyleRota"
-            android:src="@drawable/ic_thumbs_up_down_blue"
+            android:src="@drawable/ic_local_hotel_blue"
             android:background="@drawable/retangulo"
-            android:id="@+id/imageSubAlimentacao"
+            android:id="@+id/imageSubAcomodacao"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
 
@@ -23,37 +23,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Preferências"
-            android:layout_marginTop="20dp"
+            android:text="Acomodações"
             android:textAllCaps="true"
+            android:layout_marginTop="20dp"
             android:textAlignment="center"
             android:paddingLeft="10dp"
             android:textColor="@color/colorPrimary"
             android:id="@+id/textView6"
-            android:layout_alignTop="@+id/imageSubAlimentacao"
+            android:layout_alignTop="@+id/imageSubAcomodacao"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageSubAlimentacao"
+            android:layout_below="@id/imageSubAcomodacao"
             android:textSize="16dp"
-            android:text="Marque o que você gosta"
+            android:text="Marque os tipos de locais que você gosta"
             android:textAlignment="center"
             android:textColor="@color/bright_foreground_disabled_material_light"
-            android:id="@+id/textMarqueSubAlimentacao"
+            android:id="@+id/textMarqueSubAcomodacao"
             android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true" />
 
         <ListView
-            android:id="@+id/gostosAlimentacao"
+            android:id="@+id/subAcomodacao"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:scrollingCache="false"
             android:layout_width="match_parent"
-            android:layout_below="@+id/textMarqueSubAlimentacao"
+            android:layout_below="@+id/textMarqueSubAcomodacao"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/avancarLazer">
+            android:layout_above="@+id/avancarGostosAcomodacao">
 
         </ListView>
 
@@ -61,10 +61,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avançar"
-            android:id="@+id/avancarLazer"
+            android:id="@+id/avancarGostosAcomodacao"
             style="@style/btnStyleBlue"
             android:layout_alignParentBottom="true"
-            android:layout_alignEnd="@+id/gostosAlimentacao" />
+            android:layout_alignEnd="@+id/subAcomodacao" />
 
 
 </RelativeLayout>

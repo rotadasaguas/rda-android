@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/textMarqueSubAlimentacao"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/avancarLazer">
+            android:layout_above="@+id/button">
 
         </ListView>
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avançar"
-            android:id="@+id/avancarLazer"
+            android:id="@+id/button"
             style="@style/btnStyleBlue"
             android:layout_alignParentBottom="true"
             android:layout_alignEnd="@+id/gostosAlimentacao" />

@@ -1,7 +1,6 @@
 package to.dtech.rotadasaguas.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.List;
@@ -36,7 +33,7 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Log.i("LOG", "onCreateViewHolder()");
-        View v = mLayoutInflater.inflate(R.layout.item_car, viewGroup, false);
+        View v = mLayoutInflater.inflate(R.layout.item_minha_rota, viewGroup, false);
         MyViewHolder mvh = new MyViewHolder(v);
         return mvh;
     }

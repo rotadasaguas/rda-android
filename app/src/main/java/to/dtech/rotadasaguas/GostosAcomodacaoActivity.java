@@ -1,12 +1,10 @@
 package to.dtech.rotadasaguas;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,20 +13,20 @@ import com.like.LikeButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import to.dtech.rotadasaguas.adapter.TagSubAdapter;
+import to.dtech.rotadasaguas.adapter.TagGostosAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
-public class SubAlimentacaoActivity extends AppCompatActivity{
+public class GostosAcomodacaoActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_alimentacao);
+        setContentView(R.layout.activity_gostos_alimentacao);
 
-        final List<Tag> tags = getTagsSubAlimentacao();
+        final List<Tag> tags = getTagsGostosAlimentacao();
 
-        final ListView listView = (ListView) findViewById(R.id.subAlimentacao);
-        listView.setAdapter(new TagSubAdapter(this, tags));
+        final ListView listView = (ListView) findViewById(R.id.gostosAlimentacao);
+        listView.setAdapter(new TagGostosAdapter(this, tags));
 
 
 
@@ -41,12 +39,12 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
                 TextView c = (TextView) view.findViewById(R.id.local);
                 LikeButton l = (LikeButton) view.findViewById(R.id.gostei);
 
-                TagSubAdapter adapter = (TagSubAdapter) listView.getAdapter();
+                TagGostosAdapter adapter = (TagGostosAdapter) listView.getAdapter();
 
                 boolean likeValue = tags.get(position).getAtivo();
 
                 if (likeValue == false){
-                    c.setTextColor(Color.parseColor("#2196F3"));
+                    c.setTextColor(Color.parseColor("#e50000"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
                 }
@@ -60,18 +58,10 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
             }
         });
 
-        Button novaTela = (Button) findViewById(R.id.avancarGostos);
-        novaTela.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
-    public List<Tag> getTagsSubAlimentacao(){
-        String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
+    public List<Tag> getTagsGostosAlimentacao(){
+        String[] tags = new String[]{"Churrasco", "Doces Regionais", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

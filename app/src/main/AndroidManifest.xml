@@ -94,7 +94,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".LocalActivity"></activity>
+        <activity android:name=".LocalActivity" />
+        <activity android:name=".SubLazerActivity"
+            android:label="Tipos de Locais" />
+        <activity android:name=".GostosLazerActivity"
+            android:label="Selecione Preferências"/>
+        <activity android:name=".SubAcomodacaoActivity"
+            android:label="Tipos de Locais" />
+        <activity android:name=".GostosAcomodacaoActivity"
+            android:label="Selecione Preferências" />
     </application>
 
 </manifest>

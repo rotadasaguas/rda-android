@@ -14,5 +14,6 @@ public class LocalActivity extends AppCompatActivity {
 
         Iconify .with(new FontAwesomeModule());
         setContentView(R.layout.activity_local);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

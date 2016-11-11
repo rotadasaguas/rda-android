@@ -5,21 +5,21 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.like.LikeButton;
-
 import java.util.List;
 
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.domain.Tag;
 
-public class TagGostosAlimentacaoAdapter extends BaseAdapter {
+public class TagSubAdapter extends BaseAdapter {
     private Context context;
     private List<Tag> tags;
 
-    public TagGostosAlimentacaoAdapter(Context context, List<Tag> tags){
+    public TagSubAdapter(Context context, List<Tag> tags){
         this.context = context;
         this.tags = tags;
 
@@ -60,7 +60,7 @@ public class TagGostosAlimentacaoAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if( convertView == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_gostos, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_sub, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
 
@@ -71,7 +71,7 @@ public class TagGostosAlimentacaoAdapter extends BaseAdapter {
 
         boolean likeValue = tags.get(position).getAtivo();
         if(likeValue){
-            holder.titulo.setTextColor(Color.parseColor("#e50000"));
+            holder.titulo.setTextColor(Color.parseColor("#2196F3"));
         }else{
             holder.titulo.setTextColor(Color.parseColor("#848484"));
         }
