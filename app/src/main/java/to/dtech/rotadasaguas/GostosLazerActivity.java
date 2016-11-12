@@ -20,16 +20,18 @@ import to.dtech.rotadasaguas.domain.Tag;
 
 public class GostosLazerActivity extends AppCompatActivity{
 
+    String[] gostosLazerAventura = {"Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+    String[] gostosLazerPasseio = {"Caminhada", "Passeio a Natureza", "Prédios Históricos"};
+    String[] gostosLazerAmbos = {"Caminhada", "Passeio a Natureza", "Prédios Históricos", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gostos_lazer);
 
-        final List<Tag> tags = getTagsGostosLazer();
+        final List<Tag> tags;
 
         final ListView listView = (ListView) findViewById(R.id.gostosLazer);
-        listView.setAdapter(new TagGostosAdapter(this, tags));
-
 
         final List<String> listaMarcadores = new ArrayList<String>();
         final Intent intent = new Intent(GostosLazerActivity.this, SubAcomodacaoActivity.class);
@@ -43,6 +45,29 @@ public class GostosLazerActivity extends AppCompatActivity{
             listaMarcadores.add(listaOld.get(i));
         }
 
+
+        //VERIFICA OPCAO DE LAZER MARCADA & CARREGA LISTA DE DADOS
+        int tamanhoLista = listaMarcadores.size();
+
+        String tagNomeUm = listaMarcadores.get(tamanhoLista-1);
+        String tagNomeDois = listaMarcadores.get(tamanhoLista-2);
+
+        if (tagNomeUm.equalsIgnoreCase("Passeio") && tagNomeDois.equalsIgnoreCase("Aventura") || tagNomeUm.equalsIgnoreCase("Aventura") && tagNomeDois.equalsIgnoreCase("Passeio")){
+            tags = getTagsGostosLazer(gostosLazerAmbos);
+        }
+        else if (tagNomeUm.equalsIgnoreCase("Passeio")){
+            tags = getTagsGostosLazer(gostosLazerPasseio);
+        }
+        else if (tagNomeUm.equalsIgnoreCase("Aventura")){
+            tags = getTagsGostosLazer(gostosLazerAventura);
+        }
+        else{
+            String[] emBranco = {""};
+            tags = getTagsGostosLazer(emBranco);
+        }
+        /*******************************************/
+
+        listView.setAdapter(new TagGostosAdapter(this, tags));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
@@ -83,8 +108,8 @@ public class GostosLazerActivity extends AppCompatActivity{
 
     }
 
-    public List<Tag> getTagsGostosLazer(){
-        String[] tags = new String[]{"Downhill", "Pescaria", "Parques Aquaticos", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada", "Caminhada", "Passeio a Natureza", "Passeio Predios Historicos"};
+    public List<Tag> getTagsGostosLazer(String[] listaM){
+        String[] tags = listaM;
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
