@@ -101,8 +101,6 @@
             android:label="Selecione Preferências"/>
         <activity android:name=".SubAcomodacaoActivity"
             android:label="Tipos de Locais" />
-        <activity android:name=".GostosAcomodacaoActivity"
-            android:label="Selecione Preferências" />
     </application>
 
 </manifest>

@@ -31,6 +31,17 @@ public class SubLazerActivity extends AppCompatActivity{
         listView.setAdapter(new TagSubAdapter(this, tags));
 
 
+        final List<String> listaMarcadores = new ArrayList<String>();
+        final Intent intent = new Intent(SubLazerActivity.this, GostosLazerActivity.class);
+
+
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+
+        for (int i = 0; i < listaOld.size(); i++ ){
+            listaMarcadores.add(listaOld.get(i));
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -49,11 +60,13 @@ public class SubLazerActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#2196F3"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
+                    listaMarcadores.add(tags.get(position).getTitulo());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
+                    listaMarcadores.remove(tags.get(position).getTitulo());
                 }
 
 
@@ -63,7 +76,7 @@ public class SubLazerActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarGostosLazer);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(SubLazerActivity.this, GostosLazerActivity.class);
+                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadores);
                 startActivity(intent);
             }
         });

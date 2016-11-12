@@ -60,11 +60,20 @@ public class SubAcomodacaoActivity extends AppCompatActivity{
             }
         });
 
+        Intent intentOld = getIntent();
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+
+        System.out.println(listaOld.size());
+
+
+        for (int i = 0; i < listaOld.size(); i++){
+            System.out.println(listaOld.get(i));
+        }
         Button novaTela = (Button) findViewById(R.id.avancarGostosAcomodacao);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(SubAcomodacaoActivity.this, GostosAcomodacaoActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(SubAcomodacaoActivity.this, GostosAcomodacaoActivity.class);
+                startActivity(intent);*/
             }
         });
 

@@ -29,8 +29,9 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
         final ListView listView = (ListView) findViewById(R.id.subAlimentacao);
         listView.setAdapter(new TagSubAdapter(this, tags));
+        final List<String> listaMarcadoresAlimentacao = new ArrayList<String>();
 
-
+        final Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -45,16 +46,22 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
                 boolean likeValue = tags.get(position).getAtivo();
 
+
+
                 if (likeValue == false){
                     c.setTextColor(Color.parseColor("#2196F3"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
+                    listaMarcadoresAlimentacao.add(tags.get(position).getTitulo());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
+                    listaMarcadoresAlimentacao.remove(tags.get(position).getTitulo());
                 }
+
+
 
 
             }
@@ -63,7 +70,7 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarGostos);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
+                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadoresAlimentacao);
                 startActivity(intent);
             }
         });

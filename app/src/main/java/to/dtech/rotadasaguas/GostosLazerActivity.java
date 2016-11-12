@@ -31,6 +31,17 @@ public class GostosLazerActivity extends AppCompatActivity{
         listView.setAdapter(new TagGostosAdapter(this, tags));
 
 
+        final List<String> listaMarcadores = new ArrayList<String>();
+        final Intent intent = new Intent(GostosLazerActivity.this, SubAcomodacaoActivity.class);
+
+
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+
+        for (int i = 0; i < listaOld.size(); i++ ){
+            listaMarcadores.add(listaOld.get(i));
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -49,11 +60,13 @@ public class GostosLazerActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#e50000"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
+                    listaMarcadores.add(tags.get(position).getTitulo());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
+                    listaMarcadores.remove(tags.get(position).getTitulo());
                 }
 
 
@@ -63,7 +76,7 @@ public class GostosLazerActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarAcomodacao);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(GostosLazerActivity.this, SubAcomodacaoActivity.class);
+                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadores);
                 startActivity(intent);
             }
         });
@@ -71,7 +84,7 @@ public class GostosLazerActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsGostosLazer(){
-        String[] tags = new String[]{"Downhill", "Parques Aquaticos", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada", "Caminhada", "Passeio a Natureza", "Passeio Predios Historicos"};
+        String[] tags = new String[]{"Downhill", "Pescaria", "Parques Aquaticos", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada", "Caminhada", "Passeio a Natureza", "Passeio Predios Historicos"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

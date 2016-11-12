@@ -27,10 +27,20 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
 
         final List<Tag> tags = getTagsGostosAlimentacao();
 
+        final Intent intent = new Intent(GostosAlimentacaoActivity.this, SubLazerActivity.class);
+        final List<String> listaMarcadoresAlimentacao = new ArrayList<String>();
+
         final ListView listView = (ListView) findViewById(R.id.gostosAlimentacao);
         listView.setAdapter(new TagGostosAdapter(this, tags));
 
 
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+
+        for (int i = 0; i < listaOld.size(); i++ ){
+            listaMarcadoresAlimentacao.add(listaOld.get(i));
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -49,11 +59,13 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#e50000"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
+                    listaMarcadoresAlimentacao.add(tags.get(position).getTitulo());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
+                    listaMarcadoresAlimentacao.remove(tags.get(position).getTitulo());
                 }
 
 
@@ -63,7 +75,7 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarLazer);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(GostosAlimentacaoActivity.this, SubLazerActivity.class);
+                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadoresAlimentacao);
                 startActivity(intent);
             }
         });
