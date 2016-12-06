@@ -43,7 +43,7 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
 
         // GOOGLE SIGN IN
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("312301797686-1bkt0nbecnbctpfoflanjr3sp4fi0aec.apps.googleusercontent.com")
+                .requestIdToken("542442288639-ev4fmprs4ehdjbtoc4mhck3q58o1e771.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

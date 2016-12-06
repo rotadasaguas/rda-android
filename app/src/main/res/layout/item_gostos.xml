@@ -7,7 +7,7 @@
     android:paddingLeft="16dp">
 
     <com.like.LikeButton
-        app:icon_type="heart"
+        app:icon_type="star"
         app:icon_size="18dp"
         app:is_enabled="true"
         app:circle_start_color="@color/colorPrimary"

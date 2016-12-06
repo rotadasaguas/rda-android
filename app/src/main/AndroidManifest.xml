@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="to.dtech.rotadasaguas">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icone_principal_launcher"
+        tools:replace="android:icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
+
         <activity
             android:name=".LoginActivity"
             android:label="Entre com sua Conta"
@@ -58,10 +59,6 @@
             android:label="@string/title_activity_remove_user"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="3dc6b3f7c9b49dc77c730868b0ee3ee4530d9966" />
-
         <activity android:name=".MinhaConta" />
         <activity
             android:name=".SplashActivity"
@@ -74,33 +71,36 @@
         </activity>
         <activity
             android:name=".SubAlimentacaoActivity"
+            android:theme="@style/AppTheme.NoTitle"
             android:label="Tipos de Locais" />
         <activity
             android:name=".GostosAlimentacaoActivity"
+            android:theme="@style/AppTheme.NoTitle"
             android:label="Selecione Preferências" />
         <activity
             android:name=".IntroActivity"
             android:theme="@style/Theme.Design.NoActionBar" />
 
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".LocalActivity" />
+        <activity
+            android:name=".LocalActivity"
+            android:label="Dados do Local"/>
+
         <activity android:name=".SubLazerActivity"
+            android:theme="@style/AppTheme.NoTitle"
             android:label="Tipos de Locais" />
         <activity android:name=".GostosLazerActivity"
+            android:theme="@style/AppTheme.NoTitle"
             android:label="Selecione Preferências"/>
         <activity android:name=".SubAcomodacaoActivity"
+            android:theme="@style/AppTheme.NoTitle"
             android:label="Tipos de Locais" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

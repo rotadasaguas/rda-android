@@ -68,7 +68,7 @@
         android:text="Começar"
         android:id="@+id/botaoCriarAlimentacao"
         style="@style/btnStyleBlue"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         android:layout_below="@+id/spinnerCidades"
         android:layout_alignStart="@+id/logo" />
 

@@ -71,7 +71,7 @@ public class TagGostosAdapter extends BaseAdapter {
 
         boolean likeValue = tags.get(position).getAtivo();
         if(likeValue){
-            holder.titulo.setTextColor(Color.parseColor("#e50000"));
+            holder.titulo.setTextColor(Color.parseColor("#FBC02D"));
         }else{
             holder.titulo.setTextColor(Color.parseColor("#848484"));
         }

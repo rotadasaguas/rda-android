@@ -33,6 +33,12 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
         final Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
 
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        String listaOld = intentOld.getStringExtra("Marcadores");
+
+        listaMarcadoresAlimentacao.add(listaOld);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 

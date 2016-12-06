@@ -82,7 +82,7 @@ public class GostosLazerActivity extends AppCompatActivity{
                 boolean likeValue = tags.get(position).getAtivo();
 
                 if (likeValue == false){
-                    c.setTextColor(Color.parseColor("#e50000"));
+                    c.setTextColor(Color.parseColor("#FBC02D"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
                     listaMarcadores.add(tags.get(position).getTitulo());

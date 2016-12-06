@@ -8,6 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#f9f9f9"
+    android:windowContentOverlay="@null"
+    android:elevation="0dp"
     tools:context=".GostosAlimentacaoActivity">
 
         <ImageView

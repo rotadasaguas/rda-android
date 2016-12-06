@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -56,7 +57,7 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                 boolean likeValue = tags.get(position).getAtivo();
 
                 if (likeValue == false){
-                    c.setTextColor(Color.parseColor("#e50000"));
+                    c.setTextColor(Color.parseColor("#FBC02D"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
                     listaMarcadoresAlimentacao.add(tags.get(position).getTitulo());

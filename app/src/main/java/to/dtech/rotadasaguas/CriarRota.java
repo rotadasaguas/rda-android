@@ -37,6 +37,8 @@ public class CriarRota extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final Intent intent = new Intent(CriarRota.this, SubAlimentacaoActivity.class);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,15 +64,18 @@ public class CriarRota extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener( authStateListener );
 
+
+
         aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
         aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerCidades);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinnerCidades);
         spinner.setAdapter(aOpcoes);
 
         Button button = (Button) findViewById(R.id.botaoCriarAlimentacao);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(CriarRota.this, SubAlimentacaoActivity.class);
+                String valorSpinner = spinner.getSelectedItem().toString();
+                intent.putExtra("Marcadores", valorSpinner);
                 startActivity(intent);
             }
         });

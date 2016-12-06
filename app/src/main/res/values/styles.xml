@@ -7,13 +7,28 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#03A9F4</item>
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/YourAppTheme.Light.ActionBar.Transparent</item>
+    </style>
+
+    <!-- Transparent ActionBar Style -->
+    <style name="YourAppTheme.Light.ActionBar.Transparent" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/YourAppTheme.Light.ActionBar.Transparent</item>
     </style>
 
+    <style name="AppTheme.NoTitle">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:actionBarStyle">@style/YourAppTheme.Light.ActionBar.Transparent</item>
+    </style>
 
     <style name="AppTheme.LoginActionbar" parent="AppTheme.NoActionBar">
         <item name="android:statusBarColor">#000</item>
@@ -52,6 +67,22 @@
         <item name="android:shadowRadius">0.6</item>
         <item name="android:background">@drawable/button_grey</item>
         <item name="android:padding">10dip</item>
+    </style>
+
+    <style name="btnStyleWhite" parent="@android:style/Widget.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#fbfbfb</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="android:background">@drawable/button_white</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
     </style>
 
     <style name="btnStyleBlueDark" parent="@android:style/Widget.Button">
@@ -107,8 +138,14 @@
     </style>
 
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
 
 </resources>
