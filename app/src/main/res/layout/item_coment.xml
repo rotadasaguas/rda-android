@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
     android:background="#ffffff"
-    android:paddingLeft="16dp">
+    android:paddingLeft="5dp">
 
 
     <ImageView
@@ -12,7 +12,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="2dp"
-        android:src="@drawable/common_google_signin_btn_icon_light_normal"
+        android:src="@drawable/ic_person"
         android:layout_alignParentLeft="true" />
 
     <TextView
