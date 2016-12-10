@@ -30,6 +30,11 @@
         <item name="android:actionBarStyle">@style/YourAppTheme.Light.ActionBar.Transparent</item>
     </style>
 
+    <style name="AppTheme.NoLocal">
+        <item name="android:statusBarColor">#333333</item>
+        <item name="android:textColor">#191919</item>
+    </style>
+
     <style name="AppTheme.LoginActionbar" parent="AppTheme.NoActionBar">
         <item name="android:statusBarColor">#000</item>
     </style>

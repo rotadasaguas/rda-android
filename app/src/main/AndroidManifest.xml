@@ -89,6 +89,7 @@
 
         <activity
             android:name=".LocalActivity"
+            android:theme="@style/AppTheme.NoLocal"
             android:label="Dados do Local"/>
 
         <activity android:name=".SubLazerActivity"

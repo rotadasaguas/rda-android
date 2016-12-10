@@ -4,13 +4,24 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +34,9 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -34,7 +48,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -42,12 +55,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import to.dtech.rotadasaguas.adapter.CommentAdapter;
-import to.dtech.rotadasaguas.adapter.TagSubAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
-import to.dtech.rotadasaguas.domain.Tag;
 import to.dtech.rotadasaguas.util.HttpHandler;
 
-public class LocalActivity extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class LocalActivity extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
 
     private MapView mapView;
     private ProgressDialog pDialog;
@@ -59,6 +70,9 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
 
     private SliderLayout mDemoSlider;
 
+    public HashMap<String,String> imgGoogle = new HashMap<String, String>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +81,20 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
         Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_local);
 
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
+
+        String titulo = "Dados do Local";
+        SpannableString s = new SpannableString(titulo);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")), 0, titulo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
+
+        ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scLocal);
+        scrollView.setScrollViewCallbacks(this);
+        ActionBar ab = getSupportActionBar();
+        ab.hide();
 
         nomeLocal = "Sorvetreze";
         coordenadas = "-22.593317,-46.528705";
@@ -82,34 +108,8 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
         final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
         listView.setAdapter(new CommentAdapter(this, comentarios));
 
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-        for(String name : url_maps.keySet()){
-            DefaultSliderView textSliderView = new DefaultSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
-
         // Create a mapView
         mapView = (MapView) findViewById(R.id.mapview);
-
-        // mapView.setStyleUrl(Style.LIGHT);
         mapView.onCreate(savedInstanceState);
 
         // Add a MapboxMap
@@ -128,8 +128,46 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
                 );
             }
         });
+
+  }
+    @Override
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+
+        ActionBar ab = getSupportActionBar();
+
+        if (scrollY > 80){
+            Window w = getWindow();
+            ab.show();
+            ab.setDisplayShowTitleEnabled(true);
+            w.setStatusBarColor(Color.parseColor("#333333"));
+        }
+        else if(scrollY < 80){
+            Window w = getWindow();
+            ab.hide();
+            w.setStatusBarColor(Color.parseColor("#333333"));
+        }
     }
 
+    @Override
+    public void onDownMotionEvent() {
+    }
+
+    @Override
+    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+       /* ActionBar ab = getSupportActionBar();
+        if (ab == null) {
+            return;
+        }
+        if (scrollState == ScrollState.UP) {
+            if (ab.isShowing()) {
+                ab.hide();
+            }
+        } else if (scrollState == ScrollState.DOWN) {
+            if (!ab.isShowing()) {
+                ab.show();
+            }
+        }*/
+    }
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
@@ -184,6 +222,7 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
 
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
+        private HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
 
         @Override
         protected void onPreExecute() {
@@ -226,10 +265,15 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
                         try {
                             Log.i("Script", "entrei no try");
                             JSONObject jsonObject = new JSONObject(jsonLocal);
-
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
 
+                            JSONArray photosGoogle = result.getJSONArray("photos");
+
+                            for (int i = 0; i < photosGoogle.length(); i++){
+                                String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
+                                imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
+                            }
 
                         }catch (final Exception e){
 
@@ -262,6 +306,26 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
 
             TextView textView = (TextView) findViewById(R.id.titulo_local);
             textView.setText(placeName);
+
+            imgGoogle = imgGoogleAux;
+
+            mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+
+            for(String name : imgGoogle.keySet()){
+                DefaultSliderView textSliderView = new DefaultSliderView(LocalActivity.this);
+                // initialize a SliderLayout
+                textSliderView
+                        .image(imgGoogle.get(name))
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(LocalActivity.this);
+
+                mDemoSlider.addSlider(textSliderView);
+            }
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+            mDemoSlider.setDuration(6000);
+            mDemoSlider.addOnPageChangeListener(LocalActivity.this);
         }
 
 
