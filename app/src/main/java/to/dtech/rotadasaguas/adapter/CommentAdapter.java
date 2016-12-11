@@ -45,11 +45,13 @@ public class CommentAdapter extends BaseAdapter {
     public class ViewHolder {
 
         final TextView autor;
+        final TextView data;
         final TextView comentario;
 
         public ViewHolder(View view) {
 
             autor = (TextView) view.findViewById(R.id.autor);
+            data = (TextView) view.findViewById(R.id.dataComentario);
             comentario = (TextView) view.findViewById(R.id.comentario);
 
         }
@@ -74,6 +76,7 @@ public class CommentAdapter extends BaseAdapter {
 
         Comentario comentario = comentarios.get(position);
         holder.autor.setText(comentario.getAutor());
+        holder.data.setText(comentario.getData());
         holder.comentario.setText(comentario.getComentario());
 
         return view;

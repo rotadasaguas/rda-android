@@ -19,7 +19,7 @@
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="190dp"
         />
 
     <com.daimajia.slider.library.Indicators.PagerIndicator
@@ -33,7 +33,7 @@
         android:text="Nome do Local"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="5dp"
         android:textSize="20sp"
         android:layout_below="@id/slider"
         android:layout_width="wrap_content"
@@ -45,51 +45,52 @@
     <View
         android:id="@+id/vw_divider_top"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="10dp"
-        android:background="#f5f5f5"
+        android:layout_marginBottom="0dp"
+        android:background="#ffffff"
         android:layout_below="@+id/titulo_local"
         android:layout_width="match_parent"
         android:layout_height="0.8dp" />
 
-
-    <FrameLayout android:id="@+id/map_frame"
+    <TextView
+        android:text="Classificação:"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="14sp"
         android:layout_below="@id/vw_divider_top"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1" >
+        android:textAllCaps="true"
+        android:id="@+id/rankPlace"
+        android:textColor="#747474" />
 
-        <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@+id/mapview"
-            android:layout_width="match_parent"
-            mapbox:attribution_enabled="false"
-            mapbox:scroll_enabled="false"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            mapbox:center_latitude="-22.593317"
-            mapbox:center_longitude="-46.528705"
-            mapbox:style_url="mapbox://styles/siqueiradg/ciwhsr4ri002c2qli5r3h0nqq"
-            mapbox:tilt="20"
-            mapbox:zoom="16.5"
-            android:layout_height="220dp">
-        </com.mapbox.mapboxsdk.maps.MapView>
-
-    </FrameLayout>
-
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        style="?android:attr/ratingBarStyleSmall"
+        android:progressTint="#ffd500"
+        android:secondaryProgressTint="@android:color/transparent"
+        android:isIndicator="true"
+        android:transformPivotX="0dp"
+        android:rating="2.0"
+        android:layout_alignTop="@+id/rankPlace"
+        android:layout_toEndOf="@+id/classificacaoLocal" />
 
     <View
-        android:id="@+id/vw_divider"
-        android:layout_marginTop="10dp"
+        android:id="@+id/vw_divider_rank"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
         android:background="#f5f5f5"
-        android:layout_below="@+id/map_frame"
+        android:layout_below="@+id/ratingBar"
         android:layout_width="match_parent"
         android:layout_height="0.8dp" />
 
 
 
     <com.joanzapata.iconify.widget.IconButton
-        android:layout_below="@id/vw_divider"
+        android:layout_below="@id/vw_divider_rank"
         android:id="@+id/btnMapa"
         android:text="{fa-map} Abrir no Mapa"
         android:shadowDx="0"
@@ -107,41 +108,11 @@
     <View
         android:id="@+id/vw_divider_two"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="10dp"
         android:background="#f5f5f5"
         android:layout_below="@+id/btnMapa"
         android:layout_width="match_parent"
         android:layout_height="0.8dp" />
-
-    <TextView
-        android:text="Comentários"
-        android:layout_marginLeft="10dp"
-        android:textSize="18sp"
-        android:layout_below="@id/vw_divider_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="true"
-        android:id="@+id/classificacaoLocal"
-        android:textColor="#535353" />
-
-
-    <View
-        android:id="@+id/vw_divider_3"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="#f5f5f5"
-        android:layout_below="@+id/classificacaoLocal"
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp" />
-
-    <to.dtech.rotadasaguas.util.NonScrollListView
-        android:id="@+id/comentariosLocal"
-        android:paddingBottom="15dp"
-        android:layout_width="match_parent"
-        android:scrollingCache="false"
-        android:layout_below="@+id/vw_divider_3"
-        android:layout_height="wrap_content">
-    </to.dtech.rotadasaguas.util.NonScrollListView>
 
     <com.joanzapata.iconify.widget.IconButton
         android:id="@+id/btnLigar"
@@ -154,8 +125,78 @@
         android:textSize="14sp"
         android:textColor="#6b6b6b"
         android:layout_marginStart="5dp"
-        android:layout_below="@+id/vw_divider"
+        android:layout_below="@+id/vw_divider_rank"
         android:layout_toEndOf="@+id/btnMapa" />
+
+    <com.joanzapata.iconify.widget.IconButton
+        android:id="@+id/btnSite"
+        android:layout_below="@id/vw_divider_rank"
+        android:text="{fa-globe} Web Site"
+        android:shadowDx="0"
+        style="@style/btnStyleWhite"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowRadius="0"
+        android:textSize="16sp"
+        android:textColor="#6b6b6b" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/vw_divider_two"
+        android:id="@+id/frameMap"
+        android:layout_height="240dp">
+
+        <LinearLayout
+            android:id="@+id/llMap"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/vw_divider"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#f5f5f5"
+        android:layout_below="@+id/frameMap"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp" />
+
+    <TextView
+        android:text="Comentários"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        android:layout_below="@id/vw_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:id="@+id/classificacaoLocal"
+        android:textColor="#8e8e8e" />
+
+
+    <View
+        android:id="@+id/vw_divider_3"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="#f5f5f5"
+        android:layout_below="@+id/classificacaoLocal"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp" />
+
+
+    <to.dtech.rotadasaguas.util.NonScrollListView
+        android:id="@+id/comentariosLocal"
+        android:paddingBottom="15dp"
+        android:layout_width="match_parent"
+        android:scrollingCache="false"
+        android:layout_below="@+id/vw_divider_3"
+        android:layout_height="wrap_content">
+    </to.dtech.rotadasaguas.util.NonScrollListView>
+
 
 </RelativeLayout>
 </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>

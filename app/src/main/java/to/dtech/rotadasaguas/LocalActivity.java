@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -37,15 +39,16 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.MapboxAccountManager;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
-import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,15 +59,21 @@ import java.util.List;
 
 import to.dtech.rotadasaguas.adapter.CommentAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
+import to.dtech.rotadasaguas.fragment.MapFragmentLocal;
 import to.dtech.rotadasaguas.util.HttpHandler;
 
-public class LocalActivity extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 
-    private MapView mapView;
+public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallback, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
+
     private ProgressDialog pDialog;
 
     public String nomeLocal;
-    public String coordenadas;
+    public String coordenadasLog;
+    public String coordenadasLat;
+
+    private GoogleMap map;
+    private MapFragmentLocal mMapFragmentLocal;
 
     public String urlBusca;
 
@@ -76,8 +85,6 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MapboxAccountManager.start(this, getString(R.string.access_token));
-
         Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_local);
 
@@ -97,9 +104,10 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
         ab.hide();
 
         nomeLocal = "Sorvetreze";
-        coordenadas = "-22.593317,-46.528705";
+        coordenadasLat = "-22.593317";
+        coordenadasLog = "-46.528705";
 
-        urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadas + "&radius=500&name=" + nomeLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+        urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadasLat + "," + coordenadasLog + "&radius=500&name=" + nomeLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
 
         new GetLocal().execute();
 
@@ -108,28 +116,31 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
         final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
         listView.setAdapter(new CommentAdapter(this, comentarios));
 
-        // Create a mapView
-        mapView = (MapView) findViewById(R.id.mapview);
-        mapView.onCreate(savedInstanceState);
+        //GOOGLE MAPS
+        mMapFragmentLocal = MapFragmentLocal.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.llMap, mMapFragmentLocal)
+                .commit();
 
-        // Add a MapboxMap
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(MapboxMap mapboxMap) {
+        mMapFragmentLocal.getMapAsync(this);
 
-                // marker view using all the different options available
-                mapboxMap.addMarker(new MarkerViewOptions()
-                        .position(new LatLng(-22.593317, -46.528705))
-                        .anchor(0.5f, 0.5f)
-                        .alpha(0.5f)
-                        .title("Sorvetreze")
-                        .infoWindowAnchor(0.5f, 0.5f)
-                        .flat(true)
-                );
-            }
-        });
+    }
+    @Override
+    public void onMapReady(GoogleMap map) {
 
-  }
+        double l = Double.parseDouble(coordenadasLat);
+        double g = Double.parseDouble(coordenadasLog);
+        LatLng city = new LatLng(l,g);
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 18));
+
+        map.addMarker(new MarkerOptions()
+                .title(nomeLocal)
+                .rotation(10)
+                .position(city));
+
+    }
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 
@@ -188,37 +199,6 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
 
         return true;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
 
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
@@ -333,11 +313,12 @@ public class LocalActivity extends AppCompatActivity  implements BaseSliderView.
 
     public List<Comentario> getComentarios(){
         String[] autores = new String[]{"Jose Pinheiro", "Douglas"};
-        String[] comentarios = new String[]{"Muito Bom!", "Lugar maravilhoso!"};
+        String[] datas = new String[]{"dom, 22 de Nov de 2015", "Sex, 05 de Nov de 2016"};
+        String[] comentarios = new String[]{"Muito Bom!", "Lugar maravilhoso para ir com a familia, meus filhos adoraram!"};
         List<Comentario> listAux = new ArrayList<>();
 
-        for(int i = 0; i <= autores.length; i++){
-            Comentario c = new Comentario( autores[i % autores.length], comentarios[i % comentarios.length]);
+        for(int i = 0; i < autores.length; i++){
+            Comentario c = new Comentario( autores[i % autores.length], datas[i % datas.length], comentarios[i % comentarios.length]);
             listAux.add(c);
         }
         return(listAux);
