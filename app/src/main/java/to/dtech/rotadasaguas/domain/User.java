@@ -18,6 +18,8 @@ public class User {
     public static String TOKEN = "to.dtech.rotadasaguas.domain.User.TOKEN";
     public static String ID = "to.dtech.rotadasaguas.domain.User.ID";
 
+    public static String PROVIDER = "to.dtech.rotadasaguas.domain.User.PROVIDER";
+
     @Exclude
     private String id;
     private String name;
@@ -43,6 +45,13 @@ public class User {
 
     public void saveIdSP(Context context, String token ){
         LibraryClass.saveSP( context, ID, token );
+    }
+
+    public void saveProviderSP(Context context, String token ){
+        LibraryClass.saveSP( context, PROVIDER, token );
+    }
+    public String getProviderSP(Context context ){
+        return( LibraryClass.getSP( context, PROVIDER) );
     }
 
     public void retrieveIdSP(Context context ){

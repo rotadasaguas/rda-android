@@ -7,13 +7,16 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -21,63 +24,51 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
+
+import java.util.Arrays;
 
 import to.dtech.rotadasaguas.domain.User;
 
 
-public class LoginActivity extends CommonActivity implements GoogleApiClient.OnConnectionFailedListener {
-
-    private static final int RC_SIGN_IN_GOOGLE = 7859;
+public class LoginActivity extends CommonActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private User user;
-    private GoogleApiClient mGoogleApiClient;
 
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // GOOGLE SIGN IN
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("542442288639-ev4fmprs4ehdjbtoc4mhck3q58o1e771.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
+        // FACEBOOK
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                accessFacebookLoginData( loginResult.getAccessToken() );
+            }
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+            @Override
+            public void onCancel() {}
 
-
-
+            @Override
+            public void onError(FacebookException error) {
+                FirebaseCrash.report( error );
+                showSnackbar( error.getMessage() );
+            }
+        });
+        
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = getFirebaseAuthResultHandler();
         initViews();
         initUser();
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if( requestCode == RC_SIGN_IN_GOOGLE ){
-
-            GoogleSignInResult googleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent( data );
-            GoogleSignInAccount account = googleSignInResult.getSignInAccount();
-
-            if( account == null ){
-                showSnackbar("Google login falhou, tente novamente");
-                return;
-            }
-
-            accessGoogleLoginData( account.getIdToken() );
-        }
-    }
-
 
     @Override
     protected void onStart() {
@@ -94,37 +85,6 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
         }
     }
 
-    private void accessGoogleLoginData(String accessToken){
-        accessLoginData(
-                "google",
-                accessToken
-        );
-    }
-
-
-    private void accessLoginData( String provider, String... tokens ){
-        if( tokens != null
-                && tokens.length > 0
-                && tokens[0] != null ){
-
-            AuthCredential credential = FacebookAuthProvider.getCredential( tokens[0]);
-            credential = provider.equalsIgnoreCase("google") ? GoogleAuthProvider.getCredential( tokens[0], null) : credential;
-
-            user.saveTokenSP( LoginActivity.this, provider );
-            mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-
-                    if( !task.isSuccessful() ){
-                        showSnackbar("Login social falhou");
-                    }
-                }
-            });
-        }
-        else{
-            mAuth.signOut();
-        }
-    }
 
     private FirebaseAuth.AuthStateListener getFirebaseAuthResultHandler(){
         FirebaseAuth.AuthStateListener callback = new FirebaseAuth.AuthStateListener() {
@@ -180,11 +140,50 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
     }
 
 
-    public void sendLoginGoogleData( View view ){
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN_GOOGLE);
+    public void sendLoginFacebookData( View view ){
+        FirebaseCrash.log("LoginActivity:clickListener:button:sendLoginFacebookData()");
+        LoginManager
+                .getInstance()
+                .logInWithReadPermissions(
+                        this,
+                        Arrays.asList("public_profile", "user_friends", "email")
+                );
     }
 
+    private void accessFacebookLoginData(AccessToken accessToken){
+        accessLoginData(
+                "facebook",
+                (accessToken != null ? accessToken.getToken() : null)
+        );
+    }
+    private void accessLoginData( String provider, String... tokens ){
+        if( tokens != null
+                && tokens.length > 0
+                && tokens[0] != null ){
+
+            AuthCredential credential = FacebookAuthProvider.getCredential( tokens[0]);
+            user.saveIdSP( LoginActivity.this, provider );
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if( !task.isSuccessful() ){
+                                showSnackbar("Login social falhou");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            FirebaseCrash.report( e );
+                        }
+                    });
+        }
+        else{
+            mAuth.signOut();
+        }
+    }
 
 
     private void callMainActivity(){
@@ -215,7 +214,8 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        showSnackbar( connectionResult.getErrorMessage() );
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult( requestCode, resultCode, data );
     }
 }

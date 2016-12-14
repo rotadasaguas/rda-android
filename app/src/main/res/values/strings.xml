@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Rota das Águas</string>
 
+    <!--FACEBOOK-->
+    <string name="facebook_app_id">552928034899787</string>
+
     <!--String - Title Activity -->
     <string name="title_activity_login">Login</string>
     <string name="title_activity_sign_up">Cadastro</string>
@@ -48,7 +51,6 @@
     <string name="title_activity_remove_user">RemoveUserActivity</string>
     <string name="password_info">Para prosseguir com a atualização informe abaixo sua senha.</string>
 
-    <string name="facebook_app_id"></string>
     <string name="title_activity_montar_rota">MontarRotaActivity</string>
     <string name="title_activity_alimentacao_sub">AlimentacaoSubActivity</string>
     <string name="title_activity_maps">Map</string>

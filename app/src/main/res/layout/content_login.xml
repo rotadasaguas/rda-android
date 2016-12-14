@@ -106,15 +106,15 @@
             android:text="Entrar"/>
 
         <Button
-            android:onClick="sendLoginGoogleData"
-            android:id="@+id/email_sign_in_google_button"
-            style="@style/btnStyleRed"
+            android:onClick="sendLoginFacebookData"
+            android:id="@+id/email_sign_in_facebook_button"
+            style="@style/btnStyleBlueDark"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:padding="12dp"
-            android:text="Entrar com o Google"/>
+            android:text="Entrar com o Facebook"/>
 
         <TextView
             android:onClick="callSignUp"
