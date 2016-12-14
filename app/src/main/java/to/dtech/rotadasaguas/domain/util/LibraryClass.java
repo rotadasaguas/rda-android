@@ -15,6 +15,7 @@ public final class LibraryClass {
 
     public static DatabaseReference getFirebase(){
         if( firebase == null ){
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             firebase = FirebaseDatabase.getInstance().getReference();
         }
 

@@ -1,6 +1,8 @@
 package to.dtech.rotadasaguas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,14 +20,26 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import to.dtech.rotadasaguas.domain.Rota;
+import to.dtech.rotadasaguas.domain.User;
+import to.dtech.rotadasaguas.domain.util.LibraryClass;
 
 public class CriarRota extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
+    private ProgressDialog pDialog;
     private FirebaseAuth.AuthStateListener authStateListener;
 
     private Handler handler = new Handler();
+
+    private DatabaseReference mDatabase;
 
     // criando o Array de String
     private static final String[] opcoes = { "Socorro", "Águas de Lindoia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra" };
@@ -49,6 +64,11 @@ public class CriarRota extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        pDialog = new ProgressDialog(CriarRota.this);
+        pDialog.setMessage("Verificando rota existente...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -64,7 +84,27 @@ public class CriarRota extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener( authStateListener );
 
+        //FIREBASE DATABASE
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null){
+                            callMainActivity();
+                        }
+                        else{
+                            pDialog.dismiss();
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
 
         aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
         aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -80,6 +120,7 @@ public class CriarRota extends AppCompatActivity
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -136,6 +177,12 @@ public class CriarRota extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void callMainActivity(){
+        Intent intent = new Intent( this, MinhaRota.class );
+        startActivity(intent);
+        finish();
     }
 
 }

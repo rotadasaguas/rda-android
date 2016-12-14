@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,6 +59,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import at.blogc.android.views.ExpandableTextView;
 import to.dtech.rotadasaguas.adapter.CommentAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
 import to.dtech.rotadasaguas.fragment.MapFragmentLocal;
@@ -71,7 +74,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public String nomeLocal;
     public String coordenadasLog;
     public String coordenadasLat;
-
+    public String endereco;
     private GoogleMap map;
     private MapFragmentLocal mMapFragmentLocal;
 
@@ -106,6 +109,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         nomeLocal = "Sorvetreze";
         coordenadasLat = "-22.593317";
         coordenadasLog = "-46.528705";
+        endereco = "R. Treze de Maio, 72 - Centro";
 
         urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadasLat + "," + coordenadasLog + "&radius=500&name=" + nomeLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
 
@@ -125,6 +129,32 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         mMapFragmentLocal.getMapAsync(this);
 
+
+        //MAIS INFORMAÇÕES
+        final ExpandableTextView expandableTextView = (ExpandableTextView) this.findViewById(R.id.horariosFuncionamento);
+        final Button buttonToggle = (Button) this.findViewById(R.id.button_toggle);
+
+        // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
+        expandableTextView.setAnimationDuration(1000L);
+
+        // set interpolators for both expanding and collapsing animations
+        expandableTextView.setInterpolator(new OvershootInterpolator());
+
+
+        // toggle the ExpandableTextView
+        buttonToggle.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View v)
+            {
+                expandableTextView.toggle();
+                buttonToggle.setText(expandableTextView.isExpanded() ? "+ Detalhes" : "Diminuir");
+            }
+        });
+
+
+
+
     }
     @Override
     public void onMapReady(GoogleMap map) {
@@ -137,6 +167,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         map.addMarker(new MarkerOptions()
                 .title(nomeLocal)
+                .snippet(endereco)
                 .rotation(10)
                 .position(city));
 
