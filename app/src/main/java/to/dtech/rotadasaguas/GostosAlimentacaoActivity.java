@@ -60,13 +60,13 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#FBC02D"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
-                    listaMarcadoresAlimentacao.add(tags.get(position).getTitulo());
+                    listaMarcadoresAlimentacao.add(tags.get(position).getNumero());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
-                    listaMarcadoresAlimentacao.remove(tags.get(position).getTitulo());
+                    listaMarcadoresAlimentacao.remove(tags.get(position).getNumero());
                 }
 
 
@@ -84,12 +84,13 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsGostosAlimentacao(){
-        String[] tags = new String[]{"Churrasco", "Doces Regionais", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete"};
+        String[] tags = new String[]{"Churrasco", "Doces", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Sobremesas", "Salgados"};
+        String[] numeros = new String[]{"7", "9", "25", "23", "22", "26", "21", "6", "10", "24"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
         for(int i = 0; i < tags.length; i++){
-            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length]);
+            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length], numeros[i % numeros.length]);
             listAux.add(c);
         }
         return(listAux);

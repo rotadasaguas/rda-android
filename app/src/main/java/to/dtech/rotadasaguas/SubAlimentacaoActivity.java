@@ -58,13 +58,13 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#2196F3"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
-                    listaMarcadoresAlimentacao.add(tags.get(position).getTitulo());
+                    listaMarcadoresAlimentacao.add(tags.get(position).getNumero());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
-                    listaMarcadoresAlimentacao.remove(tags.get(position).getTitulo());
+                    listaMarcadoresAlimentacao.remove(tags.get(position).getNumero());
                 }
 
 
@@ -85,11 +85,12 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
     public List<Tag> getTagsSubAlimentacao(){
         String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
+        String[] numeros = new String[]{"5", "8", "34"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
         for(int i = 0; i < tags.length; i++){
-            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length]);
+            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length], numeros[i % numeros.length]);
             listAux.add(c);
         }
         return(listAux);

@@ -21,9 +21,11 @@ import to.dtech.rotadasaguas.domain.Tag;
 public class GostosLazerActivity extends AppCompatActivity{
 
     String[] gostosLazerAventura = {"Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+    String[] numerosLazerAventura = {"12", "14", "13", "37", "15", "16", "11", "17"};
     String[] gostosLazerPasseio = {"Caminhada", "Passeio a Natureza", "Prédios Históricos"};
+    String[] numerosLazerPasseio = {"18", "19", "20"};
     String[] gostosLazerAmbos = {"Caminhada", "Passeio a Natureza", "Prédios Históricos", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
-
+    String[] numerosLazerAmbos = {"18", "19", "20", "12", "14", "13", "37", "15", "16", "11", "17"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,18 +54,18 @@ public class GostosLazerActivity extends AppCompatActivity{
         String tagNomeUm = listaMarcadores.get(tamanhoLista-1);
         String tagNomeDois = listaMarcadores.get(tamanhoLista-2);
 
-        if (tagNomeUm.equalsIgnoreCase("Passeio") && tagNomeDois.equalsIgnoreCase("Aventura") || tagNomeUm.equalsIgnoreCase("Aventura") && tagNomeDois.equalsIgnoreCase("Passeio")){
-            tags = getTagsGostosLazer(gostosLazerAmbos);
+        if (tagNomeUm.equalsIgnoreCase("35") && tagNomeDois.equalsIgnoreCase("36") || tagNomeUm.equalsIgnoreCase("36") && tagNomeDois.equalsIgnoreCase("35")){
+            tags = getTagsGostosLazer(gostosLazerAmbos, numerosLazerAmbos);
         }
-        else if (tagNomeUm.equalsIgnoreCase("Passeio")){
-            tags = getTagsGostosLazer(gostosLazerPasseio);
+        else if (tagNomeUm.equalsIgnoreCase("35")){
+            tags = getTagsGostosLazer(gostosLazerPasseio, numerosLazerPasseio);
         }
-        else if (tagNomeUm.equalsIgnoreCase("Aventura")){
-            tags = getTagsGostosLazer(gostosLazerAventura);
+        else if (tagNomeUm.equalsIgnoreCase("36")){
+            tags = getTagsGostosLazer(gostosLazerAventura, numerosLazerAventura);
         }
         else{
             String[] emBranco = {""};
-            tags = getTagsGostosLazer(emBranco);
+            tags = getTagsGostosLazer(emBranco, emBranco);
         }
         /*******************************************/
 
@@ -85,13 +87,13 @@ public class GostosLazerActivity extends AppCompatActivity{
                     c.setTextColor(Color.parseColor("#FBC02D"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
-                    listaMarcadores.add(tags.get(position).getTitulo());
+                    listaMarcadores.add(tags.get(position).getNumero());
                 }
                 else{
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
-                    listaMarcadores.remove(tags.get(position).getTitulo());
+                    listaMarcadores.remove(tags.get(position).getNumero());
                 }
 
 
@@ -108,13 +110,14 @@ public class GostosLazerActivity extends AppCompatActivity{
 
     }
 
-    public List<Tag> getTagsGostosLazer(String[] listaM){
+    public List<Tag> getTagsGostosLazer(String[] listaM, String[] listaN){
         String[] tags = listaM;
         Boolean[] likes = new Boolean[]{false};
+        String[] numeros = listaN;
         List<Tag> listAux = new ArrayList<>();
 
         for(int i = 0; i < tags.length; i++){
-            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length]);
+            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length], numeros[i % numeros.length]);
             listAux.add(c);
         }
         return(listAux);

@@ -77,12 +77,12 @@ public class SubAcomodacaoActivity extends AppCompatActivity {
                     c.setTextColor(Color.parseColor("#2196F3"));
                     adapter.alteraCor(position);
                     l.setLiked(true);
-                    listaMarcadores.add(tags.get(position).getTitulo());
+                    listaMarcadores.add(tags.get(position).getNumero());
                 } else {
                     c.setTextColor(Color.parseColor("#848484"));
                     l.setLiked(false);
                     adapter.removeCor(position);
-                    listaMarcadores.remove(tags.get(position).getTitulo());
+                    listaMarcadores.remove(tags.get(position).getNumero());
                 }
 
 
@@ -100,11 +100,12 @@ public class SubAcomodacaoActivity extends AppCompatActivity {
 
     public List<Tag> getTagsAcomodacao() {
         String[] tags = new String[]{"Hotel", "Camping", "Pousada", "Estalagem", "Albergue", "Motel", "Hotel-fazenda"};
+        String[] numeros = new String[]{"27", "28", "29", "30", "31", "32", "33"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
-        for (int i = 0; i < tags.length; i++) {
-            Tag c = new Tag(tags[i % tags.length], likes[i % likes.length]);
+        for(int i = 0; i < tags.length; i++){
+            Tag c = new Tag( tags[i % tags.length], likes[i % likes.length], numeros[i % numeros.length]);
             listAux.add(c);
         }
         return (listAux);

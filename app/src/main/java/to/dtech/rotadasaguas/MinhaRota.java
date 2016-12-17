@@ -1,5 +1,6 @@
 package to.dtech.rotadasaguas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,17 +16,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import to.dtech.rotadasaguas.domain.Alimentacao;
+import to.dtech.rotadasaguas.domain.util.LibraryClass;
 import to.dtech.rotadasaguas.fragment.AlimentacaoFragment;
 import to.dtech.rotadasaguas.fragment.EsportesFragment;
 import to.dtech.rotadasaguas.fragment.LazerFragment;
@@ -50,6 +61,8 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager mViewPager;
+    private DatabaseReference mDatabase;
+    private ProgressDialog pDialog;
 
 
     private int[] tabIcons = {
@@ -160,6 +173,33 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public List<Alimentacao> getSetCarList(int qtd){
+
+        //FIREBASE DATABASE
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList marcadores = new ArrayList();
+
+                        //CAPTURA OS VALORES DOS MARCADORES NO FIREBASE
+                        for (DataSnapshot data : dataSnapshot.child("marcadores").getChildren()){
+                            //INSERE OS VALORES NO ARRAY PARA USO NO WEB SERVICE
+                            marcadores.add(data.getValue());
+                        }
+                        //REMOVE OS ESPAÇOS E [] DO ARRAY PARA IMPRIMIR A LISTA COMPLETA
+                        String textMarcadores = marcadores.toString().replace("[", "").replace("]", "").replace(" ", "");
+                       System.out.println("http://localhost/rotadasaguas/ws-rota/index.php?c=Locais&s=listarPorTag&id=" + textMarcadores);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
+
         String[] models = new String[]{"Doce Arte Café", "Sorveteria Ademar", "Mauro's Grill Churrascaria"};
         String[] brands = new String[]{"Serve café da manhã, café e bebidas", " Sorvetes de todos os tipos", "Ótimo para almoço em grupo"};
         String[] photos = new String[]{"{fa-coffee}", "{fa-bitbucket}", "{fa-cutlery}"};

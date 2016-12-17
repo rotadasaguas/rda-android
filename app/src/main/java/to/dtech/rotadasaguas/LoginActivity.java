@@ -63,7 +63,7 @@ public class LoginActivity extends CommonActivity {
                 showSnackbar( error.getMessage() );
             }
         });
-        
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = getFirebaseAuthResultHandler();
         initViews();
