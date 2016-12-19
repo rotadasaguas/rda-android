@@ -103,11 +103,11 @@ public class NovaRota extends AppCompatActivity
 
             startActivity(intent);
         } else if (id == R.id.nav_cidades) {
+            Intent intent = new Intent(NovaRota.this, CidadesActivity.class);
 
+            startActivity(intent);
 
-        } else if (id == R.id.nav_emergency) {
-
-        } else if (id == R.id.nav_minhaconta) {
+        }else if (id == R.id.nav_minhaconta) {
             Intent intent = new Intent(NovaRota.this, MinhaConta.class);
 
             startActivity(intent);

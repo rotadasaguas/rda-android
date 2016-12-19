@@ -157,15 +157,15 @@ public class CriarRota extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(CriarRota.this, MinhaRota.class);
+            Intent intent = new Intent(CriarRota.this, CriarRota.class);
 
             startActivity(intent);
-        } else if (id == R.id.nav_cidades) {
+        }else if (id == R.id.nav_agencias) {
 
-
-        } else if (id == R.id.nav_emergency) {
-
-        } else if (id == R.id.nav_minhaconta) {
+        }else if (id == R.id.nav_cidades) {
+            Intent intent = new Intent(CriarRota.this, CidadesActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_minhaconta) {
             Intent intent = new Intent(CriarRota.this, MinhaConta.class);
 
             startActivity(intent);

@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/toolbar_criar_rota"
+        layout="@layout/toolbar_nova_rota"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -9,7 +9,8 @@
     <string name="title_activity_sign_up">Cadastro</string>
     <string name="title_activity_home">Rota das Águas</string>
     <string name="title_activity_minha_rota">Minha Rota</string>
-    <string name="title_activity_cidades">Cidades</string>
+    <string name="title_activity_nova_rota">Nova Rota</string>
+    <string name="title_activity_cidades">Cidades do Circuito</string>
     <string name="title_activity_emergencia">Emergência</string>
     <string name="title_activity_minha_conta">Minha Conta</string>
 
@@ -61,5 +62,19 @@
     <string name="icon_person">{fa-user}</string>
 
 
+    <!-- textos das cidades -->
+    <string name="texto_socorro">Com uma incrível vocação para o turismo de aventura, Socorro se destaca pela preocupação pioneira com acessibilidade. Hotéis, parques e ruas foram pensados para todos se divertirem, incluindo pessoas com mobilidade reduzida. Para quem nunca se lançou no rafting, aqui é o lugar ideal para debutar no esporte: há corredeiras suaves para iniciantes.</string>
+    <string name="texto_amparo">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_jaguariuna">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_mas">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_pedreira">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_a_lindoia">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_lindoia">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_holambra">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+    <string name="texto_serra_negra">É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação. A vantagem de usar Lorem Ipsum é que ele tem uma distribuição normal de letras, ao contrário de "Conteúdo aqui, conteúdo aqui", fazendo com que ele tenha uma aparência similar a de um texto legível.</string>
+
+
     <string name="access_token">pk.eyJ1Ijoic2lxdWVpcmFkZyIsImEiOiJjaXdjMmQ1MHgwN2hsMnRxdXJ6ZW02aDR5In0.aKGgPEAlZugAygzpQQ_sww</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

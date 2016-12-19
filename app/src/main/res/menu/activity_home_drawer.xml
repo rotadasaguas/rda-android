@@ -6,14 +6,16 @@
             android:id="@+id/nav_minhaRota"
             android:icon="@drawable/ic_time_to_leave_black"
             android:title="Minha Rota" />
+
+        <item
+            android:id="@+id/nav_agencias"
+            android:icon="@drawable/ic_location_city_black"
+            android:title="Agências de Turismo" />
+
         <item
             android:id="@+id/nav_cidades"
             android:icon="@drawable/ic_location_city_black"
             android:title="Cidades do Circuito" />
-        <item
-            android:id="@+id/nav_emergency"
-            android:icon="@drawable/ic_settings_phone_black"
-            android:title="Telefones de Emergência" />
     </group>
 
     <item android:title="Aplicativo">

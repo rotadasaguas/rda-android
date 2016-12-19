@@ -237,12 +237,16 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         int id = item.getItemId();
 
         if (id == R.id.nav_minhaRota) {
-            //nao realiza ação
-        } else if (id == R.id.nav_cidades) {
+            Intent intent = new Intent(MinhaRota.this, MinhaRota.class);
 
-        } else if (id == R.id.nav_emergency) {
+            startActivity(intent);
+        }else if (id == R.id.nav_agencias) {
 
-        } else if (id == R.id.nav_minhaconta) {
+        }else if (id == R.id.nav_cidades) {
+            Intent intent = new Intent(MinhaRota.this, CidadesActivity.class);
+
+            startActivity(intent);
+        }else if (id == R.id.nav_minhaconta) {
             Intent intent = new Intent(MinhaRota.this, MinhaConta.class);
 
             startActivity(intent);

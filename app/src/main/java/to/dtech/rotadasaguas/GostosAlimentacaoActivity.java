@@ -84,8 +84,8 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsGostosAlimentacao(){
-        String[] tags = new String[]{"Churrasco", "Doces", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Sobremesas", "Salgados"};
-        String[] numeros = new String[]{"7", "9", "25", "23", "22", "26", "21", "6", "10", "24"};
+        String[] tags = new String[]{"Churrasco", "Doces", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Sobremesas", "Salgados", "Pizza", "Pastel"};
+        String[] numeros = new String[]{"7", "9", "25", "23", "22", "26", "21", "6", "10", "24", "38", "39"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
