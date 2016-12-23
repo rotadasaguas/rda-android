@@ -15,16 +15,16 @@ import java.util.List;
 
 import to.dtech.rotadasaguas.LocalActivity;
 import to.dtech.rotadasaguas.R;
+import to.dtech.rotadasaguas.domain.ItemLocal;
 import to.dtech.rotadasaguas.interfaces.RecyclerViewOnClickListenerHack;
-import to.dtech.rotadasaguas.domain.Alimentacao;
 
 public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.MyViewHolder> {
-    private List<Alimentacao> mList;
+    private List<ItemLocal> mList;
     private LayoutInflater mLayoutInflater;
     private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
 
 
-    public AlimentacaoAdapter(Context c, List<Alimentacao> l){
+    public AlimentacaoAdapter(Context c, List<ItemLocal> l){
         mList = l;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -42,8 +42,8 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
         Log.i("LOG", "onBindViewHolder()");
         myViewHolder.ivCar.setText( mList.get(position).getPhoto() );
-        myViewHolder.tvModel.setText(mList.get(position).getModel() );
-        myViewHolder.tvBrand.setText( mList.get(position).getBrand() );
+        myViewHolder.tvModel.setText(mList.get(position).getNome() );
+        myViewHolder.tvBrand.setText( mList.get(position).getDescricao() );
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
     }
 
 
-    public void addListItem(Alimentacao c, int position){
+    public void addListItem(ItemLocal c, int position){
         mList.add(c);
         notifyItemInserted(position);
     }
