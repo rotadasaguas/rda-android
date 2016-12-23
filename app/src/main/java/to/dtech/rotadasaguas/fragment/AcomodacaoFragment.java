@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -27,7 +28,7 @@ import to.dtech.rotadasaguas.domain.ItemLocal;
 import to.dtech.rotadasaguas.interfaces.RecyclerViewOnClickListenerHack;
 import to.dtech.rotadasaguas.util.HttpHandler;
 
-public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClickListenerHack {
+public class AcomodacaoFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
     private RecyclerView mRecyclerView;
     private List<ItemLocal> mList;
@@ -51,20 +52,18 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-
-
         mRecyclerView.setLayoutManager(llm);
 
-         try {
-             mList = getLocaisAlimentacao(argsServer);
-            }catch (ExecutionException e) {
-             e.printStackTrace();
-            }catch (InterruptedException e) {
-             e.printStackTrace();
-         }
+        try {
+            mList = getLocaisHospedagem(argsServer);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
         adapter.setRecyclerViewOnClickListenerHack(this);
-
         mRecyclerView.setAdapter( adapter );
 
         return rootView;
@@ -76,7 +75,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
         adapter.removeListItem(position);*/
     }
 
-    public List<ItemLocal> getLocaisAlimentacao(final String args) throws ExecutionException, InterruptedException {
+    public List<ItemLocal> getLocaisHospedagem(final String args) throws ExecutionException, InterruptedException {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -91,7 +90,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                 String dadosWS = sh.makeServiceCall(args);
 
                 if (dadosWS != null){
-                     retorno = dadosWS;
+                    retorno = dadosWS;
                 }
                 else{
                     retorno = null;
@@ -115,16 +114,16 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
                 System.out.print(resultsArray.length());
 
-               for (int i = 0; i < resultsArray.length(); i++){
-                   r = resultsArray.getJSONObject(i);
+                for (int i = 0; i < resultsArray.length(); i++){
+                    r = resultsArray.getJSONObject(i);
 
-                   if (r.getString("categoria").equalsIgnoreCase("Alimentação")){
-                       listaDeDadosNomes.add(r.getString("nome"));
-                       listaDeDadosDesc.add(r.getString("descricao"));
-                       listaDeDadosEnd.add(r.getString("rua") + "," +  r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
-                   }
+                    if (r.getString("categoria").equalsIgnoreCase("Hospedagem")){
+                        listaDeDadosNomes.add(r.getString("nome"));
+                        listaDeDadosDesc.add(r.getString("descricao"));
+                        listaDeDadosEnd.add(r.getString("rua") + "," +  r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                    }
 
-               }
+                }
 
             } catch (final Exception e) {
                 Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
@@ -140,7 +139,6 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                 }
             });
         }
-
         executor.shutdown();
 
         List<ItemLocal> listAux = new ArrayList<>();

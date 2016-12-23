@@ -18,13 +18,13 @@ import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.domain.ItemLocal;
 import to.dtech.rotadasaguas.interfaces.RecyclerViewOnClickListenerHack;
 
-public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.MyViewHolder> {
+public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder> {
     private List<ItemLocal> mList;
     private LayoutInflater mLayoutInflater;
     private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
 
 
-    public AlimentacaoAdapter(Context c, List<ItemLocal> l){
+    public ItensAdapter(Context c, List<ItemLocal> l){
         mList = l;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -41,7 +41,7 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
         Log.i("LOG", "onBindViewHolder()");
-        myViewHolder.ivCar.setText( mList.get(position).getPhoto() );
+        myViewHolder.ivCar.setText( "{fa-map-marker}" );
         myViewHolder.tvModel.setText(mList.get(position).getNome() );
         myViewHolder.tvBrand.setText( mList.get(position).getDescricao() );
     }
@@ -57,18 +57,6 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
     }
 
 
-    public void addListItem(ItemLocal c, int position){
-        mList.add(c);
-        notifyItemInserted(position);
-    }
-
-
-    public void removeListItem(int position){
-        mList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public IconTextView ivCar;
         public TextView tvModel;
@@ -77,7 +65,6 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
         public MyViewHolder(View itemView) {
             super(itemView);
 
-           // ivCar = (ImageView) itemView.findViewById(R.id.iv_car);
             ivCar = (IconTextView) itemView.findViewById(R.id.iv_car);
             tvModel = (TextView) itemView.findViewById(R.id.tv_model);
             tvBrand = (TextView) itemView.findViewById(R.id.tv_brand);
@@ -90,6 +77,7 @@ public class AlimentacaoAdapter extends RecyclerView.Adapter<AlimentacaoAdapter.
             if(mRecyclerViewOnClickListenerHack != null){
                 mRecyclerViewOnClickListenerHack.onClickListener(v, getPosition());
             }
+
             Intent intent = new Intent(v.getContext(), LocalActivity.class);
             v.getContext().startActivity(intent);
         }

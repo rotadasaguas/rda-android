@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import to.dtech.rotadasaguas.domain.util.LibraryClass;
 import to.dtech.rotadasaguas.fragment.AlimentacaoFragment;
 import to.dtech.rotadasaguas.fragment.EsportesFragment;
-import to.dtech.rotadasaguas.fragment.LazerFragment;
+import to.dtech.rotadasaguas.fragment.AcomodacaoFragment;
 
 public class MinhaRota extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -130,7 +130,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
                     return esportes;
                 case 2:
-                    LazerFragment lazer = new LazerFragment();
+                    AcomodacaoFragment lazer = new AcomodacaoFragment();
                     lazer.setArguments(args);
 
                     return lazer;
