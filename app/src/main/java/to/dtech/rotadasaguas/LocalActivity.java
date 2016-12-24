@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -55,6 +57,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,10 +75,12 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     private ProgressDialog pDialog;
 
     public String nomeLocal;
-    public String coordenadasLog;
-    public String coordenadasLat;
+    public String nomeUrlLocal;
+    public Double coordenadasLog;
+    public Double coordenadasLat;
     public String endereco;
     private GoogleMap map;
+    public String range;
     private MapFragmentLocal mMapFragmentLocal;
 
     public String urlBusca;
@@ -83,6 +88,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     private SliderLayout mDemoSlider;
 
     public HashMap<String,String> imgGoogle = new HashMap<String, String>();
+
+    private List<Address> endList;
 
 
     @Override
@@ -106,12 +113,32 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         ActionBar ab = getSupportActionBar();
         ab.hide();
 
-        nomeLocal = "Sorvetreze";
-        coordenadasLat = "-22.593317";
-        coordenadasLog = "-46.528705";
-        endereco = "R. Treze de Maio, 72 - Centro";
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        nomeUrlLocal = intentOld.getStringExtra("nome").replace(" ", "%20").replace("D\\", "D").replace("'", "");
+        nomeLocal = intentOld.getStringExtra("nome");
+        endereco = intentOld.getStringExtra("endereco");
+        Geocoder geocoder = new Geocoder(LocalActivity.this);
 
-        urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadasLat + "," + coordenadasLog + "&radius=500&name=" + nomeLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+        try {
+            endList = geocoder.getFromLocationName(endereco, 1);
+            if (endList.size() > 0){
+                coordenadasLat = endList.get(0).getLatitude();
+                coordenadasLog = endList.get(0).getLongitude();
+                range = "500";
+            }
+            else{
+                //caso nao localizar irá retornar coordenada de amparo que se localiza no centro do circuito
+                coordenadasLat = -22.7080593;
+                coordenadasLog = -46.7726654;
+                range = "100000";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadasLat + "," + coordenadasLog + "&radius=+"+ range +"&name=" + nomeUrlLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
 
         new GetLocal().execute();
 
@@ -159,8 +186,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap map) {
 
-        double l = Double.parseDouble(coordenadasLat);
-        double g = Double.parseDouble(coordenadasLog);
+        double l = coordenadasLat;
+        double g = coordenadasLog;
         LatLng city = new LatLng(l,g);
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 18));
@@ -263,8 +290,6 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     JSONArray resultsArray = jsonObject.getJSONArray("results");
                     JSONObject result = resultsArray.getJSONObject(0);
                     place_id = result.getString("place_id");
-
-                    Log.i("Script", "LOCAL_ID: " + place_id);
                 } catch (final Exception e) {
                     Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
                 }
@@ -272,9 +297,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
                     String jsonLocal = sh.makeServiceCall(url);
                     if (jsonLocal != null){
-                        Log.i("Script", "passei no IF ");
                         try {
-                            Log.i("Script", "entrei no try");
                             JSONObject jsonObject = new JSONObject(jsonLocal);
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
@@ -322,6 +345,12 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
+            if (imgGoogle.size() == 0){
+                mDemoSlider.setVisibility(View.GONE);
+            }
+            else{
+                mDemoSlider.setVisibility(View.VISIBLE);
+            }
             for(String name : imgGoogle.keySet()){
                 DefaultSliderView textSliderView = new DefaultSliderView(LocalActivity.this);
                 // initialize a SliderLayout

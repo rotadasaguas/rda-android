@@ -41,9 +41,10 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
         Log.i("LOG", "onBindViewHolder()");
-        myViewHolder.ivCar.setText( "{fa-map-marker}" );
-        myViewHolder.tvModel.setText(mList.get(position).getNome() );
-        myViewHolder.tvBrand.setText( mList.get(position).getDescricao() );
+        myViewHolder.icone.setText( "{fa-map-marker}" );
+        myViewHolder.nomeLocal.setText(mList.get(position).getNome() );
+        myViewHolder.descLocal.setText( mList.get(position).getDescricao() );
+        myViewHolder.endLocal = mList.get(position).getEndereco();
     }
 
     @Override
@@ -58,16 +59,17 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public IconTextView ivCar;
-        public TextView tvModel;
-        public TextView tvBrand;
+        public IconTextView icone;
+        public TextView nomeLocal;
+        public TextView descLocal;
+        public String endLocal;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            ivCar = (IconTextView) itemView.findViewById(R.id.iv_car);
-            tvModel = (TextView) itemView.findViewById(R.id.tv_model);
-            tvBrand = (TextView) itemView.findViewById(R.id.tv_brand);
+            icone = (IconTextView) itemView.findViewById(R.id.iv_car);
+            nomeLocal = (TextView) itemView.findViewById(R.id.tv_model);
+            descLocal = (TextView) itemView.findViewById(R.id.tv_brand);
 
             itemView.setOnClickListener(this);
         }
@@ -78,8 +80,18 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
                 mRecyclerViewOnClickListenerHack.onClickListener(v, getPosition());
             }
 
+            nomeLocal = (TextView) itemView.findViewById(R.id.tv_model);
+            String n = nomeLocal.getText().toString();
+
+            Log.d("af", "fdp" + endLocal);
+
             Intent intent = new Intent(v.getContext(), LocalActivity.class);
+
+            intent.putExtra("endereco", endLocal);
+            intent.putExtra("nome", n);
+
             v.getContext().startActivity(intent);
         }
     }
+
 }

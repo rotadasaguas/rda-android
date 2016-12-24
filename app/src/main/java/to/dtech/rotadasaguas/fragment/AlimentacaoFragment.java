@@ -40,7 +40,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
     private String argsServer;
     private String cidadeServer;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,8 +75,8 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
     @Override
     public void onClickListener(View view, int position) {
-      /*  ItensAdapter adapter = (ItensAdapter) mRecyclerView.getAdapter();
-        adapter.removeListItem(position);*/
+        //ItensAdapter adapter = (ItensAdapter) mRecyclerView.getAdapter();
+        //adapter.goToPlace(position);
     }
 
     public List<ItemLocal> getLocaisAlimentacao(final String args) throws ExecutionException, InterruptedException {
@@ -125,7 +125,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                        if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
                            listaDeDadosNomes.add(r.getString("nome"));
                            listaDeDadosDesc.add(r.getString("descricao"));
-                           listaDeDadosEnd.add(r.getString("rua") + "," + r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                           listaDeDadosEnd.add(r.getString("rua") + ", " + r.getString("num_end") + " - " + r.getString("bairro") + "," + r.getString("cidade") + " - SP" + "," + r.getString("cep") + ", Brasil" );
                        }
                    }
                }
