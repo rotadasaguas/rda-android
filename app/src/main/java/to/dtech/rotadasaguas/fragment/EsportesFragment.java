@@ -38,6 +38,7 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
     private List<String> listaDeDadosEnd = new ArrayList<String>();
 
     private String argsServer;
+    private String cidadeServer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,7 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
         mRecyclerView.setHasFixedSize(true);
 
         argsServer = getArguments().getString("url").toString();
+        cidadeServer = getArguments().getString("cidade").toString();
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -117,10 +119,12 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
                 for (int i = 0; i < resultsArray.length(); i++){
                     r = resultsArray.getJSONObject(i);
 
-                    if (r.getString("categoria").equalsIgnoreCase("Lazer")){
-                        listaDeDadosNomes.add(r.getString("nome"));
-                        listaDeDadosDesc.add(r.getString("descricao"));
-                        listaDeDadosEnd.add(r.getString("rua") + "," +  r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                    if (r.getString("categoria").equalsIgnoreCase("Lazer")) {
+                        if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
+                            listaDeDadosNomes.add(r.getString("nome"));
+                            listaDeDadosDesc.add(r.getString("descricao"));
+                            listaDeDadosEnd.add(r.getString("rua") + "," + r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                        }
                     }
 
                 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,6 +30,8 @@ import to.dtech.rotadasaguas.fragment.AlimentacaoFragment;
 import to.dtech.rotadasaguas.fragment.EsportesFragment;
 import to.dtech.rotadasaguas.fragment.AcomodacaoFragment;
 
+import static android.R.attr.fragment;
+
 public class MinhaRota extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -36,9 +39,9 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private DatabaseReference mDatabase;
-    private ProgressDialog pDialog;
 
     public String urlJson = "";
+    public String cidadeJson = "";
 
     private int[] tabIcons = {
             R.drawable.ic_restaurant_black,
@@ -66,6 +69,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         //FIREBASE DATABASE
         mDatabase = LibraryClass.getFirebase();
         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -80,15 +84,20 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                             //INSERE OS VALORES NO ARRAY PARA USO NO WEB SERVICE
                             marcadores.add(data.getValue());
                         }
+
+                        cidadeJson = dataSnapshot.child("cidade").getValue().toString();
+
                         //REMOVE OS ESPAÇOS E [] DO ARRAY PARA IMPRIMIR A LISTA COMPLETA
                         String textMarcadores = marcadores.toString().replace("[", "").replace("]", "").replace(" ", "");
                         urlJson = "http://siqueiradg.com.br/rotadasaguas/ws-rota/index.php?c=Locais&s=listarPorTag&id=" + textMarcadores;
 
                         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+
                         // Set up the ViewPager with the sections adapter.
                         mViewPager = (ViewPager) findViewById(R.id.container);
                         mViewPager.setAdapter(mSectionsPagerAdapter);
+                        mViewPager.setOffscreenPageLimit(3);
 
                         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
                         tabLayout.setupWithViewPager(mViewPager);
@@ -117,6 +126,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
             args.putString("url", urlJson);
+            args.putString("cidade", cidadeJson);
 
             switch (position) {
                 case 0:
@@ -127,7 +137,6 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                 case 1:
                     EsportesFragment esportes = new EsportesFragment();
                     esportes.setArguments(args);
-
                     return esportes;
                 case 2:
                     AcomodacaoFragment lazer = new AcomodacaoFragment();

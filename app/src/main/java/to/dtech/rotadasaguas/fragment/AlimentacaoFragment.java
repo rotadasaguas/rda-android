@@ -1,5 +1,6 @@
 package to.dtech.rotadasaguas.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import to.dtech.rotadasaguas.MinhaRota;
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.adapter.ItensAdapter;
 import to.dtech.rotadasaguas.domain.ItemLocal;
@@ -37,17 +39,18 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
     private List<String> listaDeDadosEnd = new ArrayList<String>();
 
     private String argsServer;
-
+    private String cidadeServer;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_alimentacao, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
         mRecyclerView.setHasFixedSize(true);
 
         argsServer = getArguments().getString("url").toString();
+        cidadeServer = getArguments().getString("cidade").toString();
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -57,15 +60,15 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
          try {
              mList = getLocaisAlimentacao(argsServer);
+             ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
+             adapter.setRecyclerViewOnClickListenerHack(this);
+
+             mRecyclerView.setAdapter( adapter );
             }catch (ExecutionException e) {
              e.printStackTrace();
             }catch (InterruptedException e) {
              e.printStackTrace();
          }
-        ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
-        adapter.setRecyclerViewOnClickListenerHack(this);
-
-        mRecyclerView.setAdapter( adapter );
 
         return rootView;
     }
@@ -118,13 +121,15 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                for (int i = 0; i < resultsArray.length(); i++){
                    r = resultsArray.getJSONObject(i);
 
-                   if (r.getString("categoria").equalsIgnoreCase("Alimentação")){
-                       listaDeDadosNomes.add(r.getString("nome"));
-                       listaDeDadosDesc.add(r.getString("descricao"));
-                       listaDeDadosEnd.add(r.getString("rua") + "," +  r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                   if (r.getString("categoria").equalsIgnoreCase("Alimentação")) {
+                       if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
+                           listaDeDadosNomes.add(r.getString("nome"));
+                           listaDeDadosDesc.add(r.getString("descricao"));
+                           listaDeDadosEnd.add(r.getString("rua") + "," + r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                       }
                    }
-
                }
+
 
             } catch (final Exception e) {
                 Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
