@@ -173,10 +173,10 @@
         android:id="@+id/horariosFuncionamento"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:textColor="#464646"
+        android:textColor="#595959"
+        android:lineSpacingExtra="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="segunda-feira: 11:00 – 20:00\n terça-feira: 11:00 – 20:00\n quarta-feira: 11:00 – 20:00\n quinta-feira: 11:00 – 20:00\n sexta-feira: 11:00 – 20:00\n sábado: 11:00 – 20:00\n domingo: 11:00 – 20:00"
         android:maxLines="1"
         android:ellipsize="end" />
 

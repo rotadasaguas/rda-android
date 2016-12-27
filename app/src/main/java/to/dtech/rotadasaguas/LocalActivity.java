@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -260,7 +261,11 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
+        private String horarios = "";
+        private String openNow = "";
+
         private HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
+        private ArrayList<String> hoursAux = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -294,7 +299,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
                 }
                 if (place_id != null){
-                    String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+                    String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA&language=pt-BR";
                     String jsonLocal = sh.makeServiceCall(url);
                     if (jsonLocal != null){
                         try {
@@ -303,6 +308,16 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                             placeName = result.getString("name");
 
                             JSONArray photosGoogle = result.getJSONArray("photos");
+
+                            openNow = result.getJSONObject("opening_hours").getString("open_now");
+
+                            JSONObject argOpenNow = result.getJSONObject("opening_hours");
+                            JSONArray openingHours = argOpenNow.getJSONArray("weekday_text");
+
+                            for (int i = 0; i < openingHours.length(); i++){
+                                hoursAux.add(openingHours.get(i).toString());
+                            }
+
 
                             for (int i = 0; i < photosGoogle.length(); i++){
                                 String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
@@ -339,7 +354,16 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                 pDialog.dismiss();
 
             TextView textView = (TextView) findViewById(R.id.titulo_local);
+            ExpandableTextView eTv = (ExpandableTextView) findViewById(R.id.horariosFuncionamento);
+
             textView.setText(placeName);
+
+            if (openNow.equalsIgnoreCase("true")){
+                eTv.setText("Aberto Agora: Sim" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+            }
+            else{
+                eTv.setText("Aberto Agora: Não");
+            }
 
             imgGoogle = imgGoogleAux;
 
