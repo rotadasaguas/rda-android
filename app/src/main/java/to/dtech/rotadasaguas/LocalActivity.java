@@ -69,6 +69,7 @@ import to.dtech.rotadasaguas.domain.Comentario;
 import to.dtech.rotadasaguas.fragment.MapFragmentLocal;
 import to.dtech.rotadasaguas.util.HttpHandler;
 
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 
 public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallback, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
@@ -89,6 +90,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     private SliderLayout mDemoSlider;
 
     public HashMap<String,String> imgGoogle = new HashMap<String, String>();
+    public ArrayList<String> autores = new ArrayList<>();
+    public ArrayList<String> datas = new ArrayList<>();
+    public ArrayList<String> comentarios = new ArrayList<>();
 
     private List<Address> endList;
 
@@ -98,6 +102,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_local);
+
+        final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
 
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black);
@@ -143,11 +149,6 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         new GetLocal().execute();
 
-        final List<Comentario> comentarios = getComentarios();
-
-        final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
-        listView.setAdapter(new CommentAdapter(this, comentarios));
-
         //GOOGLE MAPS
         mMapFragmentLocal = MapFragmentLocal.newInstance();
         getSupportFragmentManager()
@@ -161,6 +162,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         //MAIS INFORMAÇÕES
         final ExpandableTextView expandableTextView = (ExpandableTextView) this.findViewById(R.id.horariosFuncionamento);
         final Button buttonToggle = (Button) this.findViewById(R.id.button_toggle);
+        final Button buttonComment = (Button) this.findViewById(R.id.btnComentario);
 
         // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
         expandableTextView.setAnimationDuration(1000L);
@@ -177,6 +179,25 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             {
                 expandableTextView.toggle();
                 buttonToggle.setText(expandableTextView.isExpanded() ? "+ Detalhes" : "Diminuir");
+            }
+        });
+
+
+        buttonComment.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View v)
+            {
+                if (listView.getVisibility() == View.VISIBLE){
+                    listView.setVisibility(View.GONE);
+                    buttonComment.setText("Mostrar Comentários");
+                }
+                else{
+                    listView.setVisibility(View.VISIBLE);
+                    buttonComment.setText("Ocultar Comentários");
+                }
+
+
             }
         });
 
@@ -307,8 +328,17 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
 
-                            JSONArray photosGoogle = result.getJSONArray("photos");
+                            //COMENTARIOS
+                            JSONArray commentsGoogle = result.getJSONArray("reviews");
 
+                            for (int i = 0; i < commentsGoogle.length(); i++){
+                                if (!commentsGoogle.getJSONObject(i).getString("text").equalsIgnoreCase("")) {
+                                    autores.add(commentsGoogle.getJSONObject(i).getString("author_name"));
+                                    comentarios.add(commentsGoogle.getJSONObject(i).getString("relative_time_description"));
+                                    datas.add(commentsGoogle.getJSONObject(i).getString("text"));
+                                }
+                            }
+                            //HORARIOS DE FUNCIONAMENTO
                             openNow = result.getJSONObject("opening_hours").getString("open_now");
 
                             JSONObject argOpenNow = result.getJSONObject("opening_hours");
@@ -318,6 +348,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                                 hoursAux.add(openingHours.get(i).toString());
                             }
 
+                            //FOTOS DO LOCAL
+                            JSONArray photosGoogle = result.getJSONArray("photos");
 
                             for (int i = 0; i < photosGoogle.length(); i++){
                                 String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
@@ -359,10 +391,10 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             textView.setText(placeName);
 
             if (openNow.equalsIgnoreCase("true")){
-                eTv.setText("Aberto Agora: Sim" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                eTv.setText("Aberto Agora" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
             }
             else{
-                eTv.setText("Aberto Agora: Não");
+                eTv.setText("Fechado Agora" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
             }
 
             imgGoogle = imgGoogleAux;
@@ -380,8 +412,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                 // initialize a SliderLayout
                 textSliderView
                         .image(imgGoogle.get(name))
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(LocalActivity.this);
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
 
                 mDemoSlider.addSlider(textSliderView);
             }
@@ -390,19 +421,27 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             mDemoSlider.setCustomAnimation(new DescriptionAnimation());
             mDemoSlider.setDuration(6000);
             mDemoSlider.addOnPageChangeListener(LocalActivity.this);
+
+
+            final List<Comentario> comentarios = getComentarios();
+
+            final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
+            listView.setVisibility(View.GONE);
+            listView.setFocusable(false);
+            listView.setAdapter(new CommentAdapter(LocalActivity.this, comentarios));
+
+
         }
 
 
     }
 
     public List<Comentario> getComentarios(){
-        String[] autores = new String[]{"Jose Pinheiro", "Douglas"};
-        String[] datas = new String[]{"dom, 22 de Nov de 2015", "Sex, 05 de Nov de 2016"};
-        String[] comentarios = new String[]{"Muito Bom!", "Lugar maravilhoso para ir com a familia, meus filhos adoraram!"};
+
         List<Comentario> listAux = new ArrayList<>();
 
-        for(int i = 0; i < autores.length; i++){
-            Comentario c = new Comentario( autores[i % autores.length], datas[i % datas.length], comentarios[i % comentarios.length]);
+        for(int i = 0; i < autores.size(); i++){
+            Comentario c = new Comentario(autores.get(i).toString(), datas.get(i).toString(), comentarios.get(i).toString());
             listAux.add(c);
         }
         return(listAux);

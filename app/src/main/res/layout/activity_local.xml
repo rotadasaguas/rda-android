@@ -18,6 +18,7 @@
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
+        android:clickable="false"
         android:layout_width="match_parent"
         android:layout_height="190dp"
         />
@@ -177,8 +178,7 @@
         android:lineSpacingExtra="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:ellipsize="end" />
+        android:maxLines="1" />
 
     <Button
         android:layout_below="@id/horariosFuncionamento"
@@ -231,6 +231,18 @@
         android:layout_below="@+id/vw_divider_3"
         android:layout_height="wrap_content">
     </to.dtech.rotadasaguas.util.NonScrollListView>
+
+    <Button
+        android:layout_below="@id/comentariosLocal"
+        android:id="@+id/btnComentario"
+        android:text="Mostrar Comentarios"
+        style="@style/showDetails"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:minHeight="0dp"
+        android:layout_height="wrap_content" />
 
 
 
