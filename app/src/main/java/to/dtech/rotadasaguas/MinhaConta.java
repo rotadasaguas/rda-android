@@ -3,6 +3,7 @@ package to.dtech.rotadasaguas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MinhaConta extends AppCompatActivity {
 
-    ListView configuraçõesDaConta ;
+    ListView configuracoesDaConta ;
     Button sair;
 
     @Override
@@ -22,7 +23,10 @@ public class MinhaConta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minha_conta);
 
-        configuraçõesDaConta = (ListView) findViewById(R.id.listView);
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        configuracoesDaConta = (ListView) findViewById(R.id.listView);
 
         String[] values = new String[] {
                 "Atualizar dados pessoais",
@@ -34,10 +38,10 @@ public class MinhaConta extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
-        configuraçõesDaConta.setAdapter(adapter);
+        configuracoesDaConta.setAdapter(adapter);
 
         // ListView Item Click Listener
-        configuraçõesDaConta.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        configuracoesDaConta.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -47,7 +51,7 @@ public class MinhaConta extends AppCompatActivity {
                 int itemPosition = position;
 
                 // ListView Clicked item value
-                String  itemValue    = (String) configuraçõesDaConta.getItemAtPosition(position);
+                String  itemValue    = (String) configuracoesDaConta.getItemAtPosition(position);
 
                 if (itemPosition == 0){
                     callListConfig(0);
@@ -108,5 +112,13 @@ public class MinhaConta extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         finish();
         Toast.makeText(getApplicationContext(), "Logoff efetuado com sucesso!", Toast.LENGTH_LONG).show();
+    }
+
+    //BOTAO VOLTAR ACTIONBAR
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), MinhaRota.class);
+        startActivityForResult(myIntent, 0);
+
+        return true;
     }
 }

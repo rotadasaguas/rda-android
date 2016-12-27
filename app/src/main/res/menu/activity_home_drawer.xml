@@ -25,10 +25,6 @@
                 android:icon="@drawable/ic_build_black"
                 android:title="Configurações da Conta" />
             <item
-                android:id="@+id/nav_feedback"
-                android:icon="@drawable/ic_feedback_black"
-                android:title="Enviar Feedback" />
-            <item
                 android:id="@+id/nav_avalie"
                 android:icon="@drawable/ic_star"
                 android:title="Avalie o Aplicativo" />

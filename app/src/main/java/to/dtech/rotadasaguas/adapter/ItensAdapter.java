@@ -83,8 +83,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             nomeLocal = (TextView) itemView.findViewById(R.id.tv_model);
             String n = nomeLocal.getText().toString();
 
-            Log.d("af", "fdp" + endLocal);
-
             Intent intent = new Intent(v.getContext(), LocalActivity.class);
 
             intent.putExtra("endereco", endLocal);

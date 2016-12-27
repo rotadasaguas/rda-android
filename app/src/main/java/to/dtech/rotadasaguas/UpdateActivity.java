@@ -27,6 +27,7 @@ public class UpdateActivity extends AppCompatActivity implements ValueEventListe
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setElevation(0);
     }
 
     @Override

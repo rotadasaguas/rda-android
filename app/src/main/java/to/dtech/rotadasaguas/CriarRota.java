@@ -161,7 +161,8 @@ public class CriarRota extends AppCompatActivity
 
             startActivity(intent);
         }else if (id == R.id.nav_agencias) {
-
+            Intent intent = new Intent(CriarRota.this, AgenciasActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_cidades) {
             Intent intent = new Intent(CriarRota.this, CidadesActivity.class);
             startActivity(intent);

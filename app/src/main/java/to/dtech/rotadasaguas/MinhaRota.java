@@ -177,7 +177,8 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
             startActivity(intent);
         }else if (id == R.id.nav_agencias) {
-
+            Intent intent = new Intent(MinhaRota.this, AgenciasActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_cidades) {
             Intent intent = new Intent(MinhaRota.this, CidadesActivity.class);
 

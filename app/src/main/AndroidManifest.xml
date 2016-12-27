@@ -67,7 +67,8 @@
             android:name=".RemoveUserActivity"
             android:label="@string/title_activity_remove_user"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MinhaConta" />
+        <activity android:name=".MinhaConta"
+            android:label="@string/title_activity_minha_conta" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.LoginActionbar">
@@ -117,12 +118,13 @@
         <activity
             android:name=".CidadesActivity"
             android:label="@string/title_activity_cidades"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NovaRota"
             android:label="@string/title_activity_nova_rota"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AgenciasActivity"
+            android:label="@string/title_activity_agencias" />
     </application>
 
 </manifest>
