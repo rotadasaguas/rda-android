@@ -10,8 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.media.RatingCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +96,10 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public ArrayList<String> autores = new ArrayList<>();
     public ArrayList<String> datas = new ArrayList<>();
     public ArrayList<String> comentarios = new ArrayList<>();
+
+    public String phone;
+    public String linkMap = "";
+    public String website = "";
 
     private List<Address> endList;
 
@@ -164,11 +171,65 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         final Button buttonToggle = (Button) this.findViewById(R.id.button_toggle);
         final Button buttonComment = (Button) this.findViewById(R.id.btnComentario);
 
+
+        //BTN ADICIONAIS
+        final Button btnPhone = (Button) this.findViewById(R.id.btnLigar);
+        final Button btnMap = (Button) this.findViewById(R.id.btnMapa);
+        final Button btnSite = (Button) this.findViewById(R.id.btnSite);
+
         // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
         expandableTextView.setAnimationDuration(1000L);
 
         // set interpolators for both expanding and collapsing animations
         expandableTextView.setInterpolator(new OvershootInterpolator());
+
+        btnPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)
+            {
+                if (phone.equalsIgnoreCase("") || phone == null){
+                    Toast.makeText(getApplicationContext(),
+                            "O local não possui telefone!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                else{
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + phone));
+                    startActivity(intent);
+                }
+
+            }
+        } );
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)
+            {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(linkMap));
+                startActivity(intent);
+            }
+        } );
+
+        btnSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)
+            {
+                if (website.equalsIgnoreCase("") || website == null){
+                    Toast.makeText(getApplicationContext(),
+                            "O local não possui site!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                else{
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(website));
+                    startActivity(intent);
+                }
+
+            }
+        } );
 
 
         // toggle the ExpandableTextView
@@ -282,8 +343,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
-        private String horarios = "";
         private String openNow = "";
+        private String rating = "";
 
         private HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
         private ArrayList<String> hoursAux = new ArrayList<>();
@@ -328,6 +389,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
 
+
+
                             //COMENTARIOS
                             JSONArray commentsGoogle = result.getJSONArray("reviews");
 
@@ -355,6 +418,19 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                                 String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
                                 imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
                             }
+
+                            //RATING
+                            rating = result.getString("rating");
+
+                            //BOTOES ADICIONAIS
+                            try {
+                                website = result.getString("website");
+                                phone = result.getString("international_phone_number").replace("-", "").replace(" ", "");
+                                linkMap = result.getString("url");
+                            }catch (Exception e){
+                                //nulo
+                            }
+
 
                         }catch (final Exception e){
 
@@ -387,6 +463,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             TextView textView = (TextView) findViewById(R.id.titulo_local);
             ExpandableTextView eTv = (ExpandableTextView) findViewById(R.id.horariosFuncionamento);
+            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar);
+
+            rb.setRating(Float.parseFloat(rating));
 
             textView.setText(placeName);
 
