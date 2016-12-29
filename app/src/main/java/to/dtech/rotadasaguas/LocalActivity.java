@@ -102,6 +102,11 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public String linkMap = "";
     public String website = "";
 
+    public String openNow = "";
+    public Boolean lHours = false;
+    public ArrayList<String> hoursAux = new ArrayList<>();
+    public HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -313,12 +318,6 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
-        private String openNow = "";
-        private Boolean lHours = false;
-        private JSONArray commentsGoogle;
-
-        private HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
-        private ArrayList<String> hoursAux = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -344,15 +343,13 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             String jsonIdLocal = shPlace.makeServiceCall(urlBusca);
 
             Log.d("Verificar", "URL ID: " + urlBusca);
-
-
+            
             if (jsonIdLocal != null) {
                 try {
                     JSONObject jsonObjectPlace = new JSONObject(jsonIdLocal);
                     JSONArray resultsArrayPlace = jsonObjectPlace.getJSONArray("results");
                     JSONObject resultPlace = resultsArrayPlace.getJSONObject(0);
                     place_id = resultPlace.getString("place_id");
-                    Log.d("Verificar", "PLACE ID: " + place_id);
                 } catch (final Exception e) {
                     Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
                 }
@@ -361,60 +358,38 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     Log.d("Verificar", "URL Place: " + url);
                     String jsonLocal = shPlace.makeServiceCall(url);
                     if (jsonLocal != null){
+                        JSONObject jsonObject = null;
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonLocal);
+                            jsonObject = new JSONObject(jsonLocal);
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
-
-                            JSONObject n = result.getJSONObject("geometry").getJSONObject("location");
-                            coordenadasLat = Double.parseDouble(n.getString("lat").toString());
-                            coordenadasLog = Double.parseDouble(n.getString("lng").toString());
-
+                        }catch (final Exception e){
+                            Log.e("Bug: ", e.toString());
+                        }
+                        if (jsonObject != null){
+                            //COORDENADAS
+                            carregarCoordenadas(jsonObject);
 
                             //COMENTARIOS
-                            JSONArray commentsGoogle = result.getJSONArray("reviews");
+                            carregarComentarios(jsonObject);
 
-                            for (int i = 0; i < commentsGoogle.length(); i++){
-                                if (!commentsGoogle.getJSONObject(i).getString("text").equalsIgnoreCase("")) {
-                                    autores.add(commentsGoogle.getJSONObject(i).getString("author_name"));
-                                    comentarios.add(commentsGoogle.getJSONObject(i).getString("relative_time_description"));
-                                    datas.add(commentsGoogle.getJSONObject(i).getString("text"));
-                                }
-                            }
                             //HORARIOS DE FUNCIONAMENTO
-                            openNow = result.getJSONObject("opening_hours").getString("open_now");
-
-                            JSONObject argOpenNow = result.getJSONObject("opening_hours");
-                            JSONArray openingHours = argOpenNow.getJSONArray("weekday_text");
-
-                            for (int i = 0; i < openingHours.length(); i++){
-                                hoursAux.add(openingHours.get(i).toString());
-                                lHours = true;
-                            }
-
-                            //FOTOS DO LOCAL
-                            JSONArray photosGoogle = result.getJSONArray("photos");
-
-                            for (int i = 0; i < photosGoogle.length(); i++){
-                                String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
-                                imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
-                            }
+                            carregarHorarios(jsonObject);
 
                             //RATING
-                            rating = result.getString("rating");
+                            carregarRating(jsonObject);
 
-                            //BOTOES ADICIONAIS
-                            try {
-                                website = result.getString("website");
-                                phone = result.getString("international_phone_number").replace("-", "").replace(" ", "");
-                                linkMap = result.getString("url");
-                            }catch (Exception e){
-                                //nulo
-                            }
+                            //FOTOS DO LOCAL
+                            carregarFotos(jsonObject);
 
+                            //LINK MAP
+                            carregarLinkMap(jsonObject);
 
-                        }catch (final Exception e){
+                            //WEBSITE
+                            carregarWebSite(jsonObject);
 
+                            //TELEFONE
+                            carregarTelefone(jsonObject);
                         }
                     }
                 }else{
@@ -527,6 +502,104 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             listAux.add(c);
         }
         return(listAux);
+    }
+
+
+    public void carregarComentarios(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONArray commentsGoogle = result.getJSONArray("reviews");
+
+            for (int i = 0; i < commentsGoogle.length(); i++){
+                if (!commentsGoogle.getJSONObject(i).getString("text").equalsIgnoreCase("")) {
+                    autores.add(commentsGoogle.getJSONObject(i).getString("author_name"));
+                    comentarios.add(commentsGoogle.getJSONObject(i).getString("relative_time_description"));
+                    datas.add(commentsGoogle.getJSONObject(i).getString("text"));
+                }
+            }
+        }catch (Exception e){
+            Log.e("Bug: comentarios", e.toString());
+        }
+    }
+
+    public void carregarHorarios(JSONObject jsonObject){
+        try{
+            JSONObject result = jsonObject.getJSONObject("result");
+            openNow = result.getJSONObject("opening_hours").getString("open_now");
+
+            JSONObject argOpenNow = result.getJSONObject("opening_hours");
+            JSONArray openingHours = argOpenNow.getJSONArray("weekday_text");
+
+            for (int i = 0; i < openingHours.length(); i++){
+                hoursAux.add(openingHours.get(i).toString());
+                lHours = true;
+            }
+        }catch(Exception e){
+            Log.e("Bug: horarios", e.toString());
+        }
+    }
+
+    public void carregarCoordenadas(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONObject n = result.getJSONObject("geometry").getJSONObject("location");
+            coordenadasLat = Double.parseDouble(n.getString("lat").toString());
+            coordenadasLog = Double.parseDouble(n.getString("lng").toString());
+        }catch (Exception e){
+            Log.e("Bug: coordenadas", e.toString());
+        }
+
+    }
+
+    public void carregarRating(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            rating = result.getString("rating");
+        }catch (Exception e){
+            Log.e("Bug: rating", e.toString());
+        }
+    }
+
+    public void carregarFotos(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONArray photosGoogle = result.getJSONArray("photos");
+
+            for (int i = 0; i < photosGoogle.length(); i++){
+                String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
+                imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
+            }
+
+        }catch (Exception e){
+            Log.e("Bug: photosGoogle", e.toString());
+        }
+    }
+
+    public void carregarLinkMap(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            linkMap = result.getString("url");
+        }catch (Exception e){
+            Log.e("Bug: LinkMap", e.toString());
+        }
+    }
+
+    public void carregarWebSite(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            website = result.getString("website");
+        }catch (Exception e){
+            Log.e("Bug: website", e.toString());
+        }
+    }
+
+    public void carregarTelefone(JSONObject jsonObject){
+        try {
+            JSONObject result = jsonObject.getJSONObject("result");
+            phone = result.getString("international_phone_number").replace("-", "").replace(" ", "");
+        }catch (Exception e){
+            Log.e("Bug: phone", e.toString());
+        }
     }
 
     @Override

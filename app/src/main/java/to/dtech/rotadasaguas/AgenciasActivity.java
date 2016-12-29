@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.google.android.gms.vision.text.Text;
 
+import java.util.concurrent.ExecutionException;
+
 public class AgenciasActivity extends AppCompatActivity {
 
     String[] cidadesAgencias = {"Socorro","Amparo","Serra Negra","Holambra",
@@ -38,10 +40,8 @@ public class AgenciasActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Intent intent = new Intent(getApplicationContext(), AgenciaListaActivity.class);
                 intent.putExtra("cidade", adapter.getItem(position).toString());
-                Log.d("Cidade: ", adapter.getItem(position).toString() );
                 startActivity(intent);
 
             }
@@ -50,7 +50,7 @@ public class AgenciasActivity extends AppCompatActivity {
 
     //BOTAO VOLTAR ACTIONBAR
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), MinhaRota.class);
+        Intent myIntent = new Intent(getApplicationContext(), CriarRota.class);
         startActivityForResult(myIntent, 0);
 
         return true;
