@@ -10,4 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="to.dtech.rotadasaguas.AgenciaListaActivity">
 
+    <ListView
+        android:id="@+id/lvAgenciasItens"
+        style="@style/listaAgencias"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"></ListView>
+
 </RelativeLayout>

@@ -10,7 +10,7 @@
     <com.joanzapata.iconify.widget.IconTextView
         android:layout_alignParentLeft="true"
         android:id="@+id/ic_agencia"
-        android:text="{fa-coffee}"
+        android:text="{fa-map-marker}"
         android:layout_marginRight="6dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
@@ -47,12 +47,10 @@
 
     <TextView
         android:textColor="#919191"
-        android:layout_below="@+id/nomeAgencia"
+        android:layout_below="@+id/endereco"
         android:layout_alignLeft="@+id/nomeAgencia"
         android:id="@+id/telefone"
         android:layout_width="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
         android:lineSpacingExtra="4dp"
         android:layout_height="wrap_content"
         android:paddingRight="16dp"
@@ -60,7 +58,7 @@
 
     <View
         android:id="@+id/vw_divider"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="10dp"
         android:layout_alignLeft="@+id/nomeAgencia"
         android:layout_below="@+id/telefone"
         android:background="#cccccc"

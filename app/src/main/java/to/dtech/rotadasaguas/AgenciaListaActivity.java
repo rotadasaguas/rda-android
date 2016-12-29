@@ -24,6 +24,10 @@ import to.dtech.rotadasaguas.util.HttpHandler;
 public class AgenciaListaActivity extends AppCompatActivity {
 
     private ProgressDialog pDialog;
+    public String cidadeServer;
+    public List<String> listaDeDadosNomes = new ArrayList<String>();
+    public List<String> listaDeDadosDesc = new ArrayList<String>();
+    public List<String> listaDeDadosEnd = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class AgenciaListaActivity extends AppCompatActivity {
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intentOld = getIntent();
+        cidadeServer = intentOld.getStringExtra("cidade");
 
         new GetAgencias().execute();
 
@@ -48,9 +55,6 @@ public class AgenciaListaActivity extends AppCompatActivity {
 
     private class GetAgencias extends AsyncTask<Void, Void, Void> {
 
-        Double coordenadasLat = 0.0;
-        Double coordenadasLog = 0.0;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -65,25 +69,33 @@ public class AgenciaListaActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            String urlGeoCode = "https://maps.googleapis.com/maps/api/geocode/json?address=Estrada+Rio+do+Peixe+Km+9+Caminho+Turístico+do+Rio+do+Peixe+13960000+Socorro+SP";
+            String urlWS = "http://siqueiradg.com.br/rotadasaguas/ws-rota/index.php?c=Locais&s=agencias";
 
             try {
                 HttpHandler sh = new HttpHandler();
-                String jsonGeoCode = sh.makeServiceCall(urlGeoCode);
+                String jsonGeoCode = sh.makeServiceCall(urlWS);
 
 
                 if (jsonGeoCode != null){
                     JSONObject jsonObject = new JSONObject(jsonGeoCode);
 
-                    JSONArray resultsArray = jsonObject.getJSONArray("results");
-                    JSONObject r = resultsArray.getJSONObject(0);
+                    JSONArray resultsArray = jsonObject.getJSONArray("agencias");
+                    JSONObject r;
 
-                    JSONObject n = r.getJSONObject("geometry").getJSONObject("location");
 
-                    coordenadasLat = Double.parseDouble(n.getString("lat").toString());
-                    coordenadasLog = Double.parseDouble(n.getString("lng").toString());
+                    for (int i = 0; i < resultsArray.length(); i++){
+                        r = resultsArray.getJSONObject(i);
 
-                    Log.d("Verificar", "Entrei" + coordenadasLat + " - " + coordenadasLog);
+                        if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
+                            listaDeDadosNomes.add(r.getString("nome"));
+                            listaDeDadosDesc.add("Telefone(s): " + r.getString("descricao"));
+                            listaDeDadosEnd.add(r.getString("rua") + ", " + r.getString("num_end") + ", " + r.getString("bairro"));
+                        }
+
+                    }
+                    Log.d("Verificar", listaDeDadosNomes.toString());
+                    Log.d("Verificar", listaDeDadosDesc.toString());
+                    Log.d("Verificar", listaDeDadosEnd.toString());
 
                 }
                 else{
@@ -105,12 +117,10 @@ public class AgenciaListaActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
 
-         /*   final List<Agencia> agencias = getAgencias();
-            final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
-            listView.setAdapter(new AgenciaAdapter(AgenciaListaActivity.this, agencias));*/
-
-
-
+            final List<Agencia> agencias = getAgencias();
+            Log.d("Verificar", agencias.toString());
+            final ListView listView = (ListView) findViewById(R.id.lvAgenciasItens);
+            listView.setAdapter(new AgenciaAdapter(AgenciaListaActivity.this, agencias));
 
         }
     }
@@ -119,10 +129,11 @@ public class AgenciaListaActivity extends AppCompatActivity {
 
         List<Agencia> listAux = new ArrayList<>();
 
-        /*for(int i = 0; i < autores.size(); i++){
-            Comentario c = new Comentario(autores.get(i).toString(), datas.get(i).toString(), comentarios.get(i).toString());
+       for(int i = 0; i < listaDeDadosNomes.size(); i++){
+          // Agencia c = new Agencia("teste", "teste", "teste");
+            Agencia c = new Agencia(listaDeDadosNomes.get(i).toString(), listaDeDadosDesc.get(i).toString(), listaDeDadosEnd.get(i).toString());
             listAux.add(c);
-        }*/
+        }
         return(listAux);
     }
 }

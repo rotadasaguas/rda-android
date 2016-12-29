@@ -40,14 +40,14 @@ public class AgenciaAdapter extends BaseAdapter {
     public class ViewHolder {
 
         final TextView nomeAgencia;
-        final TextView endereco;
         final TextView telefone;
+        final TextView endereco;
 
         public ViewHolder(View view) {
 
             nomeAgencia = (TextView) view.findViewById(R.id.nomeAgencia);
-            endereco = (TextView) view.findViewById(R.id.endereco);
             telefone = (TextView) view.findViewById(R.id.telefone);
+            endereco = (TextView) view.findViewById(R.id.endereco);
         }
     }
 
@@ -70,8 +70,8 @@ public class AgenciaAdapter extends BaseAdapter {
 
         Agencia agencia = agencias.get(position);
         holder.nomeAgencia.setText(agencia.getNome());
-        holder.endereco.setText(agencia.getCidade() + " - " + agencia.getEndereco()+ " - " + agencia.getNumero() + " - " + agencia.getBairro() + " - " + agencia.getCep());
         holder.telefone.setText(agencia.getTelefone());
+        holder.endereco.setText(agencia.getEndereco());
 
         return view;
     }
