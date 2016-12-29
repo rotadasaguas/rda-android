@@ -125,7 +125,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
                        if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
                            listaDeDadosNomes.add(r.getString("nome"));
                            listaDeDadosDesc.add(r.getString("descricao"));
-                           listaDeDadosEnd.add(r.getString("rua") + ", " + r.getString("num_end") + " - " + r.getString("bairro") + "," + r.getString("cidade") + " - SP" + "," + r.getString("cep") + ", Brasil" );
+                           listaDeDadosEnd.add(r.getString("rua").replace(" ", "+") + "+" + r.getString("cidade") + ",SP" + "," +  "Brasil" );
                        }
                    }
                }

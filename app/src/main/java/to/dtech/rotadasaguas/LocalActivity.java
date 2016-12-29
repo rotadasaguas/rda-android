@@ -84,8 +84,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public Double coordenadasLog;
     public Double coordenadasLat;
     public String endereco;
+    public String descricao;
     private GoogleMap map;
-    public String range;
     private MapFragmentLocal mMapFragmentLocal;
 
     public String urlBusca;
@@ -98,10 +98,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public ArrayList<String> comentarios = new ArrayList<>();
 
     public String phone;
+    public String rating;
     public String linkMap = "";
     public String website = "";
-
-    private List<Address> endList;
 
 
     @Override
@@ -132,39 +131,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         nomeUrlLocal = intentOld.getStringExtra("nome").replace(" ", "%20").replace("D\\", "D").replace("'", "");
         nomeLocal = intentOld.getStringExtra("nome");
         endereco = intentOld.getStringExtra("endereco");
-        Geocoder geocoder = new Geocoder(LocalActivity.this);
-
-        try {
-            endList = geocoder.getFromLocationName(endereco, 1);
-            if (endList.size() > 0){
-                coordenadasLat = endList.get(0).getLatitude();
-                coordenadasLog = endList.get(0).getLongitude();
-                range = "500";
-            }
-            else{
-                //caso nao localizar irá retornar coordenada de amparo que se localiza no centro do circuito
-                coordenadasLat = -22.7080593;
-                coordenadasLog = -46.7726654;
-                range = "100000";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        urlBusca = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + coordenadasLat + "," + coordenadasLog + "&radius=+"+ range +"&name=" + nomeUrlLocal + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+        descricao = intentOld.getStringExtra("descricao");
 
         new GetLocal().execute();
-
-        //GOOGLE MAPS
-        mMapFragmentLocal = MapFragmentLocal.newInstance();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.llMap, mMapFragmentLocal)
-                .commit();
-
-        mMapFragmentLocal.getMapAsync(this);
-
 
         //MAIS INFORMAÇÕES
         final ExpandableTextView expandableTextView = (ExpandableTextView) this.findViewById(R.id.horariosFuncionamento);
@@ -187,16 +156,15 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             @Override
             public void onClick(final View v)
             {
-                if (phone.equalsIgnoreCase("") || phone == null){
+                try {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + phone));
+                    startActivity(intent);
+                }catch (Exception e){
                     Toast.makeText(getApplicationContext(),
                             "O local não possui telefone!",
                             Toast.LENGTH_LONG)
                             .show();
-                }
-                else{
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + phone));
-                    startActivity(intent);
                 }
 
             }
@@ -206,9 +174,14 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             @Override
             public void onClick(final View v)
             {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(linkMap));
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(linkMap));
+                    startActivity(intent);
+                }
+                catch (Exception e){
+
+                }
             }
         } );
 
@@ -216,16 +189,16 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             @Override
             public void onClick(final View v)
             {
-                if (website.equalsIgnoreCase("") || website == null){
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(website));
+                    startActivity(intent);;
+                }
+                catch (Exception e){
                     Toast.makeText(getApplicationContext(),
                             "O local não possui site!",
                             Toast.LENGTH_LONG)
                             .show();
-                }
-                else{
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(website));
-                    startActivity(intent);
                 }
 
             }
@@ -262,9 +235,6 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             }
         });
 
-
-
-
     }
     @Override
     public void onMapReady(GoogleMap map) {
@@ -277,7 +247,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         map.addMarker(new MarkerOptions()
                 .title(nomeLocal)
-                .snippet(endereco)
+                .snippet(descricao)
                 .rotation(10)
                 .position(city));
 
@@ -344,7 +314,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     private class GetLocal extends AsyncTask<Void, Void, Void> {
         private String placeName = "";
         private String openNow = "";
-        private String rating = "";
+        private Boolean lHours = false;
+        private JSONArray commentsGoogle;
 
         private HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
         private ArrayList<String> hoursAux = new ArrayList<>();
@@ -362,33 +333,42 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
+
+            urlBusca = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + nomeUrlLocal + endereco + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+
+            HttpHandler shPlace = new HttpHandler();
 
             String place_id = null;
 
-
             // Making a request to url and getting response
-            String jsonIdLocal = sh.makeServiceCall(urlBusca);
+            String jsonIdLocal = shPlace.makeServiceCall(urlBusca);
+
+            Log.d("Verificar", "URL ID: " + urlBusca);
+
 
             if (jsonIdLocal != null) {
                 try {
-                    JSONObject jsonObject = new JSONObject(jsonIdLocal);
-
-                    JSONArray resultsArray = jsonObject.getJSONArray("results");
-                    JSONObject result = resultsArray.getJSONObject(0);
-                    place_id = result.getString("place_id");
+                    JSONObject jsonObjectPlace = new JSONObject(jsonIdLocal);
+                    JSONArray resultsArrayPlace = jsonObjectPlace.getJSONArray("results");
+                    JSONObject resultPlace = resultsArrayPlace.getJSONObject(0);
+                    place_id = resultPlace.getString("place_id");
+                    Log.d("Verificar", "PLACE ID: " + place_id);
                 } catch (final Exception e) {
                     Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
                 }
                 if (place_id != null){
                     String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA&language=pt-BR";
-                    String jsonLocal = sh.makeServiceCall(url);
+                    Log.d("Verificar", "URL Place: " + url);
+                    String jsonLocal = shPlace.makeServiceCall(url);
                     if (jsonLocal != null){
                         try {
                             JSONObject jsonObject = new JSONObject(jsonLocal);
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
 
+                            JSONObject n = result.getJSONObject("geometry").getJSONObject("location");
+                            coordenadasLat = Double.parseDouble(n.getString("lat").toString());
+                            coordenadasLog = Double.parseDouble(n.getString("lng").toString());
 
 
                             //COMENTARIOS
@@ -409,6 +389,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
                             for (int i = 0; i < openingHours.length(); i++){
                                 hoursAux.add(openingHours.get(i).toString());
+                                lHours = true;
                             }
 
                             //FOTOS DO LOCAL
@@ -461,19 +442,33 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
+            if (rating == null){
+                rating = "0";
+            }
+
+
             TextView textView = (TextView) findViewById(R.id.titulo_local);
             ExpandableTextView eTv = (ExpandableTextView) findViewById(R.id.horariosFuncionamento);
             RatingBar rb = (RatingBar) findViewById(R.id.ratingBar);
 
             rb.setRating(Float.parseFloat(rating));
-
             textView.setText(placeName);
 
             if (openNow.equalsIgnoreCase("true")){
-                eTv.setText("Aberto Agora" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                if (lHours == true) {
+                    eTv.setText("Aberto Agora" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                }
+                else {
+                    eTv.setText("Aberto Agora");
+                }
             }
             else{
-                eTv.setText("Fechado Agora" + "\n \n" + hoursAux.get(0).toString().substring(0,1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0,1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0,1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0,1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0,1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0,1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0,1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                if (lHours == true) {
+                    eTv.setText("Fechado Agora" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                }
+                else {
+                    eTv.setText("Fechado Agora");
+                }
             }
 
             imgGoogle = imgGoogleAux;
@@ -509,6 +504,14 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             listView.setFocusable(false);
             listView.setAdapter(new CommentAdapter(LocalActivity.this, comentarios));
 
+                //GOOGLE MAPS
+                mMapFragmentLocal = MapFragmentLocal.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.llMap, mMapFragmentLocal)
+                        .commit();
+
+                mMapFragmentLocal.getMapAsync(LocalActivity.this);
 
         }
 

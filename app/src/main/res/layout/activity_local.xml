@@ -20,7 +20,7 @@
         android:id="@+id/slider"
         android:clickable="false"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="250dp"
         />
 
     <com.daimajia.slider.library.Indicators.PagerIndicator

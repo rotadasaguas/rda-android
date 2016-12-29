@@ -123,7 +123,7 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
                         if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
                             listaDeDadosNomes.add(r.getString("nome"));
                             listaDeDadosDesc.add(r.getString("descricao"));
-                            listaDeDadosEnd.add(r.getString("rua") + "," + r.getString("num_end") + "," + r.getString("bairro") + "," + r.getString("cep") + "," + r.getString("cidade"));
+                            listaDeDadosEnd.add(r.getString("rua").replace(" ", "+") + "+" + r.getString("cidade") + ",SP" + "," +  "Brasil" );
                         }
                     }
 

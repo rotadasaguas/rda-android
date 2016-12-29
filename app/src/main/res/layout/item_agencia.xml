@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:paddingTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:paddingRight="2dp"
+    android:paddingLeft="2dp">
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:layout_alignParentLeft="true"
+        android:id="@+id/ic_agencia"
+        android:text="{fa-coffee}"
+        android:layout_marginRight="6dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:shadowRadius="1"
+        android:textSize="30sp"
+        android:textColor="#d2039af1" />
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_toRightOf="@+id/ic_agencia"
+        android:id="@+id/nomeAgencia"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:paddingRight="16dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:textColor="#919191"
+        android:layout_below="@+id/nomeAgencia"
+        android:layout_alignLeft="@+id/nomeAgencia"
+        android:id="@+id/endereco"
+        android:layout_width="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
+        android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:textSize="12sp" />
+
+    <TextView
+        android:textColor="#919191"
+        android:layout_below="@+id/nomeAgencia"
+        android:layout_alignLeft="@+id/nomeAgencia"
+        android:id="@+id/telefone"
+        android:layout_width="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
+        android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/vw_divider"
+        android:layout_marginTop="21dp"
+        android:layout_alignLeft="@+id/nomeAgencia"
+        android:layout_below="@+id/telefone"
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp" />
+
+</RelativeLayout>

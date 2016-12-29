@@ -45,6 +45,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         myViewHolder.nomeLocal.setText(mList.get(position).getNome() );
         myViewHolder.descLocal.setText( mList.get(position).getDescricao() );
         myViewHolder.endLocal = mList.get(position).getEndereco();
+        myViewHolder.descricao = mList.get(position).getDescricao();
     }
 
     @Override
@@ -62,6 +63,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         public IconTextView icone;
         public TextView nomeLocal;
         public TextView descLocal;
+        public String descricao;
         public String endLocal;
 
         public MyViewHolder(View itemView) {
@@ -86,6 +88,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             Intent intent = new Intent(v.getContext(), LocalActivity.class);
 
             intent.putExtra("endereco", endLocal);
+            intent.putExtra("descricao", descricao);
             intent.putExtra("nome", n);
 
             v.getContext().startActivity(intent);
