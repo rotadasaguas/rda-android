@@ -94,7 +94,7 @@ public class JaguariunaFragment extends Fragment implements BaseSliderView.OnSli
             String place_id = "ChIJ93GAqA3oyJQRVDxNRhinKW4";
 
             if (place_id != null){
-                String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+                String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo";
                 String jsonLocal = sh.makeServiceCall(url);
                 if (jsonLocal != null){
                     try {
@@ -103,7 +103,7 @@ public class JaguariunaFragment extends Fragment implements BaseSliderView.OnSli
                         JSONArray photosGoogle = result.getJSONArray("photos");
                         for (int i = 0; i < photosGoogle.length(); i++){
                             String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
-                            imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
+                            imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo");
                         }
 
                     }catch (final Exception e){
