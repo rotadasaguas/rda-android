@@ -75,8 +75,4 @@
     <string name="texto_holambra">Famosa por ser a “Capital das Flores”, Holambra oferece várias opções de passeios, compras, hospedagem e gastronomia para acolher sua visita no melhor do lazer e descanso.</string>
     <string name="texto_serra_negra">A Estância Hidromineral de Serra Negra oferece o turismo tradicional, de compras, de eventos e rural. Seu incrível clima de montanha, aliado às fontes de águas minerais com poderes terapêuticos e sua rica beleza natural, tornaram-lhe conhecida como "Cidade da Saúde".</string>
 
-
-    <string name="access_token">pk.eyJ1Ijoic2lxdWVpcmFkZyIsImEiOiJjaXdjMmQ1MHgwN2hsMnRxdXJ6ZW02aDR5In0.aKGgPEAlZugAygzpQQ_sww</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

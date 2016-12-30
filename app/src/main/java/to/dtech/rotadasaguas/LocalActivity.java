@@ -333,7 +333,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            urlBusca = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + nomeUrlLocal + endereco + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA";
+            urlBusca = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + nomeUrlLocal + endereco + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo";
 
             HttpHandler shPlace = new HttpHandler();
 
@@ -343,7 +343,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             String jsonIdLocal = shPlace.makeServiceCall(urlBusca);
 
             Log.d("Verificar", "URL ID: " + urlBusca);
-            
+
             if (jsonIdLocal != null) {
                 try {
                     JSONObject jsonObjectPlace = new JSONObject(jsonIdLocal);
@@ -354,7 +354,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
                 }
                 if (place_id != null){
-                    String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA&language=pt-BR";
+                    String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo&language=pt-BR";
                     Log.d("Verificar", "URL Place: " + url);
                     String jsonLocal = shPlace.makeServiceCall(url);
                     if (jsonLocal != null){
@@ -567,7 +567,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             for (int i = 0; i < photosGoogle.length(); i++){
                 String photoHash = photosGoogle.getJSONObject(i).getString("photo_reference");
-                imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyAqPP51HO6FJIw2ZuSaHfxKqqNPtPXkMVA");
+                imgGoogleAux.put("Imagem "+i, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoHash + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo");
             }
 
         }catch (Exception e){

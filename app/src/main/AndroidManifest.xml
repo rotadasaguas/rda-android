@@ -25,9 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDMw5MJ-sl1kCJeGixYaSGHsBjaEPQLfbs" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -91,11 +96,6 @@
         <activity
             android:name=".IntroActivity"
             android:theme="@style/Theme.Design.NoActionBar" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".LocalActivity"
             android:label="Dados do Local"
