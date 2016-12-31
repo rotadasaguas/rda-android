@@ -67,8 +67,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import at.blogc.android.views.ExpandableTextView;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import to.dtech.rotadasaguas.adapter.CommentAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
+import to.dtech.rotadasaguas.domain.Local;
 import to.dtech.rotadasaguas.fragment.MapFragmentLocal;
 import to.dtech.rotadasaguas.util.HttpHandler;
 
@@ -77,7 +79,7 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 
 public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallback, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
 
-    private ProgressDialog pDialog;
+    private SweetAlertDialog pDialog;
 
     public String nomeLocal;
     public String nomeUrlLocal;
@@ -323,8 +325,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(LocalActivity.this);
-            pDialog.setMessage("Carregando...");
+            pDialog = new SweetAlertDialog(LocalActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
+            pDialog.setTitleText("Carregando");
             pDialog.setCancelable(false);
             pDialog.show();
 

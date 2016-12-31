@@ -25,11 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDMw5MJ-sl1kCJeGixYaSGHsBjaEPQLfbs" />
@@ -128,11 +126,9 @@
         <activity
             android:name=".AgenciasActivity"
             android:label="@string/title_activity_agencias" />
-
         <activity
             android:name=".AgenciaListaActivity"
             android:label="@string/title_activity_agencias_list" />
-
     </application>
 
 </manifest>

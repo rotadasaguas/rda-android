@@ -141,6 +141,7 @@ public class LoginActivity extends CommonActivity {
 
 
     public void sendLoginFacebookData( View view ){
+        openProgressBar();
         FirebaseCrash.log("LoginActivity:clickListener:button:sendLoginFacebookData()");
         LoginManager
                 .getInstance()
@@ -167,8 +168,10 @@ public class LoginActivity extends CommonActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            openProgressBar();
 
                             if( !task.isSuccessful() ){
+                                closeProgressBar();
                                 showSnackbar("Login social falhou");
                             }
                         }
@@ -179,6 +182,7 @@ public class LoginActivity extends CommonActivity {
                             FirebaseCrash.report( e );
                         }
                     });
+
         }
         else{
             mAuth.signOut();

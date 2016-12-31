@@ -3,7 +3,9 @@ package to.dtech.rotadasaguas;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,10 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import to.dtech.rotadasaguas.domain.util.LibraryClass;
 import to.dtech.rotadasaguas.fragment.AlimentacaoFragment;
 import to.dtech.rotadasaguas.fragment.EsportesFragment;
@@ -40,6 +48,11 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private DatabaseReference mDatabase;
+
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab,fab1,fab2;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+
 
     public String urlJson = "";
     public String cidadeJson = "";
@@ -59,6 +72,55 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab1 = (FloatingActionButton)findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton)findViewById(R.id.fab2);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFAB();
+            }
+        });
+
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MinhaRota.this, NovaRota.class);
+
+                startActivity(intent);
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SweetAlertDialog(MinhaRota.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Deseja apagar a rota?")
+                        .setContentText("Não será possível recuperar a rota!")
+                        .setConfirmText("Sim, quero apagar!")
+                        .setCancelText("Não")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_minha_rota);
@@ -116,7 +178,30 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
 
     }
+    public void animateFAB(){
 
+        if(isFabOpen){
+
+            fab.startAnimation(rotate_backward);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+            Log.d("Raj", "close");
+
+        } else {
+
+            fab.startAnimation(rotate_forward);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+            Log.d("Raj","open");
+
+        }
+    }
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

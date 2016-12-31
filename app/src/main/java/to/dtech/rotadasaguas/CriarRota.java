@@ -2,6 +2,7 @@ package to.dtech.rotadasaguas;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import to.dtech.rotadasaguas.domain.Rota;
 import to.dtech.rotadasaguas.domain.User;
 import to.dtech.rotadasaguas.domain.util.LibraryClass;
@@ -35,7 +37,7 @@ public class CriarRota extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
-    private ProgressDialog pDialog;
+    private SweetAlertDialog pDialog;
     private FirebaseAuth.AuthStateListener authStateListener;
 
     private Handler handler = new Handler();
@@ -65,8 +67,9 @@ public class CriarRota extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        pDialog = new ProgressDialog(CriarRota.this);
-        pDialog.setMessage("Verificando rota existente...");
+        pDialog = new SweetAlertDialog(CriarRota.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
+        pDialog.setTitleText("Verificando rota existente...");
         pDialog.setCancelable(false);
         pDialog.show();
 
@@ -188,6 +191,7 @@ public class CriarRota extends AppCompatActivity
 
     private void callMainActivity(){
         Intent intent = new Intent( this, MinhaRota.class );
+        pDialog.dismiss();
         startActivity(intent);
         finish();
     }
