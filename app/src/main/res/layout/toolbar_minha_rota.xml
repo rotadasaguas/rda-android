@@ -53,7 +53,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:visibility="invisible"
         app:elevation="6dp"
-        app:backgroundTint="@color/colorFAB1"
+        app:backgroundTint="@color/colorPrimary"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/ic_directions_white_24px" />
     <android.support.design.widget.FloatingActionButton
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:elevation="6dp"
+        app:elevation="10dp"
         app:backgroundTint="@color/colorAccent"
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"

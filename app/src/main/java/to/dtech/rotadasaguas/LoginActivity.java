@@ -182,6 +182,7 @@ public class LoginActivity extends CommonActivity {
                             FirebaseCrash.report( e );
                         }
                     });
+            closeProgressBar();
 
         }
         else{

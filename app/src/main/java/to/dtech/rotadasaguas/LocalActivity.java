@@ -87,6 +87,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public Double coordenadasLat;
     public String endereco;
     public String descricao;
+    public String endPlace;
     private GoogleMap map;
     private MapFragmentLocal mMapFragmentLocal;
 
@@ -254,7 +255,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         map.addMarker(new MarkerOptions()
                 .title(nomeLocal)
-                .snippet(descricao)
+                .snippet(endPlace)
                 .rotation(10)
                 .position(city));
 
@@ -366,6 +367,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                             jsonObject = new JSONObject(jsonLocal);
                             JSONObject result = jsonObject.getJSONObject("result");
                             placeName = result.getString("name");
+                            endPlace = result.getString("vicinity");
                         }catch (final Exception e){
                             Log.e("Bug: ", e.toString());
                         }
