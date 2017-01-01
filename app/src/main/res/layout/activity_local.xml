@@ -55,7 +55,8 @@
     <TextView
         android:text="Classificação:"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:textSize="14sp"
         android:layout_below="@id/vw_divider_top"
@@ -76,15 +77,32 @@
         android:isIndicator="true"
         android:transformPivotX="0dp"
         android:rating="2.0"
-        android:layout_alignTop="@+id/rankPlace"
-        android:layout_toEndOf="@+id/classificacaoLocal" />
+        android:layout_toEndOf="@+id/rankPlace"
+        android:layout_alignTop="@+id/rankPlace" />
+
+    <TextView
+        android:text="Fechado Agora"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="10sp"
+        android:layout_below="@id/vw_divider_top"
+        android:layout_alignParentRight="true"
+        android:background="#ff0000"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:id="@+id/openNow"
+        android:textColor="#fff" />
 
     <View
         android:id="@+id/vw_divider_rank"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
         android:background="#f5f5f5"
-        android:layout_below="@+id/ratingBar"
+        android:layout_below="@+id/openNow"
         android:layout_width="match_parent"
         android:layout_height="0.8dp" />
 
@@ -158,23 +176,14 @@
 
     </FrameLayout>
 
-    <TextView
-        android:text="Horários de Funcionamento"
-        android:layout_marginLeft="10dp"
-        android:textSize="18sp"
-        android:layout_below="@id/frameMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="true"
-        android:id="@+id/funcionamento"
-        android:textColor="#8e8e8e" />
 
     <at.blogc.android.views.ExpandableTextView
-        android:layout_below="@id/funcionamento"
+        android:layout_below="@id/frameMap"
         android:id="@+id/horariosFuncionamento"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:textColor="#595959"
+        android:textColor="#8e8e8e"
+        android:textSize="16sp"
         android:lineSpacingExtra="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -183,7 +192,7 @@
     <Button
         android:layout_below="@id/horariosFuncionamento"
         android:id="@+id/button_toggle"
-        android:text="+ Detalhes"
+        android:text="Mostrar Horários"
         style="@style/showDetails"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -202,13 +211,12 @@
         android:layout_height="0.8dp" />
 
     <TextView
-        android:text="Comentários"
+        android:text="Avaliações:"
         android:layout_marginLeft="10dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_below="@id/vw_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
         android:id="@+id/classificacaoLocal"
         android:textColor="#8e8e8e" />
 
@@ -235,7 +243,7 @@
     <Button
         android:layout_below="@id/comentariosLocal"
         android:id="@+id/btnComentario"
-        android:text="Mostrar Comentarios"
+        android:text="Mostrar Avaliações"
         style="@style/showDetails"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"

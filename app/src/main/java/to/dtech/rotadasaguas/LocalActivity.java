@@ -220,7 +220,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             public void onClick(final View v)
             {
                 expandableTextView.toggle();
-                buttonToggle.setText(expandableTextView.isExpanded() ? "+ Detalhes" : "Diminuir");
+                buttonToggle.setText(expandableTextView.isExpanded() ? "Mostrar Horários" : "Esconder Horários");
             }
         });
 
@@ -232,11 +232,11 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             {
                 if (listView.getVisibility() == View.VISIBLE){
                     listView.setVisibility(View.GONE);
-                    buttonComment.setText("Mostrar Comentários");
+                    buttonComment.setText("Mostrar Avaliações");
                 }
                 else{
                     listView.setVisibility(View.VISIBLE);
-                    buttonComment.setText("Ocultar Comentários");
+                    buttonComment.setText("Ocultar Avaliações");
                 }
 
 
@@ -428,6 +428,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
 
             TextView textView = (TextView) findViewById(R.id.titulo_local);
+            TextView openNowText = (TextView) findViewById(R.id.openNow);
+
             ExpandableTextView eTv = (ExpandableTextView) findViewById(R.id.horariosFuncionamento);
             RatingBar rb = (RatingBar) findViewById(R.id.ratingBar);
 
@@ -436,18 +438,22 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             if (openNow.equalsIgnoreCase("true")){
                 if (lHours == true) {
-                    eTv.setText("Aberto Agora" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                    openNowText.setText("Aberto Agora");
+                    openNowText.setBackgroundColor(Color.parseColor("#009900"));
+                    eTv.setText("Horários de Funcionamento:" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
                 }
                 else {
-                    eTv.setText("Aberto Agora");
+                    openNowText.setText("Aberto Agora");
+                    openNowText.setBackgroundColor(Color.parseColor("#009900"));
+                    eTv.setVisibility(View.GONE);
                 }
             }
             else{
                 if (lHours == true) {
-                    eTv.setText("Fechado Agora" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
+                    eTv.setText("Horários de Funcionamento:" + "\n \n" + hoursAux.get(0).toString().substring(0, 1).toUpperCase() + hoursAux.get(0).toString().substring(1) + "\n" + hoursAux.get(1).toString().substring(0, 1).toUpperCase() + hoursAux.get(1).toString().substring(1) + "\n" + hoursAux.get(2).toString().substring(0, 1).toUpperCase() + hoursAux.get(2).toString().substring(1) + "\n" + hoursAux.get(3).toString().substring(0, 1).toUpperCase() + hoursAux.get(3).toString().substring(1) + "\n" + hoursAux.get(4).toString().substring(0, 1).toUpperCase() + hoursAux.get(4).toString().substring(1) + "\n" + hoursAux.get(5).toString().substring(0, 1).toUpperCase() + hoursAux.get(5).toString().substring(1) + "\n" + hoursAux.get(6).toString().substring(0, 1).toUpperCase() + hoursAux.get(6).toString().substring(1));
                 }
                 else {
-                    eTv.setText("Fechado Agora");
+                    eTv.setVisibility(View.GONE);
                 }
             }
 
