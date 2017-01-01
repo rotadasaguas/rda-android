@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.text.Text;
@@ -47,12 +48,14 @@ public class CommentAdapter extends BaseAdapter {
         final TextView autor;
         final TextView data;
         final TextView comentario;
+        final RatingBar estrelas;
 
         public ViewHolder(View view) {
 
             autor = (TextView) view.findViewById(R.id.autor);
             data = (TextView) view.findViewById(R.id.dataComentario);
             comentario = (TextView) view.findViewById(R.id.comentario);
+            estrelas = (RatingBar) view.findViewById(R.id.estrelasComment);
 
         }
     }
@@ -78,6 +81,7 @@ public class CommentAdapter extends BaseAdapter {
         holder.autor.setText(comentario.getAutor());
         holder.data.setText(comentario.getData());
         holder.comentario.setText(comentario.getComentario());
+        holder.estrelas.setRating(Float.parseFloat(comentario.getEstrelas()));
 
         return view;
     }

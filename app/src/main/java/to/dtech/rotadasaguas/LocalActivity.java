@@ -99,6 +99,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public ArrayList<String> autores = new ArrayList<>();
     public ArrayList<String> datas = new ArrayList<>();
     public ArrayList<String> comentarios = new ArrayList<>();
+    public ArrayList<String> estrelas = new ArrayList<>();
 
     public String phone;
     public String rating;
@@ -117,6 +118,14 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_local);
 
+
+        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
+        Intent intentOld = getIntent();
+        nomeUrlLocal = intentOld.getStringExtra("nome").replace(" ", "%20").replace("D\\", "D").replace("'", "");
+        nomeLocal = intentOld.getStringExtra("nome");
+        endereco = intentOld.getStringExtra("endereco");
+        descricao = intentOld.getStringExtra("descricao");
+
         final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
 
 
@@ -124,7 +133,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
 
-        String titulo = "Dados do Local";
+        String titulo = nomeLocal;
         SpannableString s = new SpannableString(titulo);
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")), 0, titulo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
@@ -134,12 +143,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         ActionBar ab = getSupportActionBar();
         ab.hide();
 
-        //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
-        Intent intentOld = getIntent();
-        nomeUrlLocal = intentOld.getStringExtra("nome").replace(" ", "%20").replace("D\\", "D").replace("'", "");
-        nomeLocal = intentOld.getStringExtra("nome");
-        endereco = intentOld.getStringExtra("endereco");
-        descricao = intentOld.getStringExtra("descricao");
+
 
         new GetLocal().execute();
 
@@ -429,6 +433,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             TextView textView = (TextView) findViewById(R.id.titulo_local);
             TextView openNowText = (TextView) findViewById(R.id.openNow);
+            Button btnHorarios = (Button) findViewById(R.id.button_toggle);
 
             ExpandableTextView eTv = (ExpandableTextView) findViewById(R.id.horariosFuncionamento);
             RatingBar rb = (RatingBar) findViewById(R.id.ratingBar);
@@ -446,6 +451,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     openNowText.setText("Aberto Agora");
                     openNowText.setBackgroundColor(Color.parseColor("#009900"));
                     eTv.setVisibility(View.GONE);
+                    btnHorarios.setVisibility(View.GONE);
                 }
             }
             else{
@@ -454,6 +460,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                 }
                 else {
                     eTv.setVisibility(View.GONE);
+                    btnHorarios.setVisibility(View.GONE);
                 }
             }
 
@@ -509,7 +516,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         List<Comentario> listAux = new ArrayList<>();
 
         for(int i = 0; i < autores.size(); i++){
-            Comentario c = new Comentario(autores.get(i).toString(), datas.get(i).toString(), comentarios.get(i).toString());
+            Comentario c = new Comentario(autores.get(i).toString(), datas.get(i).toString(), comentarios.get(i).toString(), estrelas.get(i).toString());
             listAux.add(c);
         }
         return(listAux);
@@ -526,6 +533,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     autores.add(commentsGoogle.getJSONObject(i).getString("author_name"));
                     comentarios.add(commentsGoogle.getJSONObject(i).getString("relative_time_description"));
                     datas.add(commentsGoogle.getJSONObject(i).getString("text"));
+                    estrelas.add(commentsGoogle.getJSONObject(i).getString("rating"));
                 }
             }
         }catch (Exception e){

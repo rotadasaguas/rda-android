@@ -6,12 +6,14 @@ public class Comentario {
     private String autor;
     private String comentario;
     private String data;
+    private String estrelas;
 
     public Comentario(){}
-    public Comentario(String a, String d, String c){
+    public Comentario(String a, String d, String c , String e){
         autor = a;
         data = d;
         comentario = c;
+        estrelas = e;
     }
 
     public String getAutor() {
@@ -36,5 +38,13 @@ public class Comentario {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getEstrelas() {
+        return estrelas;
+    }
+
+    public void setEstrelas(String estrelas) {
+        this.estrelas = estrelas;
     }
 }
