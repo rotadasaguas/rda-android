@@ -126,25 +126,36 @@ public class AmparoFragment extends Fragment implements BaseSliderView.OnSliderC
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            imgGoogle = imgGoogleAux;
+            try {
+                imgGoogle = imgGoogleAux;
 
-            mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_amparo);
+                mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_amparo);
 
-            for(String name : imgGoogle.keySet()){
-                DefaultSliderView textSliderView = new DefaultSliderView(getContext());
-                // initialize a SliderLayout
-                textSliderView
-                        .image(imgGoogle.get(name))
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(AmparoFragment.this);
+                for(String name : imgGoogle.keySet()){
+                    DefaultSliderView textSliderView = new DefaultSliderView(getContext());
+                    // initialize a SliderLayout
+                    textSliderView
+                            .image(imgGoogle.get(name))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(AmparoFragment.this);
 
-                mDemoSlider.addSlider(textSliderView);
+                    mDemoSlider.addSlider(textSliderView);
+                }
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                mDemoSlider.setDuration(6000);
+                mDemoSlider.addOnPageChangeListener(AmparoFragment.this);
+            }catch (Exception e){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"Falha no Carregamento do Slide!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-            mDemoSlider.setDuration(6000);
-            mDemoSlider.addOnPageChangeListener(AmparoFragment.this);
+
+
         }
 
 

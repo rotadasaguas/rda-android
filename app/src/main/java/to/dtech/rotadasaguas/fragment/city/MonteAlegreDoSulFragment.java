@@ -126,25 +126,36 @@ public class MonteAlegreDoSulFragment extends Fragment implements BaseSliderView
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            imgGoogle = imgGoogleAux;
+            try {
+                imgGoogle = imgGoogleAux;
 
-            mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_monte_alegre_sul);
+                mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_monte_alegre_sul);
 
-            for(String name : imgGoogle.keySet()){
-                DefaultSliderView textSliderView = new DefaultSliderView(getContext());
-                // initialize a SliderLayout
-                textSliderView
-                        .image(imgGoogle.get(name))
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(MonteAlegreDoSulFragment.this);
+                for(String name : imgGoogle.keySet()){
+                    DefaultSliderView textSliderView = new DefaultSliderView(getContext());
+                    // initialize a SliderLayout
+                    textSliderView
+                            .image(imgGoogle.get(name))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(MonteAlegreDoSulFragment.this);
 
-                mDemoSlider.addSlider(textSliderView);
+                    mDemoSlider.addSlider(textSliderView);
+                }
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                mDemoSlider.setDuration(6000);
+                mDemoSlider.addOnPageChangeListener(MonteAlegreDoSulFragment.this);
+            }catch (Exception e){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"Falha no Carregamento do Slide!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-            mDemoSlider.setDuration(6000);
-            mDemoSlider.addOnPageChangeListener(MonteAlegreDoSulFragment.this);
+
+
         }
 
 

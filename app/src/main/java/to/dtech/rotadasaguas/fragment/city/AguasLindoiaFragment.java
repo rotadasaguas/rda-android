@@ -124,27 +124,37 @@ public class AguasLindoiaFragment extends Fragment implements BaseSliderView.OnS
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
 
-            imgGoogle = imgGoogleAux;
+            try {
+                imgGoogle = imgGoogleAux;
 
-            mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_aguas_lindoia);
+                mDemoSlider = (SliderLayout) getActivity().findViewById(R.id.slider_aguas_lindoia);
 
-            for(String name : imgGoogle.keySet()){
-                DefaultSliderView textSliderView = new DefaultSliderView(getContext());
-                // initialize a SliderLayout
-                textSliderView
-                        .image(imgGoogle.get(name))
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(AguasLindoiaFragment.this);
+                for(String name : imgGoogle.keySet()){
+                    DefaultSliderView textSliderView = new DefaultSliderView(getContext());
+                    // initialize a SliderLayout
+                    textSliderView
+                            .image(imgGoogle.get(name))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(AguasLindoiaFragment.this);
 
-                mDemoSlider.addSlider(textSliderView);
+                    mDemoSlider.addSlider(textSliderView);
+                }
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                mDemoSlider.setDuration(6000);
+                mDemoSlider.addOnPageChangeListener(AguasLindoiaFragment.this);
+            }catch (Exception e){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"Falha no Carregamento do Slide!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-            mDemoSlider.setDuration(6000);
-            mDemoSlider.addOnPageChangeListener(AguasLindoiaFragment.this);
+
+
         }
 
 
