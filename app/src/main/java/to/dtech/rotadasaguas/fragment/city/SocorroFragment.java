@@ -33,7 +33,6 @@ public class SocorroFragment extends Fragment implements BaseSliderView.OnSlider
 
     private SliderLayout mDemoSlider;
     private String placeName;
-    private ProgressDialog pDialog;
     public HashMap<String,String> imgGoogle = new HashMap<String, String>();
 
 
@@ -78,12 +77,6 @@ public class SocorroFragment extends Fragment implements BaseSliderView.OnSlider
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Showing progress dialog
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Carregando...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
         }
 
         @Override
@@ -131,9 +124,6 @@ public class SocorroFragment extends Fragment implements BaseSliderView.OnSlider
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
 
             imgGoogle = imgGoogleAux;
 
