@@ -123,6 +123,22 @@
         <item name="android:paddingLeft">10dip</item>
     </style>
 
+    <style name="btnStyleFavoritos" parent="@android:style/Widget.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#fbfbfb</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="android:background">@drawable/button_favoritos</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:paddingLeft">5dip</item>
+    </style>
+
     <style name="btnStyleBlueDark" parent="@android:style/Widget.Button">
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">true</item>

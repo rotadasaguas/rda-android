@@ -258,7 +258,11 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_minhaRota) {
+        if (id == R.id.nav_destaques) {
+            Intent intent = new Intent(MinhaRota.this, DestaqueActivity.class);
+
+            startActivity(intent);
+        }else if (id == R.id.nav_minhaRota) {
             Intent intent = new Intent(MinhaRota.this, MinhaRota.class);
 
             startActivity(intent);

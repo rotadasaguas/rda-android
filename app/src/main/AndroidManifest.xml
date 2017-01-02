@@ -49,6 +49,10 @@
             android:label="@string/title_activity_minha_rota"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".DestaqueActivity"
+            android:label="@string/title_activity_destaques"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar" />

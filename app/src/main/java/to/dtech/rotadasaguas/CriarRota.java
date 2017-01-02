@@ -160,8 +160,12 @@ public class CriarRota extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(CriarRota.this, CriarRota.class);
+        if (id == R.id.nav_destaques) {
+            Intent intent = new Intent(CriarRota.this, DestaqueActivity.class);
+
+            startActivity(intent);
+        }else if (id == R.id.nav_minhaRota) {
+            Intent intent = new Intent(CriarRota.this, MinhaRota.class);
 
             startActivity(intent);
         }else if (id == R.id.nav_agencias) {

@@ -98,7 +98,11 @@ public class NovaRota extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_minhaRota) {
+        if (id == R.id.nav_destaques) {
+            Intent intent = new Intent(NovaRota.this, DestaqueActivity.class);
+
+            startActivity(intent);
+        }else if (id == R.id.nav_minhaRota) {
             Intent intent = new Intent(NovaRota.this, MinhaRota.class);
 
             startActivity(intent);

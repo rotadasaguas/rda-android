@@ -3,13 +3,18 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_destaques"
+            android:icon="@drawable/ic_directions_black_24px"
+            android:title="Navegar" />
+
+        <item
             android:id="@+id/nav_minhaRota"
-            android:icon="@drawable/ic_time_to_leave_black"
+            android:icon="@drawable/ic_map_black_24px"
             android:title="Minha Rota" />
 
         <item
             android:id="@+id/nav_agencias"
-            android:icon="@drawable/ic_location_city_black"
+            android:icon="@drawable/ic_store_mall_directory_black_24px"
             android:title="Agências de Turismo" />
 
         <item

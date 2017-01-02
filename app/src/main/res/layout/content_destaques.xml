@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_minha_rota"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".DestaqueActivity"
+    android:background="#fff"
+    tools:showIn="@layout/toolbar_destaques">
+
+    <TextView
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:id="@+id/nomeUsuario"
+        android:text="Olá"
+        android:textColor="#818181"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/btnStyleFavoritos"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_map_blue_24px" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Minha Rota" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/button"
+        android:id="@+id/ltSlider"
+        android:background="#f1f1f1"
+        android:padding="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="230dp"
+            />
+
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/custom_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/titleRotas"
+        android:text="Rotas Sugeridas"
+        android:layout_below="@id/ltSlider"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:textColor="#818181"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+    <to.dtech.rotadasaguas.util.NonScrollGridView
+        android:id="@+id/lvRotasSugeridas"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="15dp"
+        android:layout_width="wrap_content"
+        android:scrollingCache="false"
+        android:stretchMode="columnWidth"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:layout_below="@+id/titleRotas"
+        android:layout_height="wrap_content">
+    </to.dtech.rotadasaguas.util.NonScrollGridView>
+
+
+
+</RelativeLayout>

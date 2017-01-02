@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:background="#de2196f3">
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/iconRota"
+        android:id="@+id/nomeRota"
+        android:textAlignment="center"
+        android:text="Nome da Rota"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:maxLines="1"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:text="{fa-android}"
+        android:shadowColor="#22000000"
+        android:id="@+id/iconRota"
+        android:shadowDx="3"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:shadowDy="3"
+        android:shadowRadius="1"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textColor="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
