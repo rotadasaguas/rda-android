@@ -27,7 +27,7 @@
 
     <LinearLayout
         android:layout_marginLeft="10dp"
-        android:id="@+id/button"
+        android:id="@+id/button_destaques"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/btnStyleFavoritos"
@@ -55,7 +55,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/button"
+        android:layout_below="@id/button_destaques"
         android:id="@+id/ltSlider"
         android:background="#f1f1f1"
         android:padding="10dp"
@@ -84,17 +84,31 @@
         android:text="Rotas Sugeridas"
         android:layout_below="@id/ltSlider"
         android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
         android:layout_marginLeft="10dp"
         android:textSize="16sp"
         android:textColor="#818181"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerCidades"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignRight="@id/titleRotas"
+        android:spinnerMode="dialog"
+        android:background="@drawable/retangulo_white"
+        android:layout_below="@+id/ltSlider"
+        android:layout_alignParentRight="true"
+        />
+
 
 
     <to.dtech.rotadasaguas.util.NonScrollGridView
         android:id="@+id/lvRotasSugeridas"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:paddingBottom="15dp"
         android:layout_width="wrap_content"
         android:scrollingCache="false"

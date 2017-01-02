@@ -13,8 +13,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,10 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
+import com.joanzapata.iconify.fonts.MaterialModule;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,11 +47,18 @@ public class DestaqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
+    // criando o Array de String
+    private static final String[] opcoes = { "Socorro", "Águas de Lindoia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra" };
+    ArrayAdapter<String> aOpcoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destaques);
+
+        Iconify
+                .with(new FontAwesomeModule());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,8 +112,6 @@ public class DestaqueActivity extends AppCompatActivity
         String date = df.format(Calendar.getInstance().getTime());
         int hora = Integer.parseInt(date);
 
-        Log.d("HoraDOAndroid", "HORA: " + date);
-
         if (hora >= 18 && hora <= 00){
             saudacao.setText("Boa noite!");
         }else if (hora > 00 && hora <= 12){
@@ -107,6 +120,21 @@ public class DestaqueActivity extends AppCompatActivity
             saudacao.setText("Boa tarde!");
         }
 
+        aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
+        aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinnerCidades);
+        spinner.setAdapter(aOpcoes);
+
+        LinearLayout btn = (LinearLayout) findViewById(R.id.button_destaques);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DestaqueActivity.this, CriarRota.class);
+
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -147,7 +175,7 @@ public class DestaqueActivity extends AppCompatActivity
 
             startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(DestaqueActivity.this, MinhaRota.class);
+            Intent intent = new Intent(DestaqueActivity.this, CriarRota.class);
 
             startActivity(intent);
         }else if (id == R.id.nav_cidades) {
@@ -204,10 +232,13 @@ public class DestaqueActivity extends AppCompatActivity
 
         List<RotaSugerida> listAux = new ArrayList<>();
 
+        String[] nomesR = new String[]{"passeio com a família", "balada com amigos", "comprar presentes", "contruções históricas", "belezas naturais", "esportes radicais", "hora do rango", "bares"};
+        String[] iconR = new String[]{"{fa-users}", "{fa-music}", "{fa-gift}", "{fa-building}", "{fa-tree}", "{fa-bicycle}", "{fa-cutlery}", "{fa-beer}"};
 
 
-       for(int i = 0; i < 10; i++){
-            RotaSugerida c = new RotaSugerida("para encher o bucho", "{fa-android}");
+
+       for(int i = 0; i < nomesR.length; i++){
+            RotaSugerida c = new RotaSugerida(nomesR[i % nomesR.length], iconR[i % iconR.length]);
             listAux.add(c);
        }
 

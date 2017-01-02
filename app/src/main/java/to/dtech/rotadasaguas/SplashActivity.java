@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                         else{
                             Intent intent = new Intent();
-                            intent.setClass(SplashActivity.this, CriarRota.class);
+                            intent.setClass(SplashActivity.this, DestaqueActivity.class);
                             startActivity(intent);
                         }
                     }
