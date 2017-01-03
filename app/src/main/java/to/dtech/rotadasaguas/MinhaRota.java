@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -109,6 +111,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
+                                apagarRota();
                                 sDialog.dismissWithAnimation();
                             }
                         })
@@ -178,6 +181,46 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
 
     }
+
+    public void apagarRota(){
+        //FIREBASE DATABASE
+        DatabaseReference mDatabase;
+
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabase.child("rotas").child(userId).removeValue();
+
+        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null){
+                            Intent intent = new Intent(getApplicationContext(), MinhaRota.class );
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(),"Sua rota foi apagada!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), DestaqueActivity.class );
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
+    }
+
     public void animateFAB(){
 
         if(isFabOpen){

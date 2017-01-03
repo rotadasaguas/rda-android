@@ -37,12 +37,7 @@ public class CriarRota extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
-    private SweetAlertDialog pDialog;
     private FirebaseAuth.AuthStateListener authStateListener;
-
-    private Handler handler = new Handler();
-
-    private DatabaseReference mDatabase;
 
     // criando o Array de String
     private static final String[] opcoes = { "Socorro", "Águas de Lindoia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra" };
@@ -67,12 +62,6 @@ public class CriarRota extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        pDialog = new SweetAlertDialog(CriarRota.this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
-        pDialog.setTitleText("Verificando rota existente...");
-        pDialog.setCancelable(false);
-        pDialog.show();
-
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -88,27 +77,6 @@ public class CriarRota extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener( authStateListener );
 
-        //FIREBASE DATABASE
-        mDatabase = LibraryClass.getFirebase();
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue() != null){
-                            callMainActivity();
-                        }
-                        else{
-                            pDialog.dismiss();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
-                    }
-                }
-        );
 
         aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
         aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -165,7 +133,7 @@ public class CriarRota extends AppCompatActivity
 
             startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(CriarRota.this, MinhaRota.class);
+            Intent intent = new Intent(CriarRota.this, CriarRota.class);
 
             startActivity(intent);
         }else if (id == R.id.nav_agencias) {
@@ -193,11 +161,5 @@ public class CriarRota extends AppCompatActivity
         return true;
     }
 
-    private void callMainActivity(){
-        Intent intent = new Intent( this, MinhaRota.class );
-        pDialog.dismiss();
-        startActivity(intent);
-        finish();
-    }
 
 }

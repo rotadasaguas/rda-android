@@ -109,7 +109,7 @@ public class CidadesActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //handle the home button onClick event here.
-                Intent myIntent = new Intent(getApplicationContext(), CriarRota.class);
+                Intent myIntent = new Intent(getApplicationContext(), DestaqueActivity.class);
                 startActivityForResult(myIntent, 0);
                 return true;
             }

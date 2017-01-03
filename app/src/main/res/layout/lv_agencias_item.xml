@@ -7,6 +7,5 @@
     android:layout_height="fill_parent"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
-    android:textAlignment="center"
     android:textSize="18dp">
 </TextView>

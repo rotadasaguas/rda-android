@@ -116,7 +116,7 @@ public class MinhaConta extends AppCompatActivity {
 
     //BOTAO VOLTAR ACTIONBAR
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), MinhaRota.class);
+        Intent myIntent = new Intent(getApplicationContext(), DestaqueActivity.class);
         startActivityForResult(myIntent, 0);
 
         return true;

@@ -192,7 +192,7 @@ public class LoginActivity extends CommonActivity {
 
 
     private void callMainActivity(){
-        Intent intent = new Intent( this, CriarRota.class );
+        Intent intent = new Intent( this, DestaqueActivity.class );
         startActivity(intent);
         finish();
     }

@@ -27,6 +27,11 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
@@ -42,6 +47,7 @@ import java.util.List;
 import to.dtech.rotadasaguas.adapter.RotaSugeridaAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
 import to.dtech.rotadasaguas.domain.RotaSugerida;
+import to.dtech.rotadasaguas.domain.util.LibraryClass;
 
 public class DestaqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -112,12 +118,12 @@ public class DestaqueActivity extends AppCompatActivity
         String date = df.format(Calendar.getInstance().getTime());
         int hora = Integer.parseInt(date);
 
-        if (hora >= 18 && hora <= 00){
-            saudacao.setText("Boa noite!");
-        }else if (hora > 00 && hora <= 12){
+        if (hora > 00 && hora <= 11){
             saudacao.setText("Bom dia!");
-        }else{
+        }else if(hora >= 12 && hora <= 18){
             saudacao.setText("Boa tarde!");
+        }else{
+            saudacao.setText("Boa noite!");
         }
 
         aOpcoes = new ArrayAdapter<String>(this, R.layout.spinner_item, opcoes);
@@ -127,12 +133,12 @@ public class DestaqueActivity extends AppCompatActivity
 
         LinearLayout btn = (LinearLayout) findViewById(R.id.button_destaques);
 
+        alterarTextoBtn();
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DestaqueActivity.this, CriarRota.class);
-
-                startActivity(intent);
+                verificarRota();
             }
         });
 
@@ -175,9 +181,7 @@ public class DestaqueActivity extends AppCompatActivity
 
             startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {
-            Intent intent = new Intent(DestaqueActivity.this, CriarRota.class);
-
-            startActivity(intent);
+            verificarRota();
         }else if (id == R.id.nav_cidades) {
             Intent intent = new Intent(DestaqueActivity.this, CidadesActivity.class);
 
@@ -205,6 +209,64 @@ public class DestaqueActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_destaques);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void verificarRota(){
+        //FIREBASE DATABASE
+        DatabaseReference mDatabase;
+
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null){
+                            Intent intent = new Intent(getApplicationContext(), MinhaRota.class );
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            Intent intent = new Intent(getApplicationContext(), CriarRota.class );
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
+    }
+
+    public void alterarTextoBtn(){
+        //FIREBASE DATABASE
+        DatabaseReference mDatabase;
+
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null){
+                            TextView tx = (TextView) findViewById(R.id.textView2);
+                            tx.setText("Acessar Minha Rota");
+                        }
+                        else{
+                            TextView tx = (TextView) findViewById(R.id.textView2);
+                            tx.setText("Criar Rota Personalizada");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
     }
 
 

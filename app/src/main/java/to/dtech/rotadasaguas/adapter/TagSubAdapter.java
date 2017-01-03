@@ -50,6 +50,9 @@ public class TagSubAdapter extends BaseAdapter {
             titulo = (TextView) view.findViewById(R.id.local);
             lk = (LikeButton) view.findViewById(R.id.gostei);
 
+            lk.setClickable(false);
+            lk.setEnabled(false);
+
         }
     }
 
