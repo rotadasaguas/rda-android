@@ -54,7 +54,7 @@ public class DestaqueActivity extends AppCompatActivity
 
     private SliderLayout mDemoSlider;
     // criando o Array de String
-    private static final String[] opcoes = { "Socorro", "Águas de Lindoia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra" };
+    private static final String[] opcoes = { "Socorro", "Águas de Lindóia", "Serra Negra", "Monte Alegre do Sul", "Amparo", "Jaguariúna", "Holambra", "Pedreira", "Lindóia" };
     ArrayAdapter<String> aOpcoes;
 
     @Override
