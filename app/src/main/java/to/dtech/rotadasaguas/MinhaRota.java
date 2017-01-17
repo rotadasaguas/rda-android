@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -286,8 +287,12 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(MinhaRota.this, DestaqueActivity.class);
 
+        startActivity(intent);
+        finish();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

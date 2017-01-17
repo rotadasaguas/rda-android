@@ -9,8 +9,8 @@ android {
         applicationId "to.dtech.rotadasaguas"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 13
-        versionName "2.9.0.3 Beta"
+        versionCode 14
+        versionName "2.9.0.4 Beta"
         multiDexEnabled true
     }
     buildTypes {

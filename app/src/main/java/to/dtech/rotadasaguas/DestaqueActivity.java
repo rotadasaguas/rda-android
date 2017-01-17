@@ -150,12 +150,14 @@ public class DestaqueActivity extends AppCompatActivity
         super.onDestroy();
     }
     @Override
+
+
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_destaques);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
         }
     }
 
@@ -314,4 +316,5 @@ public class DestaqueActivity extends AppCompatActivity
 
         return(listAux);
     }
+
 }
