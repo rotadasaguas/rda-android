@@ -3,6 +3,7 @@ package to.dtech.rotadasaguas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,8 +32,7 @@ public class MinhaConta extends AppCompatActivity {
         String[] values = new String[] {
                 "Atualizar dados pessoais",
                 "Atualizar login",
-                "Alterar senha",
-                "Apagar Conta"
+                "Alterar senha"
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -42,6 +42,8 @@ public class MinhaConta extends AppCompatActivity {
 
         // ListView Item Click Listener
         configuracoesDaConta.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getProviders().toString();
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -54,21 +56,29 @@ public class MinhaConta extends AppCompatActivity {
                 String  itemValue    = (String) configuracoesDaConta.getItemAtPosition(position);
 
                 if (itemPosition == 0){
-                    callListConfig(0);
+                    if (userId.equalsIgnoreCase("[facebook.com]")){
+                        loginFacebook();
+                    }
+                    else{
+                        callListConfig(0);
+                    }
                 }
                 if (itemPosition == 1){
-                    callListConfig(1);
+                    if (userId.equalsIgnoreCase("[facebook.com]")){
+                        loginFacebook();
+                    }
+                    else{
+                        callListConfig(1);
+                    }
                 }
                 if (itemPosition == 2){
-                    callListConfig(2);
+                    if (userId.equalsIgnoreCase("[facebook.com]")){
+                        loginFacebook();
+                    }
+                    else{
+                        callListConfig(2);
+                    }
                 }
-                if (itemPosition == 3){
-                    callListConfig(3);
-                }
-                if (itemPosition == 4){
-                    callListConfig(4);
-                }
-
             }
 
         });
@@ -78,6 +88,18 @@ public class MinhaConta extends AppCompatActivity {
             @Override
             public void onClick(View V) {
                 logoff();
+            }
+        });
+    }
+
+    public void loginFacebook(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),
+                        "Opção não disponivel para Login com Facebook!",
+                        Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }
@@ -100,11 +122,6 @@ public class MinhaConta extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if (num == 3){
-            Intent intent = new Intent( this, RemoveUserActivity.class );
-            startActivity(intent);
-            finish();
-        }
 
     }
 
@@ -118,6 +135,7 @@ public class MinhaConta extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), DestaqueActivity.class);
         startActivityForResult(myIntent, 0);
+        finish();
 
         return true;
     }

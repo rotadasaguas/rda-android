@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_alimentacao, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_minha_rota, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
         mRecyclerView.setHasFixedSize(true);
@@ -56,17 +57,25 @@ public class EsportesFragment extends Fragment implements RecyclerViewOnClickLis
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
+        ImageView imgSad = (ImageView) rootView.findViewById(R.id.imagemSad);
+        TextView txtSad = (TextView) rootView.findViewById(R.id.textoSad);
+
         try {
             mList = getLocaisLazer(argsServer);
+
+            if (mList.size() > 0){
+                imgSad.setVisibility(View.GONE);
+                txtSad.setVisibility(View.GONE);
+            }
+
+            ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
+            adapter.setRecyclerViewOnClickListenerHack(this);
+            mRecyclerView.setAdapter( adapter );
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
-        adapter.setRecyclerViewOnClickListenerHack(this);
-        mRecyclerView.setAdapter( adapter );
 
         return rootView;
     }

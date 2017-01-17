@@ -245,28 +245,36 @@ public class DestaqueActivity extends AppCompatActivity
         //FIREBASE DATABASE
         DatabaseReference mDatabase;
 
-        mDatabase = LibraryClass.getFirebase();
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue() != null){
-                            TextView tx = (TextView) findViewById(R.id.textView2);
-                            tx.setText("Acessar Minha Rota");
+        try {
+            mDatabase = LibraryClass.getFirebase();
+            final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() != null){
+                                TextView tx = (TextView) findViewById(R.id.textView2);
+                                tx.setText("Acessar Minha Rota");
+                            }
+                            else{
+                                TextView tx = (TextView) findViewById(R.id.textView2);
+                                tx.setText("Criar Rota Personalizada");
+                            }
                         }
-                        else{
-                            TextView tx = (TextView) findViewById(R.id.textView2);
-                            tx.setText("Criar Rota Personalizada");
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                        }
                     }
-                }
-        );
+            );
+        }catch (Exception e){
+            Log.d("FIREBASE", "Erro na autenticacao");
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class );
+            startActivity(intent);
+            finish();
+        }
+
     }
 
 

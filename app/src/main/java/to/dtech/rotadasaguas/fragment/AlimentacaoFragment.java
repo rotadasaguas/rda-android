@@ -1,6 +1,5 @@
 package to.dtech.rotadasaguas.fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,7 +23,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import to.dtech.rotadasaguas.MinhaRota;
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.adapter.ItensAdapter;
 import to.dtech.rotadasaguas.domain.ItemLocal;
@@ -44,7 +44,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_alimentacao, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_minha_rota, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
         mRecyclerView.setHasFixedSize(true);
@@ -55,15 +55,24 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
+        ImageView imgSad = (ImageView) rootView.findViewById(R.id.imagemSad);
+        TextView txtSad = (TextView) rootView.findViewById(R.id.textoSad);
+
 
         mRecyclerView.setLayoutManager(llm);
 
          try {
              mList = getLocaisAlimentacao(argsServer);
+             if (mList.size() > 0){
+                 imgSad.setVisibility(View.GONE);
+                 txtSad.setVisibility(View.GONE);
+             }
              ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
              adapter.setRecyclerViewOnClickListenerHack(this);
 
              mRecyclerView.setAdapter( adapter );
+
+
             }catch (ExecutionException e) {
              e.printStackTrace();
             }catch (InterruptedException e) {
@@ -107,6 +116,7 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
         //Obtendo um resultado da execucão da Thread
         String resultado = futureResult.get();
+        Log.d("Erro", "Resultado: " + resultado);
 
         if (resultado != null){
             try {

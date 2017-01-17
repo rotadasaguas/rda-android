@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -116,11 +119,20 @@ public class AgenciaListaActivity extends AppCompatActivity {
             if (pDialog.isShowing()){
                 pDialog.dismiss();
             }
+            ImageView imgSad = (ImageView) findViewById(R.id.imagemSad);
+            TextView txtSad = (TextView) findViewById(R.id.textoSad);
 
             final List<Agencia> agencias = getAgencias();
-            Log.d("Verificar", agencias.toString());
             final ListView listView = (ListView) findViewById(R.id.lvAgenciasItens);
             listView.setAdapter(new AgenciaAdapter(AgenciaListaActivity.this, agencias));
+            if (agencias.size() > 0){
+                imgSad.setVisibility(View.GONE);
+                txtSad.setVisibility(View.GONE);
+            }
+            else{
+                listView.setVisibility(View.GONE);
+            }
+
 
         }
     }

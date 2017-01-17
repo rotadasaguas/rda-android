@@ -3,10 +3,12 @@ package to.dtech.rotadasaguas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -93,7 +95,7 @@ public class LoginActivity extends CommonActivity {
 
                 FirebaseUser userFirebase = firebaseAuth.getCurrentUser();
 
-                if( userFirebase != null && user.getId() == null ){
+                if( userFirebase != null && user.getId() != null ){
                     user.saveIdSP( LoginActivity.this, userFirebase.getUid() );
                     user.setId( userFirebase.getUid() );
                     user.setName( userFirebase.getDisplayName() );
@@ -136,7 +138,13 @@ public class LoginActivity extends CommonActivity {
     public void sendLoginData( View view ){
         openProgressBar();
         initUser();
-        verifyLogin();
+        try {
+            verifyLogin();
+        }catch (Exception e){
+            closeProgressBar();
+            showSnackbar("Erro ao efetuar login");
+        }
+
     }
 
 
@@ -158,6 +166,7 @@ public class LoginActivity extends CommonActivity {
         );
     }
     private void accessLoginData( String provider, String... tokens ){
+        openProgressBar();
         if( tokens != null
                 && tokens.length > 0
                 && tokens[0] != null ){
@@ -192,11 +201,25 @@ public class LoginActivity extends CommonActivity {
 
 
     private void callMainActivity(){
+        openProgressBar();
         Intent intent = new Intent( this, DestaqueActivity.class );
         startActivity(intent);
+        closeProgressBar();
         finish();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        return false;
+        // Disable back button..............
+    }
 
 
 
@@ -212,6 +235,7 @@ public class LoginActivity extends CommonActivity {
 
                         if( !task.isSuccessful() ){
                             showSnackbar("Login falhou");
+                            closeProgressBar();
                             return;
                         }
                     }

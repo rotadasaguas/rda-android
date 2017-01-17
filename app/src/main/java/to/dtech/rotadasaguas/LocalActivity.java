@@ -251,17 +251,21 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap map) {
 
-        double l = coordenadasLat;
-        double g = coordenadasLog;
-        LatLng city = new LatLng(l,g);
+        try {
+            double l = coordenadasLat;
+            double g = coordenadasLog;
+            LatLng city = new LatLng(l,g);
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 18));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 18));
 
-        map.addMarker(new MarkerOptions()
-                .title(nomeLocal)
-                .snippet(endPlace)
-                .rotation(10)
-                .position(city));
+            map.addMarker(new MarkerOptions()
+                    .title(nomeLocal)
+                    .snippet(endPlace)
+                    .rotation(10)
+                    .position(city));
+        }catch(Exception e){
+            Log.e("Bug: MapReady", e.toString());
+        }
 
     }
     @Override
@@ -409,7 +413,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Sem conexão de dados!",
+                                "Falha na aquisição dos dados!",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
