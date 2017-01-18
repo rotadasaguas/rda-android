@@ -13,6 +13,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.media.RatingCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -320,10 +321,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
     //BOTAO VOLTAR ACTIONBAR
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), MinhaRota.class);
         mDemoSlider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
-        startActivityForResult(myIntent, 0);
-
+        onBackPressed();
         return true;
     }
 

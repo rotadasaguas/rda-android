@@ -95,7 +95,7 @@ public class LoginActivity extends CommonActivity {
 
                 FirebaseUser userFirebase = firebaseAuth.getCurrentUser();
 
-                if( userFirebase != null && user.getId() != null ){
+                if( userFirebase != null && user.getId() == null ){
                     user.saveIdSP( LoginActivity.this, userFirebase.getUid() );
                     user.setId( userFirebase.getUid() );
                     user.setName( userFirebase.getDisplayName() );
@@ -201,10 +201,8 @@ public class LoginActivity extends CommonActivity {
 
 
     private void callMainActivity(){
-        openProgressBar();
         Intent intent = new Intent( this, DestaqueActivity.class );
         startActivity(intent);
-        closeProgressBar();
         finish();
     }
 

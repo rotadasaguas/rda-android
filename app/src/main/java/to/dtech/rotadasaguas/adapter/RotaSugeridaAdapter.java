@@ -1,7 +1,9 @@
 package to.dtech.rotadasaguas.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,13 @@ import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.List;
 
+import to.dtech.rotadasaguas.LocalActivity;
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.domain.RotaSugerida;
 
 public class RotaSugeridaAdapter extends BaseAdapter {
     private Context context;
+    private String cidade;
     private List<RotaSugerida> sugestoes;
 
     public RotaSugeridaAdapter(Context context, List<RotaSugerida> sugestoes){
@@ -53,6 +57,7 @@ public class RotaSugeridaAdapter extends BaseAdapter {
             icone = (IconTextView) view.findViewById(R.id.iconRota);
 
         }
+
     }
 
     @Override

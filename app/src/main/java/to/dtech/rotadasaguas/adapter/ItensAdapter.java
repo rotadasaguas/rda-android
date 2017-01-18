@@ -86,12 +86,13 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             String n = nomeLocal.getText().toString();
 
             Intent intent = new Intent(v.getContext(), LocalActivity.class);
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("endereco", endLocal);
             intent.putExtra("descricao", descricao);
             intent.putExtra("nome", n);
 
             v.getContext().startActivity(intent);
+
         }
     }
 

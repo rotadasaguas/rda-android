@@ -111,7 +111,8 @@ public class DestaqueActivity extends AppCompatActivity
         final TextView saudacao = (TextView) findViewById(R.id.nomeUsuario);
         gridView.setFocusable(false);
         gridView.setNumColumns(2);
-        gridView.setAdapter(new RotaSugeridaAdapter(this, rotaSugeridas));
+        final RotaSugeridaAdapter adapter = new RotaSugeridaAdapter(this, rotaSugeridas);
+        gridView.setAdapter(adapter);
 
 
         DateFormat df = new SimpleDateFormat("HH");
@@ -130,6 +131,60 @@ public class DestaqueActivity extends AppCompatActivity
         aOpcoes.setDropDownViewResource(R.layout.spinner_dropdown_item);
         final Spinner spinner = (Spinner) findViewById(R.id.spinnerCidades);
         spinner.setAdapter(aOpcoes);
+
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), RotaSugeridaActivity.class);
+
+                final String spinnerCidade = spinner.getSelectedItem().toString();
+
+                if (adapter.getItemId(position) == 0){
+                    intent.putExtra("rota", "1");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 1){
+                    intent.putExtra("rota", "4");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 2){
+                    intent.putExtra("rota", "5");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 3){
+                    intent.putExtra("rota", "6");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 4){
+                    intent.putExtra("rota", "7");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 5){
+                    intent.putExtra("rota", "8");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 6){
+                    intent.putExtra("rota", "9");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+                if (adapter.getItemId(position) == 7){
+                    intent.putExtra("rota", "10");
+                    intent.putExtra("cidade", spinnerCidade);
+                    startActivity(intent);
+                }
+
+            }
+        });
 
         LinearLayout btn = (LinearLayout) findViewById(R.id.button_destaques);
 

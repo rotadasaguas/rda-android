@@ -133,6 +133,9 @@
         <activity
             android:name=".AgenciaListaActivity"
             android:label="@string/title_activity_agencias_list" />
+        <activity
+            android:name=".RotaSugeridaActivity"
+            android:label="@string/title_activity_rota_list" />
     </application>
 
 </manifest>

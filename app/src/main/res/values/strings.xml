@@ -14,6 +14,7 @@
     <string name="title_activity_cidades">Cidades do Circuito</string>
     <string name="title_activity_agencias">Agências de Turismo</string>
     <string name="title_activity_agencias_list">Lista de Agências</string>
+    <string name="title_activity_rota_list">Locais da Rota</string>
     <string name="title_activity_emergencia">Emergência</string>
     <string name="title_activity_minha_conta">Minha Conta</string>
 
