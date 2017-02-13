@@ -148,37 +148,37 @@ public class DestaqueActivity extends AppCompatActivity
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 1){
-                    intent.putExtra("rota", "4");
+                    intent.putExtra("rota", "2");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 2){
-                    intent.putExtra("rota", "5");
+                    intent.putExtra("rota", "3");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 3){
-                    intent.putExtra("rota", "6");
+                    intent.putExtra("rota", "4");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 4){
-                    intent.putExtra("rota", "7");
+                    intent.putExtra("rota", "5");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 5){
-                    intent.putExtra("rota", "8");
+                    intent.putExtra("rota", "6");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 6){
-                    intent.putExtra("rota", "9");
+                    intent.putExtra("rota", "7");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
                 if (adapter.getItemId(position) == 7){
-                    intent.putExtra("rota", "10");
+                    intent.putExtra("rota", "8");
                     intent.putExtra("cidade", spinnerCidade);
                     startActivity(intent);
                 }
@@ -360,12 +360,13 @@ public class DestaqueActivity extends AppCompatActivity
         List<RotaSugerida> listAux = new ArrayList<>();
 
         String[] nomesR = new String[]{"passeio com a família", "balada com amigos", "comprar presentes", "contruções históricas", "belezas naturais", "esportes radicais", "hora do rango", "bares"};
+        String[] valoresR = new String[]{"parques|clubes|natureza", "boates|discotecas|bares", "lojas|presentes", "contruções históricas", "natureza", "aventura|esportes", "restaurantes|lanchonetes", "bares"};
         String[] iconR = new String[]{"{fa-users}", "{fa-music}", "{fa-gift}", "{fa-building}", "{fa-tree}", "{fa-bicycle}", "{fa-cutlery}", "{fa-beer}"};
 
 
 
        for(int i = 0; i < nomesR.length; i++){
-            RotaSugerida c = new RotaSugerida(nomesR[i % nomesR.length], iconR[i % iconR.length]);
+            RotaSugerida c = new RotaSugerida(nomesR[i % nomesR.length], valoresR[i % valoresR.length], iconR[i % iconR.length]);
             listAux.add(c);
        }
 

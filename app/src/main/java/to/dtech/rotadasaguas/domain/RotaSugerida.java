@@ -3,12 +3,14 @@ package to.dtech.rotadasaguas.domain;
 public class RotaSugerida {
 
     private String nome;
+    private String valores;
     private String icone;
 
     public RotaSugerida(){}
 
-    public RotaSugerida(String n, String i){
+    public RotaSugerida(String n, String v ,String i){
         nome = n;
+        valores = v;
         icone = i;
     }
 
@@ -26,5 +28,13 @@ public class RotaSugerida {
 
     public void setIcone(String icone) {
         this.icone = icone;
+    }
+
+    public String getValores() {
+        return valores;
+    }
+
+    public void setValores(String valores) {
+        this.valores = valores;
     }
 }
