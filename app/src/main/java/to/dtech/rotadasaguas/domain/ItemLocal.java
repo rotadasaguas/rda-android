@@ -8,10 +8,11 @@ public class ItemLocal {
 
 
     public ItemLocal(){}
-    public ItemLocal(String n, String d, String e){
+    public ItemLocal(String n, String d, String e, String f){
         nome = n;
         descricao = d;
         endereco = e;
+        photo = f;
     }
 
     public String getNome() {

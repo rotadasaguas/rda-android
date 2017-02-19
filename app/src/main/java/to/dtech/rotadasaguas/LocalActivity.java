@@ -83,12 +83,12 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     private SweetAlertDialog pDialog;
 
     public String nomeLocal;
-    public String nomeUrlLocal;
+    public String place_id;
+
     public Double coordenadasLog;
     public Double coordenadasLat;
-    public String endereco;
-    public String descricao;
-    public String endPlace;
+
+
     private GoogleMap map;
     private MapFragmentLocal mMapFragmentLocal;
 
@@ -106,7 +106,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public String rating;
     public String linkMap = "";
     public String website = "";
-
+    public String endPlace;
     public String openNow = "";
     public Boolean lHours = false;
     public ArrayList<String> hoursAux = new ArrayList<>();
@@ -122,10 +122,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        nomeUrlLocal = intentOld.getStringExtra("nome").replace(" ", "%20").replace("D\\", "D").replace("'", "");
         nomeLocal = intentOld.getStringExtra("nome");
-        endereco = intentOld.getStringExtra("endereco");
-        descricao = intentOld.getStringExtra("descricao");
+        place_id = intentOld.getStringExtra("endereco");
 
         final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
 
@@ -344,27 +342,9 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            urlBusca = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + nomeUrlLocal + endereco + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo";
-
             HttpHandler shPlace = new HttpHandler();
 
-            String place_id = null;
-
-            // Making a request to url and getting response
-            String jsonIdLocal = shPlace.makeServiceCall(urlBusca);
-
-            Log.d("Verificar", "URL ID: " + urlBusca);
-
-            if (jsonIdLocal != null) {
-                try {
-                    JSONObject jsonObjectPlace = new JSONObject(jsonIdLocal);
-                    JSONArray resultsArrayPlace = jsonObjectPlace.getJSONArray("results");
-                    JSONObject resultPlace = resultsArrayPlace.getJSONObject(0);
-                    place_id = resultPlace.getString("place_id");
-                } catch (final Exception e) {
-                    Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
-                }
-                if (place_id != null){
+            if (place_id != null){
                     String url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo&language=pt-BR";
                     Log.d("Verificar", "URL Place: " + url);
                     String jsonLocal = shPlace.makeServiceCall(url);
@@ -404,10 +384,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                             carregarTelefone(jsonObject);
                         }
                     }
-                }else{
-
-                }
-            } else {
+                }else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -417,7 +394,6 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
                                 .show();
                     }
                 });
-
             }
 
             return null;

@@ -51,6 +51,7 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
     public List<String> listaDeDadosNome = new ArrayList<String>();
     public List<String> listaDeDadosID = new ArrayList<String>();
     public List<String> listaDeDadosEnd = new ArrayList<String>();
+    public List<String> listaDeDadosFoto = new ArrayList<String>();
 
     public List<String> mListAux = new ArrayList<String>();
 
@@ -112,10 +113,17 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
                         try {
                             jsonObject = new JSONObject(auxArray);
                             JSONObject result = jsonObject.getJSONObject("result");
-
                             listaDeDadosNome.add(result.getString("name"));
                             listaDeDadosID.add(result.getString("place_id"));
                             listaDeDadosEnd.add(result.getString("formatted_address"));
+                            JSONArray photosGoogle = result.getJSONArray("photos");
+                            String photoHash = photosGoogle.getJSONObject(0).getString("photo_reference");
+                            if (photoHash.equals(" ") || photoHash == null){
+                                listaDeDadosFoto.add("http://www.freeiconspng.com/uploads/no-image-icon-32.png");
+                            }else{
+                                listaDeDadosFoto.add(photoHash);
+                            }
+
                         } catch (final Exception e) {
                             Log.e("Bug: ", e.toString());
                         }
@@ -126,8 +134,13 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
                 List<ItemLocal> listAux = new ArrayList<>();
 
                 for(int i = 0; i <= listaDeDadosNome.size()-1; i++){
-                    ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i) );
-                    listAux.add(c);
+                    try {
+                        ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i), listaDeDadosFoto.get(i) );
+                        listAux.add(c);
+                    }catch (Exception e){
+
+                    }
+
                 }
 
                 if (listAux.size() > 0){
@@ -227,48 +240,42 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
         if (cidade.equalsIgnoreCase("Socorro")){
             loc = "-22.5951525,-46.5446116";
         }else if(cidade.equalsIgnoreCase("Holambra")){
-            loc = " ";
+            loc = "-22.6333,-47.0564";
         }else if(cidade.equalsIgnoreCase("Lindóia")){
-            loc = " ";
+            loc = "-22.5234,-46.6503";
         }else if(cidade.equalsIgnoreCase("Monte Alegre do Sul")){
-            loc = " ";
+            loc = "-22.6825,-46.6814";
         }else if(cidade.equalsIgnoreCase("Pedreira")){
-            loc = " ";
+            loc = "-22.7419,-46.9017";
         }else if(cidade.equalsIgnoreCase("Águas de Lindóia")){
-
+            loc = "-22.4767,-46.6334";
         }else if(cidade.equalsIgnoreCase("Amparo")){
-
+            loc = "-22.7015,-46.7644";
         }else if(cidade.equalsIgnoreCase("Serra Negra")){
-
+            loc = "-22.6118,-46.701";
         }else if(cidade.equalsIgnoreCase("Jaguariúna")){
-
+            loc = "-22.7058,-46.9862";
         }
 
         return loc;
     }
 
     public String getValoresRota(String numero){
-
         String valor = "";
 
-        if (numero.equals("1")){
-            valor = "parques|clubes|natureza";
+        if(numero.equals("1")){
+            valor = "casa+noturna|boate";
         }else if(numero.equals("2")){
-            valor = "casa+noturna|boates";
+            valor = "museus|monumentos";
         }else if(numero.equals("3")){
-            valor = "lojas|presentes";
+            valor = "garden|parques";
         }else if(numero.equals("4")){
-            valor = "turismo";
+            valor = "hoteis";
         }else if(numero.equals("5")){
-            valor = "natureza";
-        }else if(numero.equals("6")){
-            valor = "esportes+radicais";
-        }else if(numero.equals("7")){
             valor = "restaurantes|lanchonetes";
-        }else if(numero.equals("8")){
+        }else if(numero.equals("6")){
             valor = "bar|bares";
         }
-
         return valor;
 
     }
@@ -314,7 +321,7 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
             gostos = getValoresRota(rotaServer);
 
             try {
-                urlServer = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword="+ gostos +"&location="+ localizacao + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8&language=pt-BR";
+                urlServer = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword="+ gostos +"&location="+ localizacao + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
                 mListAux = getPlaceIDs(urlServer);
                 mList = getPlaceDetails(mListAux);
                 v = 1;
@@ -357,4 +364,6 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
 
 
     }
+
+
 }

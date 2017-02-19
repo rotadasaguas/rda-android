@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -21,6 +22,8 @@ import to.dtech.rotadasaguas.domain.Tag;
 
 public class GostosAlimentacaoActivity extends AppCompatActivity{
 
+    String cidadeOld;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,9 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+        cidadeOld = intentOld.getStringExtra("cidade");
+
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("alimentacao");
 
         for (int i = 0; i < listaOld.size(); i++ ){
             listaMarcadoresAlimentacao.add(listaOld.get(i));
@@ -76,7 +81,9 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarLazer);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadoresAlimentacao);
+                intent.putStringArrayListExtra("alimentacao", (ArrayList<String>) listaMarcadoresAlimentacao);
+                intent.putExtra("cidade", cidadeOld);
+                Log.d("Alimentacao: ", cidadeOld + listaMarcadoresAlimentacao.toString());
                 startActivity(intent);
             }
         });
@@ -84,8 +91,8 @@ public class GostosAlimentacaoActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsGostosAlimentacao(){
-        String[] tags = new String[]{"Churrasco", "Doces", "Comida Caseira", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Sobremesas", "Salgados", "Pizza", "Pastel"};
-        String[] numeros = new String[]{"7", "9", "25", "23", "22", "26", "21", "6", "10", "24", "38", "39"};
+        String[] tags = new String[]{"Churrasco", "Doces", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Pizza", "Pastel"};
+        String[] numeros = new String[]{"Churrascaria", "Doceria", "Restaurante+Italino", "Sushi", "Cafeteria", "Fast+food", "Sorveterias", "Pizzarias", "Pastelarias"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

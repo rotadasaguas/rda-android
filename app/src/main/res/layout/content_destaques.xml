@@ -81,7 +81,7 @@
 
     <TextView
         android:id="@+id/titleRotas"
-        android:text="Rotas Sugeridas"
+        android:text="Locais por Categoria"
         android:layout_below="@id/ltSlider"
         android:layout_marginTop="15dp"
         android:paddingTop="5dp"

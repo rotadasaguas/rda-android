@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import to.dtech.rotadasaguas.adapter.TagSubAdapter;
 import to.dtech.rotadasaguas.domain.Tag;
 
 public class SubLazerActivity extends AppCompatActivity{
+
+    String cidadeOld;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,8 @@ public class SubLazerActivity extends AppCompatActivity{
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
-
-        for (int i = 0; i < listaOld.size(); i++ ){
-            listaMarcadores.add(listaOld.get(i));
-        }
+        final ArrayList<String> listaAlimentacaoOld = intentOld.getStringArrayListExtra("alimentacao");
+        cidadeOld = intentOld.getStringExtra("cidade");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -76,7 +76,11 @@ public class SubLazerActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarGostosLazer);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadores);
+                intent.putExtra("cidade", cidadeOld);
+                intent.putStringArrayListExtra("lazer", (ArrayList<String>) listaMarcadores);
+                intent.putStringArrayListExtra("alimentacao", (ArrayList<String>) listaAlimentacaoOld);
+                Log.d("gostos alimentacao: ", cidadeOld + listaAlimentacaoOld.toString());
+                Log.d("gostos lazer: ", cidadeOld + listaMarcadores.toString());
                 startActivity(intent);
             }
         });
@@ -85,7 +89,7 @@ public class SubLazerActivity extends AppCompatActivity{
 
     public List<Tag> getTagsLazer(){
         String[] tags = new String[]{"Passeio", "Aventura"};
-        String[] numeros = new String[]{"35", "36"};
+        String[] numeros = new String[]{"Passeio", "Aventura"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

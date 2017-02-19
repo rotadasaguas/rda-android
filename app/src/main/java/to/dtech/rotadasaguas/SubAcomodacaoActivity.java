@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +27,8 @@ import to.dtech.rotadasaguas.domain.util.LibraryClass;
 
 public class SubAcomodacaoActivity extends AppCompatActivity {
 
+    public String cidadeOld;
+
     private DatabaseReference mDatabase;
 
     @Override
@@ -42,16 +45,10 @@ public class SubAcomodacaoActivity extends AppCompatActivity {
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
-
-        for (int i = 0; i < listaOld.size(); i++ ){
-            listaMarcadores.add(listaOld.get(i));
-        }
-        //OBTEM A CIDADE DA ROTA
-        final String cidade = listaMarcadores.get(0);
-
-        //REMOVE A CIDADE DA LISTA DE TAGS
-        listaMarcadores.remove(0);
+        final ArrayList<String> listaAlimentacaoOld = intentOld.getStringArrayListExtra("alimentacao");
+        final ArrayList<String> listaLazerOld = intentOld.getStringArrayListExtra("lazer");
+        cidadeOld = intentOld.getStringExtra("cidade");
+        Log.e("cidade", cidadeOld);
 
 
         //FIREBASE INIT
@@ -92,15 +89,15 @@ public class SubAcomodacaoActivity extends AppCompatActivity {
         Button novaTela = (Button) findViewById(R.id.avancarGostosAcomodacao);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                saveRota(idUser, listaMarcadores, cidade);
+                saveRota(idUser, cidadeOld ,listaAlimentacaoOld, listaLazerOld ,listaMarcadores);
             }
         });
 
     }
 
     public List<Tag> getTagsAcomodacao() {
-        String[] tags = new String[]{"Hotel", "Camping", "Pousada", "Estalagem", "Albergue", "Motel", "Hotel-fazenda"};
-        String[] numeros = new String[]{"27", "28", "29", "30", "31", "32", "33"};
+        String[] tags = new String[]{"Camping", "Pousada", "Estalagem", "Albergue", "Motel", "Hotel-fazenda"};
+        String[] numeros = new String[]{"Camping", "Pousada", "Estalagem", "Albergue", "Motel", "Hotel-fazenda"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
@@ -113,10 +110,11 @@ public class SubAcomodacaoActivity extends AppCompatActivity {
 
 
     //FIREBASE
-    private void saveRota(String userId, List<String> lista, String cidadeMarcada) {
-        Rota rota = new Rota(userId, lista, cidadeMarcada);
+    private void saveRota(String idRota, String cidade, List<String> alimentacao, List<String> lazer, List<String> acomodacao ) {
+        Rota rota = new Rota(idRota, cidade, alimentacao, lazer, acomodacao);
+        Log.e("cidade", cidade);
         try {
-            mDatabase.child("rotas").child(userId).setValue(rota);
+            mDatabase.child("rotas").child(idRota).setValue(rota);
             final Intent intentRota = new Intent(SubAcomodacaoActivity.this, MinhaRota.class);
             new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Rota Criada!")

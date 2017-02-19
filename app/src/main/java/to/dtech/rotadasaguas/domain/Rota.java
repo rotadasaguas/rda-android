@@ -6,12 +6,40 @@ public class Rota {
 
     String idRota;
     String cidade;
-    List<String> marcadores;
+    List<String> alimentacao;
+    List<String> lazer;
+    List<String> acomodacao;
 
-    public Rota(String userId, List<String> lista, String cidade){
-        this.setIdRota(userId);
-        this.setCidade(cidade);
-        this.setMarcadores(lista);
+    public Rota(String idRota, String cidade, List<String> alimentacao, List<String> lazer, List<String> acomodacao) {
+        this.idRota = idRota;
+        this.cidade = cidade;
+        this.alimentacao = alimentacao;
+        this.lazer = lazer;
+        this.acomodacao = acomodacao;
+    }
+
+    public List<String> getAlimentacao() {
+        return alimentacao;
+    }
+
+    public void setAlimentacao(List<String> alimentacao) {
+        this.alimentacao = alimentacao;
+    }
+
+    public List<String> getLazer() {
+        return lazer;
+    }
+
+    public void setLazer(List<String> lazer) {
+        this.lazer = lazer;
+    }
+
+    public List<String> getAcomodacao() {
+        return acomodacao;
+    }
+
+    public void setAcomodacao(List<String> acomodacao) {
+        this.acomodacao = acomodacao;
     }
 
     public String getIdRota() {
@@ -22,13 +50,6 @@ public class Rota {
         this.idRota = idRota;
     }
 
-    public List<String> getMarcadores() {
-        return marcadores;
-    }
-
-    public void setMarcadores(List<String> marcadores) {
-        this.marcadores = marcadores;
-    }
 
     public String getCidade() {
         return cidade;

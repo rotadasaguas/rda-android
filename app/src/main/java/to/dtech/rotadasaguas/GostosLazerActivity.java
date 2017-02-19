@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,12 +21,15 @@ import to.dtech.rotadasaguas.domain.Tag;
 
 public class GostosLazerActivity extends AppCompatActivity{
 
+    String cidadeOld;
+    ArrayList<String> listaAlimentacaoOld;
+
     String[] gostosLazerAventura = {"Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
-    String[] numerosLazerAventura = {"12", "14", "13", "37", "15", "16", "11", "17"};
-    String[] gostosLazerPasseio = {"Caminhada", "Passeio a Natureza", "Prédios Históricos"};
-    String[] numerosLazerPasseio = {"18", "19", "20"};
-    String[] gostosLazerAmbos = {"Caminhada", "Passeio a Natureza", "Prédios Históricos", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
-    String[] numerosLazerAmbos = {"18", "19", "20", "12", "14", "13", "37", "15", "16", "11", "17"};
+    String[] numerosLazerAventura = {"Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+    String[] gostosLazerPasseio = {"Trilhas", "Monumentos", "Museus"};
+    String[] numerosLazerPasseio = {"Trilhas", "Monumentos", "Museus"};
+    String[] gostosLazerAmbos = {"Trilhas", "Monumentos", "Museus", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+    String[] numerosLazerAmbos = {"Trilhas", "Monumentos", "Museus", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,26 +45,25 @@ public class GostosLazerActivity extends AppCompatActivity{
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("Marcadores");
+        ArrayList<String> listaOld = intentOld.getStringArrayListExtra("lazer");
+        listaAlimentacaoOld = intentOld.getStringArrayListExtra("alimentacao");
+        cidadeOld = intentOld.getStringExtra("cidade");
 
         for (int i = 0; i < listaOld.size(); i++ ){
             listaMarcadores.add(listaOld.get(i));
         }
 
 
-        //VERIFICA OPCAO DE LAZER MARCADA & CARREGA LISTA DE DADOS
-        int tamanhoLista = listaMarcadores.size();
+        String tagNomeUm = listaMarcadores.get(listaMarcadores.size()-1);
+        String tagNomeDois = listaMarcadores.get(listaMarcadores.size()-2);
 
-        String tagNomeUm = listaMarcadores.get(tamanhoLista-1);
-        String tagNomeDois = listaMarcadores.get(tamanhoLista-2);
-
-        if (tagNomeUm.equalsIgnoreCase("35") && tagNomeDois.equalsIgnoreCase("36") || tagNomeUm.equalsIgnoreCase("36") && tagNomeDois.equalsIgnoreCase("35")){
+        if (tagNomeUm.equalsIgnoreCase("Passeio") && tagNomeDois.equalsIgnoreCase("Aventura") || tagNomeUm.equalsIgnoreCase("Aventura") && tagNomeDois.equalsIgnoreCase("Passeio")){
             tags = getTagsGostosLazer(gostosLazerAmbos, numerosLazerAmbos);
         }
-        else if (tagNomeUm.equalsIgnoreCase("35")){
+        else if (tagNomeUm.equalsIgnoreCase("Passeio")){
             tags = getTagsGostosLazer(gostosLazerPasseio, numerosLazerPasseio);
         }
-        else if (tagNomeUm.equalsIgnoreCase("36")){
+        else if (tagNomeUm.equalsIgnoreCase("Aventura")){
             tags = getTagsGostosLazer(gostosLazerAventura, numerosLazerAventura);
         }
         else{
@@ -103,7 +106,11 @@ public class GostosLazerActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarAcomodacao);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadores);
+                intent.putExtra("cidade", cidadeOld);
+                intent.putStringArrayListExtra("lazer", (ArrayList<String>) listaMarcadores);
+                intent.putStringArrayListExtra("alimentacao", (ArrayList<String>) listaAlimentacaoOld);
+                Log.d("gostos alimentacao: ", cidadeOld + listaAlimentacaoOld.toString());
+                Log.d("gostos lazer: ", cidadeOld + listaMarcadores.toString());
                 startActivity(intent);
             }
         });

@@ -87,7 +87,7 @@ public class CriarRota extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String valorSpinner = spinner.getSelectedItem().toString();
-                intent.putExtra("Marcadores", valorSpinner);
+                intent.putExtra("cidade", valorSpinner);
                 startActivity(intent);
             }
         });

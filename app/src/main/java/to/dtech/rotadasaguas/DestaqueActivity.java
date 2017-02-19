@@ -359,9 +359,9 @@ public class DestaqueActivity extends AppCompatActivity
 
         List<RotaSugerida> listAux = new ArrayList<>();
 
-        String[] nomesR = new String[]{"passeio com a família", "balada com amigos", "comprar presentes", "contruções históricas", "belezas naturais", "esportes radicais", "hora do rango", "bares"};
-        String[] valoresR = new String[]{"parques|clubes|natureza", "boates|discotecas|bares", "lojas|presentes", "contruções históricas", "natureza", "aventura|esportes", "restaurantes|lanchonetes", "bares"};
-        String[] iconR = new String[]{"{fa-users}", "{fa-music}", "{fa-gift}", "{fa-building}", "{fa-tree}", "{fa-bicycle}", "{fa-cutlery}", "{fa-beer}"};
+        String[] nomesR = new String[]{"Boates", "Museus", "Parques", "Hoteis", "Restaurantes", "Bares"};
+        String[] valoresR = new String[]{"boates|discotecas|bares", "contruções históricas", "natureza", "hoteis", "restaurantes|lanchonetes", "bares"};
+        String[] iconR = new String[]{"{fa-music}", "{fa-building}", "{fa-tree}", "{fa-bed}", "{fa-cutlery}", "{fa-beer}"};
 
 
 

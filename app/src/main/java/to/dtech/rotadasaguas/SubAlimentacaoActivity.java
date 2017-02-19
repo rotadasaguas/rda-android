@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import to.dtech.rotadasaguas.domain.Tag;
 
 public class SubAlimentacaoActivity extends AppCompatActivity{
 
+    String cidadeOld;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +38,7 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
-        String listaOld = intentOld.getStringExtra("Marcadores");
-
-        listaMarcadoresAlimentacao.add(listaOld);
+        cidadeOld = intentOld.getStringExtra("cidade");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -76,7 +77,9 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
         Button novaTela = (Button) findViewById(R.id.avancarGostos);
         novaTela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                intent.putStringArrayListExtra("Marcadores", (ArrayList<String>) listaMarcadoresAlimentacao);
+                intent.putStringArrayListExtra("alimentacao", (ArrayList<String>) listaMarcadoresAlimentacao);
+                intent.putExtra("cidade", cidadeOld);
+                Log.d("Alimentacao: ", cidadeOld + listaMarcadoresAlimentacao.toString());
                 startActivity(intent);
             }
         });
@@ -85,7 +88,7 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
 
     public List<Tag> getTagsSubAlimentacao(){
         String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
-        String[] numeros = new String[]{"5", "8", "34"};
+        String[] numeros = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
