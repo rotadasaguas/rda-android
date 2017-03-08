@@ -2,7 +2,9 @@ package to.dtech.rotadasaguas;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -57,6 +59,9 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
 
+
+    private SweetAlertDialog pDialog;
+
     public String urlJson = "";
     public String cidadeJson = "";
 
@@ -65,6 +70,9 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             R.drawable.ic_directions_bike_black,
             R.drawable.ic_local_hotel_black
     };
+
+    //ATUALIZACAO MARÇO
+    public static String nomeCidade = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,30 +155,18 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                         ArrayList marcadores = new ArrayList();
 
                         //CAPTURA OS VALORES DOS MARCADORES NO FIREBASE
-                        for (DataSnapshot data : dataSnapshot.child("marcadores").getChildren()) {
+                        for (DataSnapshot data : dataSnapshot.child("cidade").getChildren()) {
                             //INSERE OS VALORES NO ARRAY PARA USO NO WEB SERVICE
                             marcadores.add(data.getValue());
                         }
 
-                        cidadeJson = dataSnapshot.child("cidade").getValue().toString();
+                        nomeCidade = dataSnapshot.child("cidade").getValue().toString();
 
-                        //REMOVE OS ESPAÇOS E [] DO ARRAY PARA IMPRIMIR A LISTA COMPLETA
-                        String textMarcadores = marcadores.toString().replace("[", "").replace("]", "").replace(" ", "");
-                        urlJson = "http://siqueiradg.com.br/rotadasaguas/ws-rota/index.php?c=Locais&s=listarPorTag&id=" + textMarcadores;
+                        if (!nomeCidade.equals("")){
+                            Log.d("CIDADE", nomeCidade);
+                            new ProcessaDadosWS().execute();
+                        }
 
-                        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-
-                        // Set up the ViewPager with the sections adapter.
-                        mViewPager = (ViewPager) findViewById(R.id.container);
-                        mViewPager.setAdapter(mSectionsPagerAdapter);
-                        mViewPager.setOffscreenPageLimit(3);
-
-                        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-                        tabLayout.setupWithViewPager(mViewPager);
-                        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-                        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-                        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
                     }
 
                     @Override
@@ -180,7 +176,18 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                 }
         );
 
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     public void apagarRota(){
@@ -246,6 +253,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
         }
     }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -293,7 +301,6 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         finish();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -338,5 +345,38 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_minha_rota);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    //tarefas em background
+    public class ProcessaDadosWS extends AsyncTask<String,Integer,Integer> {
+
+        String teste = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new SweetAlertDialog(MinhaRota.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
+            pDialog.setTitleText("Carregando");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+
+            teste = nomeCidade;
+            if (!teste.equals("")){
+                pDialog.dismiss();
+                Log.d("CONTADOR", teste);
+            }
+
+            return null;
+        }
+
     }
 }
