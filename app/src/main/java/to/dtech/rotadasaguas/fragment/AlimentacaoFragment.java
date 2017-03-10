@@ -32,14 +32,8 @@ import to.dtech.rotadasaguas.util.HttpHandler;
 public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
     private RecyclerView mRecyclerView;
-    private List<ItemLocal> mList;
+    public static List<ItemLocal> mList = null;
 
-    private List<String> listaDeDadosNomes = new ArrayList<String>();
-    private List<String> listaDeDadosDesc = new ArrayList<String>();
-    private List<String> listaDeDadosEnd = new ArrayList<String>();
-
-    private String argsServer;
-    private String cidadeServer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +42,6 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
         mRecyclerView.setHasFixedSize(true);
-
-        argsServer = getArguments().getString("url").toString();
-        cidadeServer = getArguments().getString("cidade").toString();
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -61,23 +52,17 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
 
         mRecyclerView.setLayoutManager(llm);
 
-         try {
-             mList = getLocaisAlimentacao(argsServer);
-             if (mList.size() > 0){
-                 imgSad.setVisibility(View.GONE);
-                 txtSad.setVisibility(View.GONE);
-             }
-             ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
-             adapter.setRecyclerViewOnClickListenerHack(this);
+        if (mList == null){
+            imgSad.setVisibility(View.VISIBLE);
+            txtSad.setVisibility(View.VISIBLE);
+        }else{
+            ItensAdapter adapter = new ItensAdapter(getActivity(), mList);
+            adapter.setRecyclerViewOnClickListenerHack(this);
 
-             mRecyclerView.setAdapter( adapter );
+            mRecyclerView.setAdapter( adapter );
+        }
 
 
-            }catch (ExecutionException e) {
-             e.printStackTrace();
-            }catch (InterruptedException e) {
-             e.printStackTrace();
-         }
 
         return rootView;
     }
@@ -88,84 +73,5 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
         //adapter.goToPlace(position);
     }
 
-    public List<ItemLocal> getLocaisAlimentacao(final String args) throws ExecutionException, InterruptedException {
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        Future<String> futureResult = executor.submit(new Callable<String>() {
-
-            @Override
-            public String call() throws Exception {
-
-                HttpHandler sh = new HttpHandler();
-                String retorno;
-
-                String dadosWS = sh.makeServiceCall(args);
-
-                if (dadosWS != null){
-                     retorno = dadosWS;
-                }
-                else{
-                    retorno = null;
-                }
-
-
-                return retorno;
-            }
-        });
-
-        //Obtendo um resultado da execucão da Thread
-        String resultado = futureResult.get();
-        Log.d("Erro", "Resultado: " + resultado);
-
-        if (resultado != null){
-            try {
-                JSONObject jsonObject = new JSONObject(resultado);
-
-                JSONArray resultsArray = jsonObject.getJSONArray("locais");
-
-                JSONObject r;
-
-                System.out.print(resultsArray.length());
-
-               for (int i = 0; i < resultsArray.length(); i++){
-                   r = resultsArray.getJSONObject(i);
-
-                   if (r.getString("categoria").equalsIgnoreCase("Alimentação")) {
-                       if (r.getString("cidade").equalsIgnoreCase(cidadeServer)) {
-                           listaDeDadosNomes.add(r.getString("nome"));
-                           listaDeDadosDesc.add(r.getString("descricao"));
-                           listaDeDadosEnd.add(r.getString("rua").replace(" ", "+") + "+" + r.getString("cidade") + ",SP" + "," +  "Brasil" );
-                       }
-                   }
-               }
-
-
-            } catch (final Exception e) {
-                Log.e("SCRIPT", "Json parsing error: " + e.getMessage());
-            }
-        }else{
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getContext().getApplicationContext(),
-                            "Sem conexão de dados!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
-        }
-
-        executor.shutdown();
-
-        List<ItemLocal> listAux = new ArrayList<>();
-
-        for(int i = 0; i <= listaDeDadosNomes.size()-1; i++){
-            ItemLocal c = new ItemLocal( listaDeDadosNomes.get(i), listaDeDadosDesc.get(i), listaDeDadosEnd.get(i) );
-            listAux.add(c);
-        }
-        return(listAux);
-
-
-    }
 }
