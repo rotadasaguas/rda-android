@@ -4,30 +4,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import to.dtech.rotadasaguas.R;
 import to.dtech.rotadasaguas.adapter.ItensAdapter;
 import to.dtech.rotadasaguas.domain.ItemLocal;
 import to.dtech.rotadasaguas.interfaces.RecyclerViewOnClickListenerHack;
-import to.dtech.rotadasaguas.util.HttpHandler;
 
 public class AcomodacaoFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
@@ -38,9 +26,9 @@ public class AcomodacaoFragment extends Fragment implements RecyclerViewOnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_minha_rota, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_minha_rota_acomodacao, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_alimentacao);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_acomodacao);
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

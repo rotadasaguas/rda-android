@@ -275,13 +275,13 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                     return alimentacao;
                 case 1:
                     if (listPlaceDetailLazer != null){
-                        AlimentacaoFragment.mList = listPlaceDetailLazer;
+                        EsportesFragment.mList = listPlaceDetailLazer;
                     }
                     EsportesFragment esportes = new EsportesFragment();
                     return esportes;
                 case 2:
                     if (listPlaceDetailAcomodacao != null){
-                        AlimentacaoFragment.mList = listPlaceDetailAcomodacao;
+                        AcomodacaoFragment.mList = listPlaceDetailAcomodacao;
                     }
                     AcomodacaoFragment acomodacao = new AcomodacaoFragment();
 
@@ -376,11 +376,11 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             }
             //LAZER
             if (!lazer.equals("")){
-                String auxUrl = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword=" + lazer.toString().replace("[", "").replace("]", "").replace(" ", "").replace(",", "|") + "&location=" + getLocalizacao(nomeCidade) + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
-                Log.d("contador+", auxUrl);
-                if (!auxUrl.equals("")){
+                String auxUrllazer = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword=" + lazer.toString().replace("[", "").replace("]", "").replace(" ", "").replace(",", "|") + "&location=" + getLocalizacao(nomeCidade) + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
+                Log.d("contador+", auxUrllazer);
+                if (!auxUrllazer.equals("")){
                     try {
-                        listPlaceSearchLazer = getPlaceIDs(auxUrl);
+                        listPlaceSearchLazer = getPlaceIDs(auxUrllazer);
                         listPlaceDetailLazer= getPlaceDetails(listPlaceSearchLazer);
                     }catch (Exception e){
 
@@ -389,11 +389,11 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             }
             //ACOMODACAO
             if (!acomodacao.equals("")){
-                String auxUrl = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword=" + acomodacao.toString().replace("[", "").replace("]", "").replace(" ", "").replace(",", "|") + "&location=" + getLocalizacao(nomeCidade) + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
-                Log.d("contador+", auxUrl);
-                if (!auxUrl.equals("")){
+                String auxUrlacomod = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword=" + acomodacao.toString().replace("[", "").replace("]", "").replace(" ", "").replace(",", "|") + "&location=" + getLocalizacao(nomeCidade) + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
+                Log.d("contador+", auxUrlacomod);
+                if (!auxUrlacomod.equals("")){
                     try {
-                        listPlaceSearchAcomodacao = getPlaceIDs(auxUrl);
+                        listPlaceSearchAcomodacao = getPlaceIDs(auxUrlacomod);
                         listPlaceDetailAcomodacao = getPlaceDetails(listPlaceSearchAcomodacao);
                     }catch (Exception e){
 
