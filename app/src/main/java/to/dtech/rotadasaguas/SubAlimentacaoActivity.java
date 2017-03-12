@@ -34,7 +34,7 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
         listView.setAdapter(new TagSubAdapter(this, tags));
         final List<String> listaMarcadoresAlimentacao = new ArrayList<String>();
 
-        final Intent intent = new Intent(SubAlimentacaoActivity.this, GostosAlimentacaoActivity.class);
+        final Intent intent = new Intent(SubAlimentacaoActivity.this, SubLazerActivity.class);
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
         Intent intentOld = getIntent();
@@ -87,8 +87,8 @@ public class SubAlimentacaoActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsSubAlimentacao(){
-        String[] tags = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
-        String[] numeros = new String[]{"Lanchonetes", "Restaurantes", "Bares"};
+        String[] tags = new String[]{"Churrasco", "Doces", "Comida Italiana", "Sushi", "Café e Chá", "Fast Food", "Sorvete", "Pizza", "Pastel"};
+        String[] numeros = new String[]{"Churrascaria", "Doceria", "Restaurante+Italino", "Sushi", "Cafeteria", "Fast+food", "Sorveterias", "Pizzarias", "Pastelarias"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 

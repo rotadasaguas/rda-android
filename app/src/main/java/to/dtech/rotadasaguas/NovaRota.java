@@ -61,7 +61,7 @@ public class NovaRota extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String valorSpinner = spinner.getSelectedItem().toString();
-                intent.putExtra("Marcadores", valorSpinner);
+                intent.putExtra("cidade", valorSpinner);
                 startActivity(intent);
             }
         });
@@ -100,6 +100,10 @@ public class NovaRota extends AppCompatActivity
 
         if (id == R.id.nav_destaques) {
             Intent intent = new Intent(NovaRota.this, DestaqueActivity.class);
+
+            startActivity(intent);
+        }else if (id == R.id.nav_meusLocais) {
+            Intent intent = new Intent(NovaRota.this, MeusLocaisActivity.class);
 
             startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {

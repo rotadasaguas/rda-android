@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.joanzapata.iconify.widget.IconTextView;
@@ -37,11 +38,13 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         Log.i("LOG", "onCreateViewHolder()");
         View v = mLayoutInflater.inflate(R.layout.item_minha_rota, viewGroup, false);
         MyViewHolder mvh = new MyViewHolder(v);
+
         return mvh;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
+        Log.i("LOG", "onBindViewHolder()");
         Log.i("LOG", "onBindViewHolder()");
        // if (mList.get(position).getPhoto() == null){
             Log.e("Imagem: "+position, mList.get(position).getPhoto());
@@ -54,6 +57,8 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         myViewHolder.descLocal.setText( mList.get(position).getDescricao() );
         myViewHolder.endLocal = mList.get(position).getEndereco();
         myViewHolder.descricao = mList.get(position).getDescricao();
+        myViewHolder.rating.setRating(Float.parseFloat(mList.get(position).getRating()));
+
     }
 
     @Override
@@ -61,6 +66,15 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         return mList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
         mRecyclerViewOnClickListenerHack = r;
@@ -73,6 +87,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         public TextView descLocal;
         public String descricao;
         public String endLocal;
+        public RatingBar rating;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +95,8 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             icone = (ImageView) itemView.findViewById(R.id.iv_car);
             nomeLocal = (TextView) itemView.findViewById(R.id.tv_model);
             descLocal = (TextView) itemView.findViewById(R.id.tv_brand);
+            rating = (RatingBar) itemView.findViewById(R.id.ratingBar);
+
 
             itemView.setOnClickListener(this);
         }
@@ -102,6 +119,34 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             v.getContext().startActivity(intent);
 
         }
+    }
+
+    public void clearLista(int p) {
+        int size = this.mList.size();
+
+        // 50 - 6
+
+        Log.d("DEBUGX", "size:" + size);
+        Log.d("DEBUGX", "p:" + p);
+
+        if (size > p){
+            while (p <= size){
+                mList.remove(p);
+                size--;
+                notifyItemRangeRemoved(0, size);
+            }
+        }
+
+
+
+       /* for (int i = p; i <= size; i++){
+
+        }
+        if (size >= p){
+            this.mList.clear();
+            //mList.remove
+            notifyItemRangeRemoved(0, size);
+        }*/
     }
 
 }

@@ -1,5 +1,6 @@
 package to.dtech.rotadasaguas;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -145,6 +146,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
         //FIREBASE DATABASE
         mDatabase = LibraryClass.getFirebase();
+
         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase.child("rotas").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -315,6 +317,9 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
         if (id == R.id.nav_destaques) {
             Intent intent = new Intent(MinhaRota.this, DestaqueActivity.class);
             startActivity(intent);
+        }else if (id == R.id.nav_meusLocais) {
+            Intent intent = new Intent(MinhaRota.this, MeusLocaisActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {
             Intent intent = new Intent(MinhaRota.this, MinhaRota.class);
             startActivity(intent);
@@ -353,8 +358,16 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             pDialog = new SweetAlertDialog(MinhaRota.this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
             pDialog.setTitleText("Carregando");
-            pDialog.setCancelable(false);
+            pDialog.setContentText("Calma! Isso pode demorar um pouco :)");
+            pDialog.setCancelable(true);
             pDialog.show();
+
+            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    onBackPressed();
+                }
+            });
         }
 
         @Override
@@ -401,10 +414,6 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                 }
             }
 
-            if (listPlaceDetailAlimentacao != null && listPlaceDetailAcomodacao != null && listPlaceDetailLazer != null){
-                pDialog.dismiss();
-            }
-
             return null;
         }
 
@@ -423,6 +432,8 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             tabLayout.getTabAt(0).setIcon(tabIcons[0]);
             tabLayout.getTabAt(1).setIcon(tabIcons[1]);
             tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+
+            pDialog.dismiss();
         }
 
         public List<String> getPlaceIDs(final String args) throws ExecutionException, InterruptedException {
@@ -492,6 +503,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
             final List<String> listaDeDadosNome = new ArrayList<String>();
             final List<String> listaDeDadosID = new ArrayList<String>();
             final List<String> listaDeDadosEnd = new ArrayList<String>();
+            final List<String> listaDeDadosRating = new ArrayList<String>();
             final List<String> listaDeDadosFoto = new ArrayList<String>();
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -505,6 +517,8 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                     HttpHandler sh = new HttpHandler();
                     List<ItemLocal> retorno;
                     String auxPlace;
+                    String tmpRating;
+
                     String auxArray = "";
                     for (int i = 0; i < listona.size(); i++){
                         auxPlace = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + listona.get(i) + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo&language=pt-BR";
@@ -516,17 +530,23 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
                             try {
                                 jsonObject = new JSONObject(auxArray);
                                 JSONObject result = jsonObject.getJSONObject("result");
-                                listaDeDadosNome.add(result.getString("name"));
-                                listaDeDadosID.add(result.getString("place_id"));
-                                listaDeDadosEnd.add(result.getString("formatted_address"));
-                                JSONArray photosGoogle = result.getJSONArray("photos");
-                                String photoHash = photosGoogle.getJSONObject(0).getString("photo_reference");
-                                if (photoHash.equals(" ") || photoHash == null){
-                                    listaDeDadosFoto.add("http://www.freeiconspng.com/uploads/no-image-icon-32.png");
-                                }else{
-                                    listaDeDadosFoto.add(photoHash);
-                                }
+                                tmpRating = result.getString("rating");
 
+                                if (!tmpRating.equals("")){
+                                    if (Float.parseFloat(tmpRating) > 3){
+                                        listaDeDadosNome.add(result.getString("name"));
+                                        listaDeDadosID.add(result.getString("place_id"));
+                                        listaDeDadosEnd.add(result.getString("formatted_address"));
+                                        listaDeDadosRating.add(result.getString("rating"));
+                                        JSONArray photosGoogle = result.getJSONArray("photos");
+                                        String photoHash = photosGoogle.getJSONObject(0).getString("photo_reference");
+                                        if (photoHash.equals(" ") || photoHash == null){
+                                            listaDeDadosFoto.add("http://www.freeiconspng.com/uploads/no-image-icon-32.png");
+                                        }else{
+                                            listaDeDadosFoto.add(photoHash);
+                                        }
+                                    }
+                                }
                             } catch (final Exception e) {
                                 Log.e("Bug: ", e.toString());
                             }
@@ -538,7 +558,7 @@ public class MinhaRota extends AppCompatActivity implements NavigationView.OnNav
 
                     for(int i = 0; i <= listaDeDadosNome.size()-1; i++){
                         try {
-                            ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i), listaDeDadosFoto.get(i) );
+                            ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i), listaDeDadosFoto.get(i), listaDeDadosRating.get(i) );
                             listAux.add(c);
                         }catch (Exception e){
 

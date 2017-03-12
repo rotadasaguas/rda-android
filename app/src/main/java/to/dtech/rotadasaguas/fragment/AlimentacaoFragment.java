@@ -50,8 +50,6 @@ public class AlimentacaoFragment extends Fragment implements RecyclerViewOnClick
             mRecyclerView.setAdapter( adapter );
         }
 
-
-
         return rootView;
     }
 

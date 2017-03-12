@@ -1,38 +1,22 @@
 package to.dtech.rotadasaguas;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v4.media.RatingCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -43,26 +27,28 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,12 +57,9 @@ import at.blogc.android.views.ExpandableTextView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import to.dtech.rotadasaguas.adapter.CommentAdapter;
 import to.dtech.rotadasaguas.domain.Comentario;
-import to.dtech.rotadasaguas.domain.Local;
+import to.dtech.rotadasaguas.domain.util.LibraryClass;
 import to.dtech.rotadasaguas.fragment.MapFragmentLocal;
 import to.dtech.rotadasaguas.util.HttpHandler;
-
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 
 public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallback, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ObservableScrollViewCallbacks {
 
@@ -112,6 +95,8 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
     public ArrayList<String> hoursAux = new ArrayList<>();
     public HashMap<String,String> imgGoogleAux = new HashMap<String, String>();
 
+    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +109,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         Intent intentOld = getIntent();
         nomeLocal = intentOld.getStringExtra("nome");
         place_id = intentOld.getStringExtra("endereco");
+        Log.d("PLACE_ID", place_id);
 
         final ListView listView = (ListView) findViewById(R.id.comentariosLocal);
 
@@ -156,6 +142,7 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
         final Button btnPhone = (Button) this.findViewById(R.id.btnLigar);
         final Button btnMap = (Button) this.findViewById(R.id.btnMapa);
         final Button btnSite = (Button) this.findViewById(R.id.btnSite);
+        final LikeButton btnFav = (LikeButton) this.findViewById(R.id.gostei);
 
         // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
         expandableTextView.setAnimationDuration(1000L);
@@ -245,6 +232,64 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
 
             }
         });
+
+        //FIREBASE INIT
+        mDatabase = LibraryClass.getFirebase();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase.child("favoritos").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            Log.d("VALOR_DATA", data.getValue().toString());
+                            if (data.getValue().equals(place_id)){
+                                btnFav.setLiked(true);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("FIREBASE", "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
+
+        btnFav.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                salvarFavorito(place_id, FirebaseAuth.getInstance().getCurrentUser().getUid());
+            }
+
+            @Override
+            public void unLiked(final LikeButton likeButton) {
+                likeButton.setLiked(true);
+                new SweetAlertDialog(LocalActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Deseja apagar dos favoritos?")
+                        .setConfirmText("Sim, quero apagar!")
+                        .setCancelText("Não")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                removerFavorito(place_id, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                likeButton.setLiked(false);
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                likeButton.setLiked(true);
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+
+
+
 
     }
     @Override
@@ -597,6 +642,38 @@ public class LocalActivity extends AppCompatActivity  implements OnMapReadyCallb
             phone = result.getString("international_phone_number").replace("-", "").replace(" ", "");
         }catch (Exception e){
             Log.e("Bug: phone", e.toString());
+        }
+    }
+
+    private void salvarFavorito(String id, String userId){
+        try {
+            mDatabase.child("favoritos").child(userId).child(id).setValue(id);
+            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Local salvo!")
+                    .setContentText("O local foi adicionado aos favoritos!")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        }catch (Exception e){
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Ops!")
+                    .setContentText("Algo deu Errado!")
+                    .show();
+        }
+    }
+
+    private void removerFavorito(String id, String userId){
+        try {
+            mDatabase.child("favoritos").child(userId).child(id).removeValue();
+        }catch (Exception e){
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Ops!")
+                    .setContentText("Algo deu Errado!")
+                    .show();
         }
     }
 

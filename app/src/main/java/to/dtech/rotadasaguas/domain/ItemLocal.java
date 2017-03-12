@@ -5,14 +5,16 @@ public class ItemLocal {
     private String descricao;
     private String photo;
     private String endereco;
+    private String rating;
 
 
     public ItemLocal(){}
-    public ItemLocal(String n, String d, String e, String f){
+    public ItemLocal(String n, String d, String e, String f, String r){
         nome = n;
         descricao = d;
         endereco = e;
         photo = f;
+        rating = r;
     }
 
     public String getNome() {
@@ -45,5 +47,13 @@ public class ItemLocal {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

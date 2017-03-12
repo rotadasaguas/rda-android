@@ -1,6 +1,7 @@
 package to.dtech.rotadasaguas;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -52,6 +53,7 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
     public List<String> listaDeDadosID = new ArrayList<String>();
     public List<String> listaDeDadosEnd = new ArrayList<String>();
     public List<String> listaDeDadosFoto = new ArrayList<String>();
+    public List<String> listaDeDadosRating = new ArrayList<String>();
 
     public List<String> mListAux = new ArrayList<String>();
 
@@ -103,6 +105,8 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
                 List<ItemLocal> retorno;
                 String auxPlace;
                 String auxArray = "";
+                String tmpRating;
+
                 for (int i = 0; i < listona.size(); i++){
                     auxPlace = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + listona.get(i) + "&key=AIzaSyCvLptUUleUij6Bu5wsUcgBN5punqYO1Wo&language=pt-BR";
 
@@ -113,18 +117,24 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
                         try {
                             jsonObject = new JSONObject(auxArray);
                             JSONObject result = jsonObject.getJSONObject("result");
-                            listaDeDadosNome.add(result.getString("name"));
-                            listaDeDadosID.add(result.getString("place_id"));
-                            listaDeDadosEnd.add(result.getString("formatted_address"));
-                            JSONArray photosGoogle = result.getJSONArray("photos");
-                            String photoHash = photosGoogle.getJSONObject(0).getString("photo_reference");
-                            if (photoHash.equals(" ") || photoHash == null){
-                                listaDeDadosFoto.add("http://www.freeiconspng.com/uploads/no-image-icon-32.png");
-                            }else{
-                                listaDeDadosFoto.add(photoHash);
-                            }
+                            tmpRating = result.getString("rating");
 
-                        } catch (final Exception e) {
+                            if (!tmpRating.equals("")) {
+                                if (Float.parseFloat(tmpRating) > 3) {
+                                    listaDeDadosNome.add(result.getString("name"));
+                                    listaDeDadosID.add(result.getString("place_id"));
+                                    listaDeDadosEnd.add(result.getString("formatted_address"));
+                                    listaDeDadosRating.add(result.getString("rating"));
+                                    JSONArray photosGoogle = result.getJSONArray("photos");
+                                    String photoHash = photosGoogle.getJSONObject(0).getString("photo_reference");
+                                    if (photoHash.equals(" ") || photoHash == null) {
+                                        listaDeDadosFoto.add("http://www.freeiconspng.com/uploads/no-image-icon-32.png");
+                                    } else {
+                                        listaDeDadosFoto.add(photoHash);
+                                    }
+                                }
+                            }
+                        }catch (final Exception e) {
                             Log.e("Bug: ", e.toString());
                         }
                     }
@@ -135,7 +145,7 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
 
                 for(int i = 0; i <= listaDeDadosNome.size()-1; i++){
                     try {
-                        ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i), listaDeDadosFoto.get(i) );
+                        ItemLocal c = new ItemLocal( listaDeDadosNome.get(i), listaDeDadosEnd.get(i), listaDeDadosID.get(i), listaDeDadosFoto.get(i), listaDeDadosRating.get(i) );
                         listAux.add(c);
                     }catch (Exception e){
 
@@ -298,8 +308,16 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
             pDialog = new SweetAlertDialog(RotaSugeridaActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066FF"));
             pDialog.setTitleText("Carregando");
-            pDialog.setCancelable(false);
+            pDialog.setContentText("Calma! Isso pode demorar um pouco :)");
+            pDialog.setCancelable(true);
             pDialog.show();
+
+            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    onBackPressed();
+                }
+            });
 
             mRecyclerView = (RecyclerView) findViewById(R.id.rv_rota_sugerida);
             mRecyclerView.setHasFixedSize(true);
@@ -322,6 +340,7 @@ public class RotaSugeridaActivity extends AppCompatActivity implements RecyclerV
 
             try {
                 urlServer = "https://maps.googleapis.com/maps/api/place/radarsearch/json?keyword="+ gostos +"&location="+ localizacao + "&radius=8000&key=AIzaSyDi_3eGNw22HQfvV4Dfh__-GBCUxOLxdx8";
+                Log.d("urlServer", urlServer);
                 mListAux = getPlaceIDs(urlServer);
                 mList = getPlaceDetails(mListAux);
                 v = 1;

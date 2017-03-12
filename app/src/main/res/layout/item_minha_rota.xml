@@ -11,6 +11,9 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:layout_width="100dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="2dp"
         android:scaleType="fitXY"
         android:layout_alignParentLeft="true"
         android:id="@+id/iv_car"
@@ -20,17 +23,33 @@
         android:textColor="@color/colorPrimary"
         android:layout_toRightOf="@+id/iv_car"
         android:id="@+id/tv_model"
-        android:maxLines="2"
+        android:maxLines="1"
         android:layout_width="wrap_content"
         android:textStyle="bold"
+        android:ellipsize="end"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:paddingRight="16dp"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        style="?android:attr/ratingBarStyleSmall"
+        android:progressTint="#ffd500"
+        android:layout_alignLeft="@+id/tv_model"
+        android:secondaryProgressTint="@android:color/transparent"
+        android:isIndicator="true"
+        android:transformPivotX="0dp"
+        android:rating="2.0"
+        android:layout_below="@+id/tv_model"
+        android:layout_alignTop="@+id/rankPlace" />
 
     <TextView
         android:textColor="#919191"
-        android:layout_below="@+id/tv_model"
+        android:layout_below="@+id/ratingBar"
         android:layout_alignLeft="@+id/tv_model"
         android:id="@+id/tv_brand"
         android:layout_width="wrap_content"
@@ -40,14 +59,5 @@
         android:layout_height="wrap_content"
         android:paddingRight="16dp"
         android:textSize="12sp" />
-
-    <View
-        android:id="@+id/vw_divider"
-        android:layout_marginTop="21dp"
-        android:layout_alignLeft="@+id/tv_model"
-        android:layout_below="@+id/tv_brand"
-        android:background="#cccccc"
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp" />
 
 </RelativeLayout>

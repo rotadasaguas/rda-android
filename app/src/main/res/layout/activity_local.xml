@@ -43,6 +43,22 @@
         android:id="@+id/titulo_local"
         android:textColor="#4b4b4b" />
 
+    <com.like.LikeButton
+        app:icon_type="heart"
+        app:icon_size="18dp"
+        app:is_enabled="true"
+        app:circle_start_color="@color/colorPrimary"
+        app:dots_primary_color="@color/colorAccent"
+        app:dots_secondary_color="@color/colorPrimary"
+        app:circle_end_color="@color/colorAccent"
+        android:id="@+id/gostei"
+        android:layout_below="@id/slider"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="30dp"
+        android:layout_height="22dp" />
+
     <View
         android:id="@+id/vw_divider_top"
         android:layout_marginTop="0dp"

@@ -92,10 +92,6 @@
             android:label="Tipos de Locais"
             android:theme="@style/AppTheme.NoTitle" />
         <activity
-            android:name=".GostosAlimentacaoActivity"
-            android:label="Selecione Preferências"
-            android:theme="@style/AppTheme.NoTitle" />
-        <activity
             android:name=".IntroActivity"
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity
@@ -105,10 +101,6 @@
         <activity
             android:name=".SubLazerActivity"
             android:label="Tipos de Locais"
-            android:theme="@style/AppTheme.NoTitle" />
-        <activity
-            android:name=".GostosLazerActivity"
-            android:label="Selecione Preferências"
             android:theme="@style/AppTheme.NoTitle" />
         <activity
             android:name=".SubAcomodacaoActivity"
@@ -136,6 +128,10 @@
         <activity
             android:name=".RotaSugeridaActivity"
             android:label="@string/title_activity_rota_list" />
+        <activity
+            android:name=".MeusLocaisActivity"
+            android:label="@string/title_activity_meus_locais"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

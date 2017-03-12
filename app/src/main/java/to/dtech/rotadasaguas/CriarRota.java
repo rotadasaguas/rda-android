@@ -132,6 +132,10 @@ public class CriarRota extends AppCompatActivity
             Intent intent = new Intent(CriarRota.this, DestaqueActivity.class);
 
             startActivity(intent);
+        }else if (id == R.id.nav_meusLocais) {
+            Intent intent = new Intent(CriarRota.this, MeusLocaisActivity.class);
+
+            startActivity(intent);
         }else if (id == R.id.nav_minhaRota) {
             Intent intent = new Intent(CriarRota.this, CriarRota.class);
 

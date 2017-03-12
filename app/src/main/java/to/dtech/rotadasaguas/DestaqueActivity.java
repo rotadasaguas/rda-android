@@ -237,6 +237,11 @@ public class DestaqueActivity extends AppCompatActivity
             Intent intent = new Intent(DestaqueActivity.this, DestaqueActivity.class);
 
             startActivity(intent);
+        }else if (id == R.id.nav_meusLocais) {
+            Intent intent = new Intent(DestaqueActivity.this, MeusLocaisActivity.class);
+
+            startActivity(intent);
+
         }else if (id == R.id.nav_minhaRota) {
             verificarRota();
         }else if (id == R.id.nav_cidades) {

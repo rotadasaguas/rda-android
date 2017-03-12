@@ -60,6 +60,7 @@
     <string name="title_activity_alimentacao_sub">AlimentacaoSubActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_local">Local</string>
+    <string name="title_activity_meus_locais">Meus Locais</string>
 
 
     <!-- icones textos -->
@@ -76,6 +77,6 @@
     <string name="texto_lindoia">O município faz fronteira com os municípios de Águas de Lindóia, Itapira, Socorro e Serra Negra. O Rio do Peixe, com trechos de beleza e imponência, passa ao longo do município, contornando toda a região. É uma pacata cidade do interior, onde a tranqüilidade e qualidade de vida estão presentes.</string>
     <string name="texto_holambra">Famosa por ser a “Capital das Flores”, Holambra oferece várias opções de passeios, compras, hospedagem e gastronomia para acolher sua visita no melhor do lazer e descanso.</string>
     <string name="texto_serra_negra">A Estância Hidromineral de Serra Negra oferece o turismo tradicional, de compras, de eventos e rural. Seu incrível clima de montanha, aliado às fontes de águas minerais com poderes terapêuticos e sua rica beleza natural, tornaram-lhe conhecida como "Cidade da Saúde".</string>
-    <string name="title_activity_teste">teste</string>
+
 
 </resources>

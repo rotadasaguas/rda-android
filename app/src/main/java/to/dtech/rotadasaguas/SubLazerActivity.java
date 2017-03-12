@@ -35,7 +35,7 @@ public class SubLazerActivity extends AppCompatActivity{
 
 
         final List<String> listaMarcadores = new ArrayList<String>();
-        final Intent intent = new Intent(SubLazerActivity.this, GostosLazerActivity.class);
+        final Intent intent = new Intent(SubLazerActivity.this, SubAcomodacaoActivity.class);
 
 
         //RECEBE DADOS DA INTENT ANTERIOR E ADICIONA NA NOVA
@@ -88,8 +88,8 @@ public class SubLazerActivity extends AppCompatActivity{
     }
 
     public List<Tag> getTagsLazer(){
-        String[] tags = new String[]{"Passeio", "Aventura"};
-        String[] numeros = new String[]{"Passeio", "Aventura"};
+        String[] tags = new String[]{"Trilhas", "Monumentos", "Museus", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
+        String[] numeros = new String[]{"Trilhas", "Monumentos", "Museus", "Downhill", "Pescaria", "Rafting ", "Cavalgada", "Tirolesa", "Arvorismo", "Rappel", "Escalada"};
         Boolean[] likes = new Boolean[]{false};
         List<Tag> listAux = new ArrayList<>();
 
