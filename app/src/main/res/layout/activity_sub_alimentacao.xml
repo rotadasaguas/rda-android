@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imageSubAlimentacao"
             android:textSize="16dp"
-            android:text="Marque os tipos de locais que você gosta"
+            android:text="Marque os tipos de comidas que você gosta"
             android:textAlignment="center"
             android:textColor="@color/bright_foreground_disabled_material_light"
             android:id="@+id/textMarqueSubAlimentacao"
